@@ -58,9 +58,9 @@ public class AllProjectiles {
 		
 	}
 	
-	public void AddMagicProjectile(float x, float y, float vx, float vy, int type, float damage)
+	public void AddMagicProjectile(float x, float y, float vx, float vy, int type, float damage, Entity owner)
 	{
-		MagicProjectile m = new MagicProjectile(x,y,vx,vy,type, damage,!Parameters.i.goodmagic);
+		MagicProjectile m = new MagicProjectile(x,y,vx,vy,type, damage,!Parameters.i.goodmagic, owner);
 		projList.add(m);
 	}
 	

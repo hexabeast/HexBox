@@ -41,8 +41,8 @@ public class Projectile extends Entity{
 		this.owner = owner;
 		currentTime = 0;
 		
-		velocity.x = vx*3;// + GameScreen.player.velocity.x;
-		velocity.y = vy*3;// + GameScreen.player.velocity.y;
+		velocity.x = vx*3;
+		velocity.y = vy*3;
 		
 		if(type == AllTools.instance.ArrowId)tex = TextureManager.instance.arrow;
 		else if(type == 1)

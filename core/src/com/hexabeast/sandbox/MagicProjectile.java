@@ -30,6 +30,8 @@ public class MagicProjectile extends Entity{
 	boolean isExploded = false;
 	boolean isExplodedEnd = false;
 	
+	public Entity owner;
+	
 	int type = 0;
 	
 	float x;
@@ -37,14 +39,15 @@ public class MagicProjectile extends Entity{
 	Vector2 velocity = new Vector2();
 	Vector3 color = new Vector3(0.2f,1,0.2f);
 	float colorMultiplier = 2.5f;
-	public MagicProjectile(float x, float y, float vx, float vy, int type, float damage, boolean simple) {
+	public MagicProjectile(float x, float y, float vx, float vy, int type, float damage, boolean simple, Entity owner) {
 		
 		this.damage = damage;
+		this.owner = owner;
 		
 		currentTime = 0;
 		
-		velocity.x = vx;// + GameScreen.player.velocity.x;
-		velocity.y = vy;// + GameScreen.player.velocity.y;
+		velocity.x = vx;
+		velocity.y = vy;
 		
 		if(type == 0)
 		{
@@ -109,30 +112,12 @@ public class MagicProjectile extends Entity{
 			
 			boolean touched = false;
 			ArrayList<Rectangle> rects = GameScreen.player.getHitRect();
-				
-			for(int i = 0; i<rects.size(); i++)
+			
+			if(GameScreen.player!=owner)
 			{
-				if(rects.get(i).contains(x-(GameScreen.player.x+GameScreen.player.transoffx), y-(GameScreen.player.y+GameScreen.player.transoffy)))
-				{
-					touched = true;
-					break;
-				}
-			}
-			if(touched)
-			{
-				GameScreen.player.Hurt(damage, 0, 0,x,y);
-				Explode();
-			}
-	
-			if(AllEntities.getType((int)(x/16), (int)(y/16)) == AllEntities.mobtype)
-			{
-				Mob m = (Mob)AllEntities.getEntity((int)(x/16), (int)(y/16));
-				touched = false;
-				rects = m.hitrect.getRects(m.isTurned);
-				
 				for(int i = 0; i<rects.size(); i++)
 				{
-					if(rects.get(i).contains(x-m.x, y-m.y))
+					if(rects.get(i).contains(x-(GameScreen.player.x+GameScreen.player.transoffx), y-(GameScreen.player.y+GameScreen.player.transoffy)))
 					{
 						touched = true;
 						break;
@@ -140,9 +125,34 @@ public class MagicProjectile extends Entity{
 				}
 				if(touched)
 				{
+					GameScreen.player.Hurt(damage, 0, 0,x,y);
 					Explode();
+				}
+			}
+			
+	
+			if(AllEntities.getType((int)(x/16), (int)(y/16)) == AllEntities.mobtype)
+			{
+				Mob m = (Mob)AllEntities.getEntity((int)(x/16), (int)(y/16));
+				if(m!=owner)
+				{
+					touched = false;
+					rects = m.hitrect.getRects(m.isTurned);
 					
-					m.damage(damage,0,x,y);
+					for(int i = 0; i<rects.size(); i++)
+					{
+						if(rects.get(i).contains(x-m.x, y-m.y))
+						{
+							touched = true;
+							break;
+						}
+					}
+					if(touched)
+					{
+						Explode();
+						
+						m.damage(damage,0,x,y);
+					}
 				}
 			}
 			

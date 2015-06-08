@@ -261,7 +261,7 @@ public class ModifyTerrain {
 					{
 						if(isLeft && Tools.raycast(GameScreen.player.shoulderCoord.x, GameScreen.player.shoulderCoord.y, GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, 4).x<0)
 						{
-							GameScreen.entities.projectiles.AddMagicProjectile(GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, GameScreen.player.velocityCoord.x, GameScreen.player.velocityCoord.y, AllTools.instance.getType(id).sceptreType,  AllTools.instance.getType(id).damage);
+							GameScreen.entities.projectiles.AddMagicProjectile(GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, GameScreen.player.velocityCoord.x, GameScreen.player.velocityCoord.y, AllTools.instance.getType(id).sceptreType,  AllTools.instance.getType(id).damage, GameScreen.player);
 						}
 					
 					}
