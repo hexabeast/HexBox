@@ -61,3 +61,5 @@ build/
 
 ## OS Specific
 .DS_Store
+
+desktop/data/
