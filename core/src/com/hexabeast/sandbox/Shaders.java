@@ -55,6 +55,7 @@ public class Shaders {
 		if(!red.isCompiled())System.out.println(red.getLog());
 		if(!white.isCompiled())System.out.println(white.getLog());
 		if(!meshader.isCompiled())System.out.println(meshader.getLog());
+		if(!outline.isCompiled())System.out.println(outline.getLog());
 	}
 	
 	public void setShadowShader()

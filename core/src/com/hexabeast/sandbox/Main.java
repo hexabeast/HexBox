@@ -163,7 +163,6 @@ public class Main extends Game {
 	@Override
 	public void render () {
 		delta = Gdx.graphics.getDeltaTime();
-		//if(delta>1f/400)System.out.println(1/delta);
 		if(ingame)
 		{
 			if(!pause && !SoundManager.instance.ambiance[SoundManager.instance.playOrder[SoundManager.instance.oldPlay]].isPlaying())SoundManager.instance.ambiance[SoundManager.instance.playOrder[SoundManager.instance.oldPlay]].play();

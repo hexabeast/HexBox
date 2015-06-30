@@ -139,7 +139,7 @@ public class PauseMenu {
 			shadowQuality.value = Constants.qualities[Parameters.i.HQ];
 			shadowQuality.draw(batch);
 			
-			lightSpeed.value = String.valueOf(Parameters.i.lightSpeed);
+			lightSpeed.value = String.valueOf(Parameters.i.lightSpeed)+" m/s";
 			lightSpeed.draw(batch);
 			
 			lightDistance.value = Constants.lightDistancesNames[Parameters.i.lightDistance];

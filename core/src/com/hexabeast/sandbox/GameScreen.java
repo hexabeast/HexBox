@@ -60,7 +60,6 @@ public class GameScreen implements Screen
 		items = new AllItems();
 		entities = new AllEntities();
 		rain = new Rain();
-		camera = new OrthographicCamera(1280,720);
 	}
 
 	@Override
@@ -119,7 +118,7 @@ public class GameScreen implements Screen
 		if(Main.mobile)Parameters.i.fullBright = false;
 		paralax = new Paralax();
 		saver = new MiniLoading();
-		camera = new OrthographicCamera();
+		camera = new OrthographicCamera(1280,720);
 		batch = Main.batch;
 		items = entities.items;
 		emmiter = new HParticleEmmiter();

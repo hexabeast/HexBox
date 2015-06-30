@@ -93,8 +93,11 @@ public class MapLayer {
 		return width;
 	}
 	
+	
 	public BlocType getBloc(int x, int y)
 	{
+
+		
 		if(!GameScreen.noLimit)
 		{
 			if(x<0 || y<2 || x>=width || y>=height-2)
