@@ -21,6 +21,9 @@ import com.hexabeast.sandbox.mobs.Wolf;
 
 public class Player extends Entity{
 	
+	
+	public ArrayList<Mob> touchedList = new ArrayList<Mob>();
+	
 	public ArrayList<Mob> transformList = new ArrayList<Mob>();
 	public Wolf transformWolf;
 	public BigInsecte transformBigInsecte;
@@ -365,12 +368,12 @@ public void input()
 				if(!canJump)friction/=6;
 				if(velocity.x>0)
 				{
-					velocity.x -= (friction*Main.delta*2000);
+					velocity.x -= (friction*Main.delta*1000)+(Math.abs(velocity.x)*Main.delta*10);
 					if(velocity.x<0)velocity.x=0;
 				}
 				else
 				{
-					velocity.x += (friction*Main.delta*2000);
+					velocity.x += (friction*Main.delta*1000)+(Math.abs(velocity.x)*Main.delta*10);
 					if(velocity.x>0)velocity.x=0;
 				}
 				if(friction<1)
@@ -564,8 +567,11 @@ public void visualThings()
 	
 	float cur = currentAngle;
 	if(currentAngle==0)currentAngle = teoangle;
-	else if(((press || bigitem) && !sword ) || (!press && sword ))currentAngle = Tools.fLerpAngle(currentAngle, teoangle, AllTools.instance.getType(currentCellID).uptime);
-	
+	else if(((press || bigitem) && !sword ))currentAngle = Tools.fLerpAngle(currentAngle, teoangle, AllTools.instance.getType(currentCellID).uptime);
+	else if(sword)
+	{
+		if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT) && currentDamage<=AllTools.instance.getType(currentCellID).damage/2)currentAngle = Tools.fLerpAngle(currentAngle, teoangle, AllTools.instance.getType(currentCellID).uptime);
+	}
 	
 	
 	
@@ -589,9 +595,9 @@ public void visualThings()
 	}
 	
 	//SWORD ->
-	if(sword && press)
+	if(sword)
 	{
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+		if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT) && currentDamage>AllTools.instance.getType(currentCellID).damage/2)
 		{
 			float awx = armWeapon.getX()+armWeapon.getOriginX();
 			float awy = armWeapon.getY()+armWeapon.getOriginY();
@@ -603,17 +609,18 @@ public void visualThings()
 			boolean finished = false;
 			boolean canmove = true;
 			
+			currentDamage -= Main.delta*AllTools.instance.getType(currentCellID).damage*AllTools.instance.getType(currentCellID).downtime/30;
+			
 			if(canmove)
 			{
+				
 				if(isTurned)
 				{
 					currentAngle = Tools.fLerpAngle(currentAngle, 270, AllTools.instance.getType(currentCellID).downtime, false);
-					if(currentAngle>260)currentDamage -= Main.delta*AllTools.instance.getType(currentCellID).damage;
 				}
 				else
 				{
 					currentAngle = Tools.fLerpAngle(currentAngle, -90, AllTools.instance.getType(currentCellID).downtime, true);
-					if(currentAngle<-80)currentDamage -= Main.delta*AllTools.instance.getType(currentCellID).damage;
 				}
 			}
 			
@@ -634,23 +641,25 @@ public void visualThings()
 				if(currentDamage>=AllTools.instance.getType(currentCellID).damage/4 && AllEntities.getType(Tools.floor((launcherCoordBis.x+awx)/16), Tools.floor((launcherCoordBis.y+awy)/16)) == AllEntities.mobtype)
 				{
 					Mob m = (Mob)AllEntities.getEntity(Tools.floor((launcherCoordBis.x+awx)/16), Tools.floor((launcherCoordBis.y+awy)/16));
-					boolean touched = false;
-					ArrayList<Rectangle> rects = m.hitrect.getRects(m.isTurned);
 					
-					for(int i = 0; i<rects.size(); i++)
+					if(!touchedList.contains(m))
 					{
-						if(rects.get(i).contains((launcherCoordBis.x+awx)-m.x, (launcherCoordBis.y+awy)-m.y))
-						{
-							touched = true;
-							break;
-						}
-					}
-					if(touched)
-					{
-						currentDamage+=Math.random()*currentDamage/5 - currentDamage/20;
+						boolean touched = false;
+						ArrayList<Rectangle> rects = m.hitrect.getRects(m.isTurned);
 						
-						m.damage(currentDamage,0.5f,launcherCoordBis.x+awx, launcherCoordBis.y+awy);
-						currentDamage *= 0.6f;
+						for(int i = 0; i<rects.size(); i++)
+						{
+							if(rects.get(i).contains((launcherCoordBis.x+awx)-m.x, (launcherCoordBis.y+awy)-m.y))
+							{
+								touched = true;
+								break;
+							}
+						}
+						if(touched)
+						{
+							m.damage((float) (currentDamage+Math.random()*currentDamage/5 - currentDamage/20),0.5f,launcherCoordBis.x+awx, launcherCoordBis.y+awy);
+							touchedList.add(m);
+						}
 					}
 				}
 				if(Map.instance.mainLayer.getBloc(Tools.floor((launcherCoordBis.x+awx)/16), Tools.floor((launcherCoordBis.y+awy)/16)).collide)
@@ -659,19 +668,27 @@ public void visualThings()
 				}
 			}
 		}
-		else if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
+		else
 		{
-			if(isTurned)currentAngle = Tools.fLerpAngle(currentAngle, 110, AllTools.instance.getType(currentCellID).uptime, true);
-			else currentAngle = Tools.fLerpAngle(currentAngle, 70, AllTools.instance.getType(currentCellID).uptime, false);
-			currentDamage+=AllTools.instance.getType(currentCellID).uptime*Main.delta*AllTools.instance.getType(currentCellID).damage/10;
+			touchedList.clear();
+			if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+			{
+				if(isTurned)currentAngle = Tools.fLerpAngle(currentAngle, 110, AllTools.instance.getType(currentCellID).uptime, true);
+				else currentAngle = Tools.fLerpAngle(currentAngle, 70, AllTools.instance.getType(currentCellID).uptime, false);
+				currentDamage+=AllTools.instance.getType(currentCellID).uptime*Main.delta*AllTools.instance.getType(currentCellID).damage/10;
+			}
+			else
+			{
+				currentDamage -= Main.delta*AllTools.instance.getType(currentCellID).damage;
+			}
 		}
 		
-	}
-	else if(sword)
-	{
-		currentDamage -= Main.delta*AllTools.instance.getType(currentCellID).damage;
+		if(currentDamage>AllTools.instance.getType(currentCellID).damage*1.5f)currentDamage=AllTools.instance.getType(currentCellID).damage*1.5f;
 	}
 	else currentDamage = 0;
+	
+	if(currentDamage<0)currentDamage=0;
+	
 
 	// <- SWORD
 	
