@@ -175,16 +175,25 @@ public class LightManager {
 		return lightVec;
 	}
 	
-	public void setLight(int x, float z, float w, float v)
+	public void setLightDyn(int m)
 	{
-
-		if(dynaList.get(x).x>=Map.instance.width)dynaList.get(x).x = dynaList.get(x).x-Map.instance.width;
-		if(dynaList.get(x).x<0)dynaList.get(x).x = dynaList.get(x).x+Map.instance.width;
+		int x = dynaList.get(m).x;
+		int y = dynaList.get(m).y;
 		
-		if(dynaList.get(x).y>=Map.instance.height)dynaList.get(x).y = Map.instance.height-1;
-		if(dynaList.get(x).y<0)dynaList.get(x).y = 0;
+		if(x>=minx && x<maxx && y>=miny && y<maxy)
+		{
+			
 	
-		setLightDyn(dynaList.get(x).x,dynaList.get(x).y,z,w,v);
+			if(x>=Map.instance.width)x = x-Map.instance.width;
+			if(x<0)x = x+Map.instance.width;
+			
+			if(y>=Map.instance.height)y = Map.instance.height-1;
+			if(y<0)y = 0;
+			
+			if(lightArray[x][y].getX()<dynaList.get(m).z)lightArray[x][y].setX(dynaList.get(m).z);
+			if(lightArray[x][y].getY()<dynaList.get(m).w)lightArray[x][y].setY(dynaList.get(m).w);
+			if(lightArray[x][y].getZ()<dynaList.get(m).v)lightArray[x][y].setZ(dynaList.get(m).v);		
+		}
 	}
 	
 	public void setStaticLight(int x, int y, float z, float w, float v, int m)
@@ -238,15 +247,6 @@ public class LightManager {
 	}
 	
 	
-	public void setLightDyn(int x,int y, float z, float w, float v)
-	{
-		if(x>=minx && x<maxx && y>=miny && y<maxy)
-		{
-			if(lightArray[x][y].getX()<z)lightArray[x][y].setX(z);
-			if(lightArray[x][y].getY()<w)lightArray[x][y].setY(w);
-			if(lightArray[x][y].getZ()<v)lightArray[x][y].setZ(v);
-		}
-	}
 	
 	public void UpdateLight()
 	{
@@ -451,7 +451,7 @@ public class LightManager {
 			
 			for(int m = 0; m<dynaList.size(); m++)
 			{
-				setLight(m,dynaList.get(m).z,dynaList.get(m).w,dynaList.get(m).v);
+				setLightDyn(m);
 			}
 		}
 		
