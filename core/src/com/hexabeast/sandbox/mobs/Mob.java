@@ -184,8 +184,7 @@ public class Mob extends Entity
 		}
 	}
 	
-	@Override
-	public void draw(SpriteBatch batch)
+	public void update()
 	{
 		if(!manual)IA();
 		visual();
@@ -201,6 +200,11 @@ public class Mob extends Entity
 		}
 		
 		if(attacked && Main.time>lastred+redrate)attacked = false;
+	}
+	
+	@Override
+	public void draw(SpriteBatch batch)
+	{
 		
 		Vector3 color = Tools.getShadowColor(Tools.floor(x/16)+Tools.floor(casesX/2),Tools.floor(y/16)+Tools.floor(casesY/2));
 		if(attacked)

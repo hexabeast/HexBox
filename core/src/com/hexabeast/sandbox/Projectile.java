@@ -80,11 +80,9 @@ public class Projectile extends Entity{
 			}
 			inoffensive = true;	
 	}
-	
-	@Override
-	public void draw(SpriteBatch batch)
+
+	public void update()
 	{
-		super.draw(batch);
 		currentTime+=Main.delta;
 		if(currentTime>lifeTime && !isDead)
 		{
@@ -221,6 +219,12 @@ public class Projectile extends Entity{
 		
 		if(Math.abs(velocity.x)>0.01f || Math.abs(velocity.y)>0.01f)rot = Tools.fLerpAngle(rot, velocity.angle(), 10);
 		
+		
+	}
+	
+	@Override
+	public void draw(SpriteBatch batch)
+	{
 		if(!Parameters.i.fullBright)
 		{
 			Vector3 color = Tools.getShadowColor(Tools.floor (x/16),Tools.floor (y/16));

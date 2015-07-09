@@ -100,6 +100,7 @@ public class AllProjectiles {
 	{
 		for (int i = 0; i < projList2.size(); i++)
 		{
+			projList2.get(i).update();
 			projList2.get(i).draw(batch);
 		}
 		for (int i = projList2.size()-1; i >=0; i--)

@@ -139,8 +139,8 @@ public class AllMobs {
 				
 				for (int i = 0; i < mobList[rj][rk].size(); i++)
 				{
-					
-					/*if(Math.abs(mobList[rj][rk].get(i).x-GameScreen.camera.position.x)<GameScreen.camera.viewportWidth && Math.abs(mobList[rj][rk].get(i).y-GameScreen.camera.position.y)<GameScreen.camera.viewportHeight*2)*/mobList[rj][rk].get(i).draw(batch);
+					mobList[rj][rk].get(i).update();
+					mobList[rj][rk].get(i).draw(batch);
 					mobList[rj][rk].get(i).superDraw(batch);
 				}
 			}
