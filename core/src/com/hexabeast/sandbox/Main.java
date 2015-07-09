@@ -126,7 +126,7 @@ public class Main extends Game {
 	public void resize (int width, int height) {
 		super.resize(width, height);
 		if((float)width/(float)height>18f/9f)updateResolution(width, (int) (width*9f/16f)-1);
-		else if((float)width/(float)height<16f/10f)updateResolution((int) (height*16f/9f)+1, height);
+		else if((float)width/(float)height<16f/13f)updateResolution((int) (height*16f/9f)+1, height);
 		windowWidth = Gdx.graphics.getWidth();
 		windowHeight = Gdx.graphics.getHeight();
 		updateMatrix();
@@ -162,6 +162,7 @@ public class Main extends Game {
 	
 	@Override
 	public void render () {
+
 		delta = Gdx.graphics.getDeltaTime();
 		if(ingame)
 		{
