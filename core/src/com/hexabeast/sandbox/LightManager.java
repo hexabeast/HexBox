@@ -92,27 +92,36 @@ public class LightManager {
 	
 	public Vector3 getLight(int x, int y)
 	{		
-		if(x>=Map.instance.width)x = x-Map.instance.width;
-		if(x<0)x = x+Map.instance.width;
-		
-		if(y>=Map.instance.height)y = Map.instance.height-1;
-		if(y<0)y = 0;
-			
-		if(!Parameters.i.RGB)
+		if(x>=minx && x<maxx && y>=miny && y<maxy)
 		{
+			if(x>=Map.instance.width)x = x-Map.instance.width;
+			if(x<0)x = x+Map.instance.width;
+			
+			if(y>=Map.instance.height)y = Map.instance.height-1;
+			if(y<0)y = 0;
 				
-			lightVec.x = lightArray[x][y].getX();
-			lightVec.y = lightArray[x][y].getX();
-			lightVec.z = lightArray[x][y].getX();
+			if(!Parameters.i.RGB)
+			{
+					
+				lightVec.x = lightArray[x][y].getX();
+				lightVec.y = lightArray[x][y].getX();
+				lightVec.z = lightArray[x][y].getX();
+			}
+			else
+			{
+				lightVec.x = lightArray[x][y].getX();
+				lightVec.y = lightArray[x][y].getY();
+				lightVec.z = lightArray[x][y].getZ();
+			}
 		}
 		else
 		{
-			lightVec.x = lightArray[x][y].getX();
-			lightVec.y = lightArray[x][y].getY();
-			lightVec.z = lightArray[x][y].getZ();
+			lightVec.x = 0;
+			lightVec.y = 0;
+			lightVec.z = 0;
 		}
-	
 		return lightVec;
+		
 	}
 	
 	public Vector3 getLightChange(int x, int y)
