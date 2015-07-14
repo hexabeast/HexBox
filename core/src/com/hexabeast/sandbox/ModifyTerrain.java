@@ -273,9 +273,10 @@ public class ModifyTerrain {
 				}
 				else if(type == AllTools.instance.Hook && Inputs.instance.leftmousedown)
 				{
-					if(isLeft && !GameScreen.player.currentGrapple.playerAttached)
+					if(isLeft && !GameScreen.player.grapple.playerAttached)
 					{
-						GameScreen.entities.projectiles.AddGrapple(GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, GameScreen.player.velocityCoord2.x, GameScreen.player.velocityCoord2.y);
+						if(AllTools.instance.getType(id).grapple)
+						GameScreen.entities.projectiles.AddGrapple(GameScreen.player.hookCoord.x, GameScreen.player.hookCoord.y, GameScreen.player.velocityCoord2.x, GameScreen.player.velocityCoord2.y, AllTools.instance.getType(id).grappleDistance, AllTools.instance.getType(id).grappleTex, AllTools.instance.getType(id).grappleTexRope);
 					}
 					else
 					{
@@ -332,9 +333,10 @@ public class ModifyTerrain {
 			if(id == 0 || (id>999 && AllTools.instance.getType(id).isUseLess))
 			{
 				
-				if(Parameters.i.wayaxe)
+				if(Inputs.instance.shift)
 				{
-					Vector2 aimed = Tools.raycast(GameScreen.player.shoulderCoord.x, GameScreen.player.shoulderCoord.y, decalaX*16+8, decalaY*16+8, 4);
+					Vector2 mous = Tools.getAbsoluteMouse();
+					Vector2 aimed = Tools.raycast(GameScreen.player.shoulderCoord.x, GameScreen.player.shoulderCoord.y, mous.x, mous.y, 4);
 					if(aimed.x>=0)
 					{
 						decalaX = Tools.floor(aimed.x+0.1f);
@@ -349,9 +351,10 @@ public class ModifyTerrain {
 			else if(id>999)
 			{
 				
-				if(Parameters.i.wayaxe && (layer!=Map.instance.backLayer || AllTools.instance.getType(id).type != AllTools.instance.Axe ))
+				if(Inputs.instance.shift && (layer!=Map.instance.backLayer || AllTools.instance.getType(id).type != AllTools.instance.Axe ))
 				{
-					Vector2 aimed = Tools.raycast(GameScreen.player.shoulderCoord.x, GameScreen.player.shoulderCoord.y, decalaX*16+8, decalaY*16+8, 4);
+					Vector2 mous = Tools.getAbsoluteMouse();
+					Vector2 aimed = Tools.raycast(GameScreen.player.shoulderCoord.x, GameScreen.player.shoulderCoord.y, mous.x, mous.y, 4);
 					if(aimed.x>=0)
 					{
 						decalaX = Tools.floor(aimed.x+0.1f);
