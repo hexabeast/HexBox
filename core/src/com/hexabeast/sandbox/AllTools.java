@@ -330,7 +330,6 @@ public class AllTools {
 		
 		ToolTypes[HookId-1000].type = Hook; 
 		ToolTypes[HookId-1000].isShake = false;
-		ToolTypes[HookId-1000].weaponTexture = 24;
 		ToolTypes[HookId-1000].description = "A simple hook";
 		ToolTypes[HookId-1000].name = "Hook";
 		ToolTypes[HookId-1000].angle = 20;
@@ -339,7 +338,9 @@ public class AllTools {
 		ToolTypes[HookId-1000].rate = 0.2f;
 		ToolTypes[HookId-1000].obstacleProof = true;
 		ToolTypes[HookId-1000].stackable = false;
+		ToolTypes[HookId-1000].grapple = true;
 		ToolTypes[HookId-1000].rarity = Constants.rarity4;
+		ToolTypes[HookId-1000].invisible = true;
 		
 
 		weaponTextures[0] = new TextureRegion();
@@ -366,7 +367,6 @@ public class AllTools {
 		weaponTextures[21] = new TextureRegion(TextureManager.instance.swords.get(7));
 		weaponTextures[22] = new TextureRegion(TextureManager.instance.swords.get(8));
 		weaponTextures[23] = new TextureRegion(TextureManager.instance.swords.get(9));
-		weaponTextures[24] = new TextureRegion(TextureManager.instance.hook);
 		
 		
 		

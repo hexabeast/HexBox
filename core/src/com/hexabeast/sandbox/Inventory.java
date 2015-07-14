@@ -275,6 +275,7 @@ public class Inventory {
 			if(k == 6 && !AllTools.instance.getType(id).armor)return false;
 			if(k == 7 && !AllTools.instance.getType(id).arms)return false;
 			if(k == 8 && !AllTools.instance.getType(id).legs)return false;
+			if(k == 9 && !AllTools.instance.getType(id).grapple)return false;
 		}
 		
 		return true;
@@ -502,13 +503,17 @@ public class Inventory {
 		backSprites[7][6].setPosition(posBackX, posBackY-imHeight*space*spaceFac*2);
 		backSprites[8][6].setPosition(posBackX, posBackY-imHeight*space*spaceFac*3);
 		
+		backSprites[9][6].setPosition(posBackX+imHeight*space*spaceFac, posBackY-imHeight*space*spaceFac*2);
+		
 		invItemsArray[5][6].setPositionAll(posX, posY);
 		invItemsArray[6][6].setPositionAll(posX, posY-imHeight*space*spaceFac);
 		invItemsArray[7][6].setPositionAll(posX, posY-imHeight*space*spaceFac*2);
 		invItemsArray[8][6].setPositionAll(posX, posY-imHeight*space*spaceFac*3);
+	
+		invItemsArray[9][6].setPositionAll(posX+imHeight*space*spaceFac, posY-imHeight*space*spaceFac*2);
 		
 		
-		for(int i = 9; i<10; i++)
+		for(int i = 10; i<10; i++)
 		{
 			invItemsArray[i][6].setPositionAll(posBackY-100000, posBackY-100000);
 			backSprites[i][6].setPosition(posBackX-1000000, posBackY-100000);
@@ -898,10 +903,10 @@ public class Inventory {
 	public Stats getStats()
 	{
 		stats.reboot();
-		ToolType helmetType = AllTools.instance.getType(invItemsArray[5][6].id);
-		ToolType armorType = AllTools.instance.getType(invItemsArray[6][6].id);
-		ToolType armsType = AllTools.instance.getType(invItemsArray[7][6].id);
-		ToolType legsType = AllTools.instance.getType(invItemsArray[8][6].id);
+		ToolType helmetType = Helmet();
+		ToolType armorType = Armor();
+		ToolType armsType = Arms();
+		ToolType legsType = Legs();
 		
 		if(helmetType.helmet)
 		{
@@ -928,6 +933,11 @@ public class Inventory {
 		stats.defense+=type.armorDefense;
 		stats.speed+=type.armorSpeed;
 		stats.jump+=type.armorJump;
+	}
+	
+	public ToolType Grapple()
+	{
+		return AllTools.instance.getType(invItemsArray[9][6].id);
 	}
 	
 	public ToolType Armor()

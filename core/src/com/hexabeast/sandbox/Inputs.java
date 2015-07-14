@@ -24,10 +24,14 @@ public class Inputs implements InputProcessor{
 	public boolean rightmouseup;
 	private boolean torightmouseup;
 	
+	public boolean middleOrAPressed;
+	public boolean tomiddleOrAPressed;
+	
 	public boolean Q = false;
 	public boolean Z = false;
 	public boolean S = false;
 	public boolean D = false;
+	public boolean shift = false;
 	public boolean space = false;
 	
 	@Override
@@ -39,7 +43,7 @@ public class Inputs implements InputProcessor{
 		if (button == Input.Buttons.RIGHT)torightmousedown = true;
 		if (button == Input.Buttons.LEFT)toleftmousedown = true;
 		
-		if(button == Input.Buttons.MIDDLE)placeTorch();
+		if(button == Input.Buttons.MIDDLE)tomiddleOrAPressed = true;
 		
 		if(Main.ingame)GameScreen.updatePauseClick();
 		if(Main.ingame && !Main.pause)
@@ -76,6 +80,16 @@ public class Inputs implements InputProcessor{
 		else
 		{
 			leftmouseup = false;
+		}
+		
+		if(tomiddleOrAPressed)
+		{
+			middleOrAPressed = true;
+			tomiddleOrAPressed = false;
+		}
+		else
+		{
+			middleOrAPressed = false;
 		}
 		
 		if(torightmouseup)
@@ -174,13 +188,15 @@ public class Inputs implements InputProcessor{
 			case Keys.SPACE:
 				space = true;
 				break;
+			case Keys.SHIFT_LEFT:
+				shift = true;
+				break;	
 				
 			case Keys.C:
 				GameScreen.inventory.Craft();
 				break;
 			case Keys.A:
-				Q = true;
-				GameScreen.player.animationTime = 0;
+				tomiddleOrAPressed = true;
 				break;
 			case Keys.D:
 				D = true;
@@ -276,8 +292,8 @@ public class Inputs implements InputProcessor{
 			case Keys.B:
 				Map.instance.lights.switchDayEnd();
 				break;
-			case Keys.A:
-				Q = false;
+			case Keys.SHIFT_LEFT:
+				shift = false;
 				break;
 			case Keys.D:
 				D = false;

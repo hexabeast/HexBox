@@ -31,7 +31,7 @@ public class Player extends Entity{
 	public PNJ transformPlayer;
 	
 	boolean grappleFlying = false;
-	public Grapple currentGrapple;
+	public Grapple grapple;
 	
 	public boolean transformed = false;
 	
@@ -109,10 +109,13 @@ public class Player extends Entity{
 	public float currentDamage = 0;
 	
 	Vector2 launcherOffset;
+	Vector2 hookOffset;
+	public Vector2 hookCoord;
 	public Vector2 launcherCoord = new Vector2();
 	Vector2 shoulderCoord = new Vector2();
 	Vector2 velocityCoord = new Vector2();
 	Vector2 velocityCoord2 = new Vector2();
+	Vector2 velocityHook = new Vector2();
 	public Vector2 middle = new Vector2();
 	
 	TextureRegion body;
@@ -134,8 +137,12 @@ public class Player extends Entity{
 	
 	public Player()
 	{
-		currentGrapple = new Grapple(0,0,0,0);
-		currentGrapple.playerAttached = false;
+		launcherOffset = new Vector2(1,0);
+		hookOffset = new Vector2(20,0);
+		hookCoord = new Vector2(0,0);
+		
+		grapple = new Grapple(0,0,0,0,0,null,null);
+		grapple.playerAttached = false;
 		
 		transformWolf = new Wolf();
 		transformWolf.manual = true;
@@ -278,7 +285,7 @@ public class Player extends Entity{
 			Collision(Main.delta);
 			visualThings();
 			
-			if(currentGrapple.playerAttached && currentGrapple.isPlanted && currentGrapple.getLine().len()>currentGrapple.max)
+			if(grapple.playerAttached && grapple.isPlanted && grapple.getLine().len()>grapple.max)
 			{
 				grappleFlying = true;
 				
@@ -509,16 +516,16 @@ public void hookPhysics()
 {
 	if(grappleFlying)
 	{	
-		float oldlaunchx = oldX-x+launcherCoord.x;
-		float oldlaunchy = oldY-y+launcherCoord.y;
-		float nx = launcherCoord.x-currentGrapple.x;
-		float ny = launcherCoord.y-currentGrapple.y;
+		float oldlaunchx = oldX-x+hookCoord.x;
+		float oldlaunchy = oldY-y+hookCoord.y;
+		float nx = hookCoord.x-grapple.x;
+		float ny = hookCoord.y-grapple.y;
 		
 		Vector2 d2 = new Vector2(nx,ny);
-		d2.setLength(currentGrapple.max);
+		d2.setLength(grapple.max);
 		
-		float nx2 = (currentGrapple.x+d2.x)-oldlaunchx;
-		float ny2 = (currentGrapple.y+d2.y)-oldlaunchy;
+		float nx2 = (grapple.x+d2.x)-oldlaunchx;
+		float ny2 = (grapple.y+d2.y)-oldlaunchy;
 		Vector2 d3 = new Vector2(nx2,ny2);
 		
 		d3.nor();
@@ -527,7 +534,7 @@ public void hookPhysics()
 		
 		velocity = d3;
 		
-		x += (currentGrapple.x+d2.x)-launcherCoord.x;
+		x += (grapple.x+d2.x)-hookCoord.x;
 		hitbox.update(x,y);
 		if(hitbox.TestCollisionsAll())
 		{
@@ -535,7 +542,7 @@ public void hookPhysics()
 			velocity.x = 0;
 		}
 		
-		y += (currentGrapple.y+d2.y)-launcherCoord.y;
+		y += (grapple.y+d2.y)-hookCoord.y;
 		hitbox.update(x,y);
 		if(hitbox.TestCollisionsAll())
 		{
@@ -544,7 +551,7 @@ public void hookPhysics()
 		}
 		hitbox.update(x,y);
 		
-		currentGrapple.max = Math.max(currentGrapple.max, currentGrapple.getLine().len()-8);
+		grapple.max = Math.max(grapple.max, grapple.getLine().len()-8);
 	}
 }
 
@@ -557,7 +564,7 @@ public void visualThings()
 	boolean bigitem = false;
 	boolean sword = false;
 	
-	if(isTool && AllTools.instance.getType(currentCellID).weaponTexture!=0)bigitem = true;
+	if((isTool && AllTools.instance.getType(currentCellID).weaponTexture!=0))bigitem = true;
 	
 	if(isTool && AllTools.instance.getType(currentCellID).type == AllTools.instance.Sword)sword = true;
 	
@@ -567,7 +574,7 @@ public void visualThings()
 	
 	float cur = currentAngle;
 	if(currentAngle==0)currentAngle = teoangle;
-	else if(((press || bigitem) && !sword ))currentAngle = Tools.fLerpAngle(currentAngle, teoangle, AllTools.instance.getType(currentCellID).uptime);
+	else if(( !sword ))currentAngle = Tools.fLerpAngle(currentAngle, teoangle, AllTools.instance.getType(currentCellID).uptime);
 	else if(sword)
 	{
 		if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT) && currentDamage<=AllTools.instance.getType(currentCellID).damage/2)currentAngle = Tools.fLerpAngle(currentAngle, teoangle, AllTools.instance.getType(currentCellID).uptime);
@@ -744,17 +751,15 @@ public void visualThings()
 	}
 	else if(bigitem)shakeWeapon = 0;
 	
-	boolean arm2static = false;
 	
 	if(velocity.y<-150)
 	{
 		if(Math.abs(shakeWeapon2-150)>0.01f)shakeWeapon2 = shakeWeapon2+(150-shakeWeapon2)*Main.delta*20*Math.abs(velocity.y)/500;
 	}
-	else if(velocity.y>0.1f)
+	else if(velocity.y>0.1f && !grappleFlying)
 	{
 		if(Math.abs(shakeWeapon2-20)>0.5f)
 		shakeWeapon2 = shakeWeapon2+(20-shakeWeapon2)*Main.delta*20;
-		arm2static = true;
 	}
 	else if(Math.abs(velocity.x)>0.1f && canJump)
 	{
@@ -774,30 +779,30 @@ public void visualThings()
 		if(shakeWeapon2>75)shakeWeapon2 -= Math.abs(velocity.x)*1.1f*Main.delta*5; 
 		if(shakeWeapon2<-15)shakeWeapon2 += Math.abs(velocity.x)*1.3f*Main.delta*5; 
 	}
-	else
+	else if(!grappleFlying)
 	{
 		if(Math.abs(shakeWeapon2-27)>0.1f)shakeWeapon2 = shakeWeapon2+(27-shakeWeapon2)*Main.delta*20;
-		arm2static = true;
+	}
+	else
+	{
+		if(Math.abs(shakeWeapon2-70)>0.1f)shakeWeapon2 = shakeWeapon2+(70-shakeWeapon2)*Main.delta*20;
 	}
 	
-	if(!press && !bigitem)
+	/*if(!press && !bigitem)
 	{
 		if(shakeWeapon2>90)shakeWeapon = -(90-30)+5;
 		else shakeWeapon = -(shakeWeapon2-30)+5;
 		if(arm2static)shakeWeapon-=7;
 		if(!isTurned)shakeWeapon = -shakeWeapon;
-	}
+	}*/
 	
-	if(!press && !bigitem && isTurned)currentAngle = Tools.fLerpAngle(currentAngle, -75, 30);
-	else if(!press && !bigitem)currentAngle = Tools.fLerpAngle(currentAngle, -105, 30);;
+	//if(!press && !bigitem && isTurned)currentAngle = Tools.fLerpAngle(currentAngle, -75, 30);
+	//else if(!press && !bigitem)currentAngle = Tools.fLerpAngle(currentAngle, -105, 30);;
 	
 	tempangle = currentAngle;
-	if(isTool)
-	{
 		//shoulderCoord = new Vector2(armWeapon.getX()+armWeapon.getOriginX(), armWeapon.getY()+armWeapon.getOriginY());
 		
-		calculateVectors();
-	}
+	calculateVectors();
 	
 	if(isTurned)
 	{
@@ -855,18 +860,19 @@ public void calculateVectors()
 {
 	tempangle = currentAngle;
 	
-	launcherOffset = new Vector2(1,0);
 	launcherOffset.clamp(AllTools.instance.getType(currentCellID).launcherDistance, AllTools.instance.getType(currentCellID).launcherDistance);
 	
 	if(isTurned)
 	{
 		tempangle+=AllTools.instance.getType(currentCellID).angle;
 		launcherOffset.setAngle(tempangle+ AllTools.instance.getType(currentCellID).launcherAngle+75+shakeWeapon);
+		//hookOffset.setAngle(tempangle+75-100+shakeWeapon);
 	}
 	else
 	{
 		tempangle-=AllTools.instance.getType(currentCellID).angle;
 		launcherOffset.setAngle(tempangle+ -AllTools.instance.getType(currentCellID).launcherAngle+285+shakeWeapon);
+		//hookOffset.setAngle(tempangle+285+100+shakeWeapon);
 	}
 	
 	if(isTurned)
@@ -878,9 +884,12 @@ public void calculateVectors()
 		shoulderCoord = new Vector2(x+47, y+61);
 	}
 	
+	middle = new Vector2(x+bodyParts[0].getOriginX(), y+bodyParts[0].getOriginY());
+	hookCoord = new Vector2(middle.x, middle.y+6);
 	launcherCoord = new Vector2(shoulderCoord.x+launcherOffset.x, shoulderCoord.y+launcherOffset.y);
 	velocityCoord = new Vector2(Tools.getAbsoluteMouse().x-launcherCoord.x,Tools.getAbsoluteMouse().y-launcherCoord.y).clamp(400, 400);
 	velocityCoord2 = new Vector2(launcherCoord.x-shoulderCoord.x, launcherCoord.y-shoulderCoord.y).clamp(400, 400);
+	velocityHook = new Vector2(Tools.getAbsoluteMouse().x-hookCoord.x,Tools.getAbsoluteMouse().y-hookCoord.y).clamp(400, 400);
 }
 
 public void SetArmors(boolean isTurned)
@@ -1017,7 +1026,7 @@ public void graphicDraw(SpriteBatch batch, float alphamultiply)
 	
 	if(isTool && AllTools.instance.getType(currentCellID).weaponTexture!=0 && !AllTools.instance.getType(currentCellID).equipment)
 		armWeapon.draw(batch);
-	else
+	else if(!isTool || !AllTools.instance.getType(currentCellID).invisible)
 		armHang.draw(batch);
 	
 	arm.draw(batch);
@@ -1062,12 +1071,18 @@ public boolean untransform()
  {
 	if(health<=0)isDead = true;
 	
-	if(AllTools.instance.getType(currentCellID).type != AllTools.instance.Hook || transformed)currentGrapple.playerAttached = false;
+	if(transformed)grapple.playerAttached = false;
 	
 	if(!transformed)
 	{
+		if(!grapple.playerAttached)
+		{
+			if(GameScreen.inventory.Grapple().grapple && Inputs.instance.middleOrAPressed)
+			GameScreen.entities.projectiles.AddGrapple(GameScreen.player.hookCoord.x, GameScreen.player.hookCoord.y, GameScreen.player.velocityHook.x, GameScreen.player.velocityHook.y, GameScreen.inventory.Grapple().grappleDistance, GameScreen.inventory.Grapple().grappleTex, GameScreen.inventory.Grapple().grappleTexRope);
+		}
+		
 		Update();
-		graphicDraw(batch,1);
+		
 		
 		detach = false;
 		transoffy = 0;
@@ -1075,6 +1090,7 @@ public boolean untransform()
 		
 		if(transformingin)
 		{
+			graphicDraw(batch,1);
 			Shaders.instance.setWhiteShader();
 			graphicDraw(batch,Math.min(1, (Main.time-transformtime)/(transformrate/4)));
 			Shaders.instance.setShadowShader();
@@ -1102,6 +1118,7 @@ public boolean untransform()
 		}
 		else if(transformingout)
 		{
+			graphicDraw(batch,1);
 			Shaders.instance.setWhiteShader();
 			graphicDraw(batch,Math.min(1,Math.max(0, (-Main.time+transformtime+transformrate)/(transformrate/4))));
 			Shaders.instance.setShadowShader();
@@ -1117,7 +1134,9 @@ public boolean untransform()
 		transoffy = hitbox.min-transformList.get(Parameters.i.currentTransform).hitbox.min;
 		transoffx = -transformList.get(Parameters.i.currentTransform).manualoffx;
 		detach = true;
+		
 		inputTransform();
+		transformList.get(Parameters.i.currentTransform).update();
 		transformList.get(Parameters.i.currentTransform).draw(batch);
 		x = transformList.get(Parameters.i.currentTransform).x-transoffx;
 		y = transformList.get(Parameters.i.currentTransform).y-hitbox.min+transformList.get(Parameters.i.currentTransform).hitbox.min;
@@ -1192,7 +1211,7 @@ public boolean untransform()
 		transformList.get(i).vy = velocity.y;
 	}
 	
-	middle = new Vector2(x+bodyParts[0].getOriginX(), y+bodyParts[0].getOriginY());
+	
 	
 	if(Parameters.i.drawhitbox)
 	{

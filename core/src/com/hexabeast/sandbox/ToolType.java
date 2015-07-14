@@ -1,5 +1,6 @@
 package com.hexabeast.sandbox;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class ToolType {
@@ -42,11 +43,20 @@ public float range;
 public int torchangle = 40;
 ColorString rarity;
 TextureRegion tex;
-
+public boolean grapple;
+public float grappleDistance;
+public TextureRegion grappleTex;
+public Texture grappleTexRope;
+public boolean invisible;
 public boolean furnitureContainer = false;
 
 	public ToolType() 
 	{
+		invisible = false;
+		grappleDistance = 1500;
+		grappleTex = TextureManager.instance.grapple;
+		grappleTexRope = TextureManager.instance.rope;
+		grapple = false;
 		magiclight = false;
 		rarity = Constants.rarity1;
 		magicprojectile = false;

@@ -5,10 +5,12 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 public class AllProjectiles {
@@ -69,11 +71,11 @@ public class AllProjectiles {
 		projList2.add(new Projectile(x,y,vx,vy,type, owner, damage));
 	}
 	
-	public void AddGrapple(float x, float y, float vx, float vy)
+	public void AddGrapple(float x, float y, float vx, float vy, float distance, TextureRegion tex, Texture ropeTex)
 	{
-		GameScreen.player.currentGrapple.playerAttached = false;
-		GameScreen.player.currentGrapple = new Grapple(x,y,vx,vy);
-		projList3.add(GameScreen.player.currentGrapple);
+		GameScreen.player.grapple.playerAttached = false;
+		GameScreen.player.grapple = new Grapple(x,y,vx,vy, distance, tex, ropeTex);
+		projList3.add(GameScreen.player.grapple);
 	}
 	
 	public void DrawMagic(SpriteBatch batch)

@@ -3,6 +3,7 @@ package com.hexabeast.sandbox;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -16,9 +17,9 @@ public class Grapple extends Entity{
 	boolean isPlanted = false;
 	boolean playerAttached = false;
 	boolean playerAttachedOnce = false;
-	
-	float verymax = 1500;
+
 	float verymin = 8;
+	float verymax = 1500;
 	float max = 0;
 	Vector2 grapfront = new Vector2(16,0);
 	Vector2 corde = new Vector2(1,0);
@@ -35,18 +36,24 @@ public class Grapple extends Entity{
 	Vector2 velocity = new Vector2();
 	public Vector2 lastangle = new Vector2(1,1);
 	TextureRegion tex;
+	Texture ropeTex;
 	float rot;
 	
-	public Grapple(float x, float y, float vx, float vy) 
+	boolean justspawned = true;
+	
+	public Grapple(float x, float y, float vx, float vy, float distance, TextureRegion tex, Texture ropeTex) 
 	{
+		justspawned = true;
+		this.tex = tex;
+		this.ropeTex = ropeTex;
+		verymax = distance;
+		
 		currentTime = 0;
 		
 		playerAttached = true;
 		
 		velocity.x = vx*vmultiplier;
 		velocity.y = vy*vmultiplier;
-
-		tex = TextureManager.instance.grapple;
 		
 		rot = velocity.angle();
 		
@@ -60,8 +67,8 @@ public class Grapple extends Entity{
 	{
 		super.draw(batch);
 		
-		liaison.x = GameScreen.player.launcherCoord.x-x;
-		liaison.y = GameScreen.player.launcherCoord.y-y;
+		liaison.x = GameScreen.player.hookCoord.x-x;
+		liaison.y = GameScreen.player.hookCoord.y-y;
 		
 		if(Math.abs(velocity.x)>0.01f || Math.abs(velocity.y)>0.01f)rot = Tools.fLerpAngle(rot, velocity.angle(), 10);
 		grapfront.setAngle(rot);
@@ -139,13 +146,13 @@ public class Grapple extends Entity{
 		corde.clamp(0, Math.max(0, corde.len()-1000*Main.delta));
 		if(playerAttached)
 		{
-			corde.x = GameScreen.player.launcherCoord.x-x;
-			corde.y = GameScreen.player.launcherCoord.y-2-y;
+			corde.x = GameScreen.player.hookCoord.x-x;
+			corde.y = GameScreen.player.hookCoord.y-2-y;
 		}
 		
 		if(todetach)playerAttached = false;
 		
-		if((Gdx.input.isButtonPressed(Input.Buttons.RIGHT) || Inputs.instance.Z)&& isPlanted && playerAttached)
+		if(((Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && AllTools.instance.getType(GameScreen.player.currentCellID).grapple) || Inputs.instance.Z)&& isPlanted && playerAttached)
 		{
 			if(max>verymin)max-=500*Main.delta;
 			else max = verymin;
@@ -156,7 +163,8 @@ public class Grapple extends Entity{
 			if(max<verymax-10)max+=500*Main.delta;
 			else max = verymax-10;
 		}
-		if(Inputs.instance.leftmousedown && playerAttached)todetach=true;
+		if(Inputs.instance.leftmousedown && AllTools.instance.getType(GameScreen.player.currentCellID).grapple && !justspawned && playerAttached)todetach=true;
+		if(Inputs.instance.middleOrAPressed && !justspawned && playerAttached)todetach=true;
 	
 		if(!Parameters.i.fullBright)
 		{
@@ -166,18 +174,20 @@ public class Grapple extends Entity{
 		
 		if(playerAttachedOnce && corde.len()>1)
 		{
-			Tools.drawLine(TextureManager.instance.rope, x, y, corde.x+x, corde.y+y);
+			Tools.drawLine(ropeTex, x, y, corde.x+x, corde.y+y);
 		}
 		
 		grapfront.setAngle(rot);
 		
 		batch.draw(tex, x-tex.getRegionWidth()+4+grapfront.x*0.8f, y-tex.getRegionHeight()/2+grapfront.y*0.8f, tex.getRegionWidth()-4, tex.getRegionHeight()/2, tex.getRegionWidth(), tex.getRegionHeight(), 1, 1, rot);
 		if(!Parameters.i.fullBright)batch.setColor(Color.WHITE);
+		
+		justspawned = false;
 	}
 	
 	public Vector2 getLine()
 	{
-		return new Vector2(GameScreen.player.launcherCoord.x-x, GameScreen.player.launcherCoord.y-y);
+		return new Vector2(GameScreen.player.hookCoord.x-x, GameScreen.player.hookCoord.y-y);
 	}
 	
 	 @Override

@@ -371,7 +371,7 @@ public class GameScreen implements Screen
 				float x = (Map.instance.width)*16+(player.x);
 				player.setPosition(x,player.y);
 				camera.position.set(camera.position.x+(Map.instance.width)*16, camera.position.y, camera.position.z);
-				player.currentGrapple.tpOtherSide();
+				player.grapple.tpOtherSide();
 				for(int l = DeforMeshes.instance.implist.size()-1; l>=0; l--)
 				{
 					DeforMeshes.instance.implist.get(l).x+=(Map.instance.width)*16;
@@ -384,7 +384,7 @@ public class GameScreen implements Screen
 				float x = 0+(player.x-(Map.instance.width)*16);
 				player.setPosition(x,player.y);
 				camera.position.set(camera.position.x-(Map.instance.width)*16, camera.position.y, camera.position.z);
-				player.currentGrapple.tpOtherSide();
+				player.grapple.tpOtherSide();
 				
 				for(int l = DeforMeshes.instance.implist.size()-1; l>=0; l--)
 				{
@@ -441,12 +441,16 @@ public class GameScreen implements Screen
 				entities.furnitures.DrawAll(batch);
 				
 				entities.projectiles.DrawProjectiles(batch);
+				
 				if(!Main.noUI)player.draw(batch);
+				entities.projectiles.DrawGrapples(batch);
+				if(!Main.noUI && !player.transformed && !player.transformingin && !player.transformingout)player.graphicDraw(batch,1);
+				
 				entities.mobs.DrawAll(batch);
 				entities.DrawAll(batch);
 				
 				items.DrawAll(batch);
-				entities.projectiles.DrawGrapples(batch);
+				
 				rain.draw(batch);
 				Map.instance.mainLayer.draw(batch);
 				
@@ -573,6 +577,16 @@ public class GameScreen implements Screen
 				Vector2 mous = Tools.getAbsoluteMouse();
 				int px = Tools.floor(mous.x/16);
 				int py = Tools.floor(mous.y/16);
+				
+				if(Inputs.instance.shift)
+				{
+					Vector2 aimed = Tools.raycast(player.shoulderCoord.x, player.shoulderCoord.y, mous.x, mous.y, 4);
+					if(aimed.x>=0)
+					{
+						px = Tools.floor(aimed.x+0.1f);
+						py = Tools.floor(aimed.y+0.1f);
+					}
+				}
 				
 				if(axe)range = AllTools.instance.getType(GameScreen.player.currentCellID).range;
 				else range = ModifyTerrain.range;
