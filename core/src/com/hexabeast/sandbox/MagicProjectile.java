@@ -72,6 +72,8 @@ public class MagicProjectile extends Entity{
 		}
 		else if(type == 4)
 		{
+			velocity.y*=2;
+			velocity.x*=2;
 			color = Vector3.Zero;
 		}
 		
