@@ -39,6 +39,7 @@ public class AllTools {
 	public int Sword9Id = 1029;
 	public int AnvilId = 1030;
 	public int HookId = 1031;
+	public int NormalHookId = 1032;
 	
 	
 	public ToolType[] ToolTypes = new ToolType[50];
@@ -330,17 +331,30 @@ public class AllTools {
 		
 		ToolTypes[HookId-1000].type = Hook; 
 		ToolTypes[HookId-1000].isShake = false;
-		ToolTypes[HookId-1000].description = "A simple hook";
-		ToolTypes[HookId-1000].name = "Hook";
-		ToolTypes[HookId-1000].angle = 20;
-		ToolTypes[HookId-1000].launcherDistance = 36;
-		ToolTypes[HookId-1000].launcherAngle = -86;
+		ToolTypes[HookId-1000].description = "A magic hook";
+		ToolTypes[HookId-1000].name = "Magic hook";
 		ToolTypes[HookId-1000].rate = 0.2f;
 		ToolTypes[HookId-1000].obstacleProof = true;
 		ToolTypes[HookId-1000].stackable = false;
 		ToolTypes[HookId-1000].grapple = true;
 		ToolTypes[HookId-1000].rarity = Constants.rarity4;
 		ToolTypes[HookId-1000].invisible = true;
+		ToolTypes[HookId-1000].grappleTex = TextureManager.instance.grappleGreen;
+		ToolTypes[HookId-1000].grappleTexRope = TextureManager.instance.ropeGreen;
+		
+		ToolTypes[NormalHookId-1000].type = Hook; 
+		ToolTypes[NormalHookId-1000].isShake = false;
+		ToolTypes[NormalHookId-1000].description = "A simple hook";
+		ToolTypes[NormalHookId-1000].name = "Hook";
+		ToolTypes[NormalHookId-1000].rate = 0.2f;
+		ToolTypes[NormalHookId-1000].obstacleProof = true;
+		ToolTypes[NormalHookId-1000].stackable = false;
+		ToolTypes[NormalHookId-1000].grapple = true;
+		ToolTypes[NormalHookId-1000].rarity = Constants.rarity3;
+		ToolTypes[NormalHookId-1000].invisible = true;
+		ToolTypes[NormalHookId-1000].grappleDistance = 1000;
+		ToolTypes[NormalHookId-1000].grappleTex = TextureManager.instance.grapple;
+		ToolTypes[NormalHookId-1000].grappleTexRope = TextureManager.instance.rope;
 		
 
 		weaponTextures[0] = new TextureRegion();
