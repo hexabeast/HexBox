@@ -105,8 +105,31 @@ public class GameScreen implements Screen
 	@Override
 	public void resize(int width, int height)
 	{
-		camera.viewportWidth = 1280;
-		camera.viewportHeight = ((float)height/(float)width)*1280;
+		if(!Parameters.i.zoomLock)
+		{
+			camera.viewportWidth = width;
+			camera.viewportHeight = height;
+		}
+		else
+		{
+			camera.viewportWidth = 1280;
+			camera.viewportHeight = ((float)height/(float)width)*1280;
+		}
+		
+	}
+	
+	public static void manualResize()
+	{
+		if(!Parameters.i.zoomLock)
+		{
+			camera.viewportWidth = Gdx.graphics.getWidth();
+			camera.viewportHeight = Gdx.graphics.getHeight();
+		}
+		else
+		{
+			camera.viewportWidth = 1280;
+			camera.viewportHeight = ((float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth())*1280;
+		}
 		resetCamera();
 	}
 
@@ -237,6 +260,7 @@ public class GameScreen implements Screen
 		inventory.PutItem(1028);
 		inventory.PutItem(1029);
 		inventory.PutItem(1031);
+		inventory.PutItem(1032);
 		
 		for(int i = 0; i<999; i++)
 		{
@@ -299,6 +323,7 @@ public class GameScreen implements Screen
 
 	static void SwapCam()
 	{
+		manualResize();
 		camera.zoom = gameZoom;
 		if(UI)camera.position.set(camPos);
 		resetCamera();
@@ -307,6 +332,8 @@ public class GameScreen implements Screen
 	
 	static void SwapUI()
 	{
+		camera.viewportWidth = Math.max(1280,Main.windowWidth);
+		camera.viewportHeight = ((float)Gdx.graphics.getHeight()/(float)Gdx.graphics.getWidth())*camera.viewportWidth;
 		UI = true;
 		camera.zoom = 2f;
 		camPos.x = camera.position.x;
@@ -597,11 +624,11 @@ public class GameScreen implements Screen
 					
 				if(distToMiddle>range)
 				{
-					batch.setColor(col.r,col.g/4, col.b/4, 0.4f);
+					batch.setColor(1,1/4, 1/4, 0.4f);
 				}
 				else
 				{
-					batch.setColor(col.r,col.g*0.85f, col.b*0.6f, 0.4f);
+					batch.setColor(1,0.85f, 0.6f, 0.4f);
 				}
 			
 				
@@ -680,15 +707,15 @@ public class GameScreen implements Screen
 				
 				if(!ok)
 				{
-					batch.setColor(col.r,col.g/4, col.b/4, 0.7f);
+					batch.setColor(1,1/4, 1/4, 0.7f);
 				}
 				else if(distToMiddle>range)
 				{
-					batch.setColor(col.r,col.g/1.5f, col.b/4, 0.7f);
+					batch.setColor(1,1/1.5f, 1/4, 0.7f);
 				}
 				else
 				{
-					batch.setColor(col.r/4,col.g, col.b/4, 0.7f);
+					batch.setColor(1/4,1, 1/4, 0.7f);
 				}
 							
 				

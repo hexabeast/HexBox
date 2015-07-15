@@ -25,7 +25,7 @@ public class LightManager {
 	boolean updated = false;
 	public float daySwitch = 0f;
 	
-	public int chunksize = 100;
+	public int chunksize = 250;
 	public ArrayList<Vec2> activeChunks;
 	
 	public int currentChunkX = 0;
@@ -66,7 +66,7 @@ public class LightManager {
 		}
 		
 		activeChunks = new ArrayList<Vec2>();
-		for(int i = 0; i<9; i++)activeChunks.add(new Vec2(i,0));
+		for(int i = 0; i<9; i++)activeChunks.add(new Vec2(i%3,(int)(i/3)));
 		
 		/*chunkgrid = new boolean[Map.instance.width/chunksize][Map.instance.height/chunksize];
 		
@@ -78,9 +78,9 @@ public class LightManager {
 			}
 		}*/
 		
-		for(int i = 0; i<chunksize*9; i++)
+		for(int i = 0; i<chunksize*3; i++)
 		{
-			for( int j = 0; j<chunksize; j++)
+			for( int j = 0; j<chunksize*3; j++)
 			{
 				lightArray[i][j] = new LightCoord(0,0,0);
 			}
@@ -271,7 +271,7 @@ public class LightManager {
 		maxy = (int)cellPos1.y+Constants.lightDistances[Parameters.i.lightDistance]+1;
 		
 		
-		if(cellPos1.x-cellPos0.x<90)Update();
+		if(cellPos1.x-cellPos0.x<150)Update();
 	}
 	
 	public boolean activeChunksContains(int x, int y)
@@ -313,7 +313,7 @@ public class LightManager {
 		{
 			int difx = Math.abs(activeChunks.get(i).x-currentChunkX);
 			int dify =  Math.abs(activeChunks.get(i).y-currentChunkY);
-			if((difx>1 && difx<19) || (dify>1))
+			if((difx>1 && difx<(int)(Map.instance.width/chunksize)-1) || (dify>1))
 			{
 				int ti = -404;
 				int tj = -404;
@@ -330,11 +330,11 @@ public class LightManager {
 					}
 				}
 				
-				int baseX = activeChunks.get(i).x*100;
-				int baseY = activeChunks.get(i).y*100;
+				int baseX = activeChunks.get(i).x*chunksize;
+				int baseY = activeChunks.get(i).y*chunksize;
 				
-				int endX = ti*100;
-				int endY = tj*100;
+				int endX = ti*chunksize;
+				int endY = tj*chunksize;
 				
 				for(int j = 0; j<chunksize; j++)
 				{

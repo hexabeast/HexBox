@@ -54,8 +54,8 @@ public class Main extends Game {
 	
 	@Override
 	public void create () {
-		
-		DeforMeshes.instance = new DeforMeshes(32, 18);
+		Parameters.i = new Parameters();
+		DeforMeshes.instance = new DeforMeshes(32, 24);
 		
 		windowWidth = Gdx.graphics.getWidth();
 		windowHeight = Gdx.graphics.getHeight();
@@ -79,7 +79,6 @@ public class Main extends Game {
 		TextureManager.instance = new TextureManager();
 		AllTools.instance = new AllTools();
 		AllCrafts.instance = new AllCrafts();
-		Parameters.i = new Parameters();
 		PauseMenu.instance = new PauseMenu();
 		Inputs.instance = new Inputs();
 		
@@ -114,7 +113,9 @@ public class Main extends Game {
 	
 	public static void updateResolution()
 	{
-		updateResolution(Constants.resolutions[Parameters.i.resolution].x, Constants.resolutions[Parameters.i.resolution].y);
+		float ratio = 3f/4f;
+		if(Parameters.i.ratio)ratio = 9f/16f;
+		updateResolution(Constants.resolutions[Parameters.i.resolution], (int)(Constants.resolutions[Parameters.i.resolution]*ratio));
 	}
 	
 	public static void updateResolution(int wx, int hy)
