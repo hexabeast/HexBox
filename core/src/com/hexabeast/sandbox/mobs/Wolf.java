@@ -94,7 +94,7 @@ public class Wolf extends Mob{
 				velo.x = GameScreen.player.middle.x-(x+mach.x);
 				velo.y = GameScreen.player.middle.y-(y+mach.y);
 				
-				if(velo.len()>720)aggressive = false;
+				if(velo.len()>1500)aggressive = false;
 
 				if(canJump && velo.y>64)
 				{
