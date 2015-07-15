@@ -261,6 +261,7 @@ public class GameScreen implements Screen
 		inventory.PutItem(1029);
 		inventory.PutItem(1031);
 		inventory.PutItem(1032);
+		inventory.PutItem(1033);
 		
 		for(int i = 0; i<999; i++)
 		{

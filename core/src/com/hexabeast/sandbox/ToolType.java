@@ -49,6 +49,7 @@ public TextureRegion grappleTex;
 public Texture grappleTexRope;
 public boolean invisible;
 public boolean furnitureContainer = false;
+public boolean helmetLight = false;
 
 	public ToolType() 
 	{

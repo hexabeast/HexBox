@@ -130,6 +130,7 @@ public class TextureManager {
 	public TextureRegion Bbody;
 	public TextureRegion[] Blegs;
 	
+	public TextureRegion miningHelmet;
 	public TextureRegion bow;
 	public TextureRegion grapple;
 	public TextureRegion grappleGreen;
@@ -334,6 +335,7 @@ public class TextureManager {
 		
 		playButton = newTexture(Gdx.files.internal("menu/playButton.png"));
 		casque1 = newTexture(Gdx.files.internal("armors/casque1.png"));
+		miningHelmet = newTexture(Gdx.files.internal("armors/casquelight.png"));
 		armor1 = newTexture(Gdx.files.internal("armors/armor1.png"));
 		arms1 = newTexture(Gdx.files.internal("armors/arms1.png"));
 		leggins1 = newTexture(Gdx.files.internal("armors/leggins1.png"));

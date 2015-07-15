@@ -40,6 +40,7 @@ public class AllTools {
 	public int AnvilId = 1030;
 	public int HookId = 1031;
 	public int NormalHookId = 1032;
+	public int MiningHelmetId = 1033;
 	
 	
 	public ToolType[] ToolTypes = new ToolType[50];
@@ -356,6 +357,18 @@ public class AllTools {
 		ToolTypes[NormalHookId-1000].grappleTex = TextureManager.instance.grapple;
 		ToolTypes[NormalHookId-1000].grappleTexRope = TextureManager.instance.rope;
 		
+		
+		ToolTypes[MiningHelmetId-1000].type = UseLess; 
+		ToolTypes[MiningHelmetId-1000].description = "Enlight your way";
+		ToolTypes[MiningHelmetId-1000].name = "Mining Helmet";
+		ToolTypes[MiningHelmetId-1000].stackable = false;
+		ToolTypes[MiningHelmetId-1000].equipment = true;
+		ToolTypes[MiningHelmetId-1000].helmet = true;
+		ToolTypes[MiningHelmetId-1000].helmetLight = true;
+		ToolTypes[MiningHelmetId-1000].armorDefense = 3;
+		ToolTypes[MiningHelmetId-1000].weaponTexture = 24;
+		ToolTypes[MiningHelmetId-1000].rarity = Constants.rarity5;
+		
 
 		weaponTextures[0] = new TextureRegion();
 		weaponTextures[1] = new TextureRegion(TextureManager.instance.bonhommeWeapon);
@@ -381,6 +394,7 @@ public class AllTools {
 		weaponTextures[21] = new TextureRegion(TextureManager.instance.swords.get(7));
 		weaponTextures[22] = new TextureRegion(TextureManager.instance.swords.get(8));
 		weaponTextures[23] = new TextureRegion(TextureManager.instance.swords.get(9));
+		weaponTextures[24] = new TextureRegion(TextureManager.instance.miningHelmet);
 		
 		
 		

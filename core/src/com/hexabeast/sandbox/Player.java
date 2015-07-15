@@ -285,6 +285,15 @@ public class Player extends Entity{
 			Collision(Main.delta);
 			visualThings();
 			
+			if(GameScreen.inventory.Helmet().helmetLight)
+			{
+				Vector2 headvec = new Vector2(middle.x, middle.y+34);
+				
+				Vector2 vec = new Vector2((Tools.getAbsoluteMouse()).sub(headvec));
+				
+				Map.instance.lights.torche(headvec, vec, GameScreen.inventory.Helmet().torchangle,1.5f,1.5f,1.2f,false,0);
+			}
+			
 			if(grapple.playerAttached && grapple.isPlanted && grapple.getLine().len()>grapple.max)
 			{
 				grappleFlying = true;

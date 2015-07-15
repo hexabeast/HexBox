@@ -606,7 +606,7 @@ public class LightManager {
 	{
 		int precision = 1;
 		float light = 1;
-		velo.setLength(800);
+		velo.setLength(1000);
 		velo.rotate(-angle);
 		angle*=precision;
 		Vector2 velo2 = new Vector2(velo);
@@ -658,11 +658,15 @@ public class LightManager {
 				while(!finished && light>0.03f)
 				{
 					l+=4;
-					if(l>=velo.len())
+					
+					float len = velo.len();
+					
+					if(l>=len)
 					{
 						l = velo.len();
 						finished = true;
 					}
+					
 					
 					velo2.clamp(l, l);
 					
@@ -694,7 +698,11 @@ public class LightManager {
 							
 						}
 
-						light-=1f/100f;
+						light*=98f/100f;
+						
+						if(len-l<200)light*=90f/100f;
+						if(light<0)light =0;
+						
 						if(oldx!=x && oldy!=y)light-=1f/100f;
 						
 						
