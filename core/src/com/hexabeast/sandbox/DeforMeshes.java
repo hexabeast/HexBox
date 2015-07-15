@@ -71,6 +71,7 @@ public class DeforMeshes {
 		int totheight = Main.windowHeight;
 		
 		coef = (float)totwidth/1280;
+		if(!Parameters.i.zoomLock)coef = 1;
 		  
 		float width = (float)Main.windowWidth/col;
 		float height = (float)Main.windowHeight/rows;
