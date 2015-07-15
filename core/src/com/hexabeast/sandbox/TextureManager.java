@@ -131,8 +131,8 @@ public class TextureManager {
 	public TextureRegion[] Blegs;
 	
 	public TextureRegion bow;
+	public TextureRegion hook;
 	public TextureRegion grapple;
-	public TextureRegion grappleGreen;
 	public TextureRegion arrow;
 	public TextureRegion vespic;
 	public ArrayList<TextureRegion> swords = new ArrayList<TextureRegion>();
@@ -214,7 +214,6 @@ public class TextureManager {
 	TextureRegion anvil;
 	
 	Texture rope;
-	Texture ropeGreen;
 	
 	public TextureRegion newTexture(FileHandle file)
 	{
@@ -237,11 +236,8 @@ public class TextureManager {
 		pm.dispose();
 		
 		//TEXTURES
-		rope = new Texture("weapons/Hooks/rope2.png");
+		rope = new Texture("weapons/rope.png");
 		rope.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
-		
-		ropeGreen = new Texture("weapons/Hooks/rope.png");
-		ropeGreen.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		
 		materials = new Texture("materials/materials.png");
 		
@@ -255,21 +251,21 @@ public class TextureManager {
 		dinorouge = newTexture("mobs/dinorouge.png");
 		biginsecte = newTexture("mobs/biginsecte.png");
 		
-		bonhommeWeapon = newTexture("weapons/PickAxes/bonhomme13weapon.png");
-		greenSceptre = newTexture("weapons/Magic/sceptreGreen.png");
-		redSceptre = newTexture("weapons/Magic/sceptreRed.png");
-		purpleSceptre = newTexture("weapons/Magic/sceptrePurple.png");
-		blueSceptre = newTexture("weapons/Magic/sceptreBlue.png");
-		blackSceptre = newTexture("weapons/Magic/sceptreDark.png");
-		bow = newTexture("weapons/Bows/bow.png");
-		grapple = newTexture("weapons/Hooks/grapple2.png");
-		grappleGreen = newTexture("weapons/Hooks/grapple.png");
+		bonhommeWeapon = newTexture("weapons/bonhomme13weapon.png");
+		greenSceptre = newTexture("weapons/sceptreGreen.png");
+		redSceptre = newTexture("weapons/sceptreRed.png");
+		purpleSceptre = newTexture("weapons/sceptrePurple.png");
+		blueSceptre = newTexture("weapons/sceptreBlue.png");
+		blackSceptre = newTexture("weapons/sceptreDark.png");
+		bow = newTexture("weapons/bow.png");
+		hook = newTexture("weapons/hook.png");
+		grapple = newTexture("weapons/grapple.png");
 		
-		bigsword = newTexture("weapons/Swords/greatsword.png");
-		arrow = newTexture("weapons/Ammos/arrow.png");
-		vespic = newTexture("weapons/Ammos/vespic.png");
-		woodStick = newTexture("weapons/Swords/woodstick.png");
-		woodStickAndStone = newTexture("weapons/Swords/woodstickandrock.png");
+		bigsword = newTexture("weapons/greatsword.png");
+		arrow = newTexture("weapons/arrow.png");
+		vespic = newTexture("weapons/vespic.png");
+		woodStick = newTexture("weapons/woodstick.png");
+		woodStickAndStone = newTexture("weapons/woodstickandrock.png");
 		
 		Ttroncs = newTexture("trees/troncs.png");
 		TbranchesD = newTexture("trees/branchesgauches.png");
@@ -360,16 +356,16 @@ public class TextureManager {
 		chair = newTexture(Gdx.files.internal("furnitures/chaise1.png"));
 		anvil = newTexture(Gdx.files.internal("furnitures/anvil.png"));
 		
-		swords.add(newTexture("weapons/Swords/sword.png"));
-		swords.add(newTexture("weapons/Swords/sword1.png"));
-		swords.add(newTexture("weapons/Swords/sword2.png"));
-		swords.add(newTexture("weapons/Swords/sword3.png"));
-		swords.add(newTexture("weapons/Swords/sword4.png"));
-		swords.add(newTexture("weapons/Swords/sword5.png"));
-		swords.add(newTexture("weapons/Swords/sword6.png"));
-		swords.add(newTexture("weapons/Swords/sword7.png"));
-		swords.add(newTexture("weapons/Swords/sword8.png"));
-		swords.add(newTexture("weapons/Swords/sword9.png"));
+		swords.add(newTexture("weapons/sword.png"));
+		swords.add(newTexture("weapons/sword1.png"));
+		swords.add(newTexture("weapons/sword2.png"));
+		swords.add(newTexture("weapons/sword3.png"));
+		swords.add(newTexture("weapons/sword4.png"));
+		swords.add(newTexture("weapons/sword5.png"));
+		swords.add(newTexture("weapons/sword6.png"));
+		swords.add(newTexture("weapons/sword7.png"));
+		swords.add(newTexture("weapons/sword8.png"));
+		swords.add(newTexture("weapons/sword9.png"));
 		//TODO
 		
 		

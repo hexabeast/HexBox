@@ -25,8 +25,6 @@ public class PauseMenu {
 	public PauseSetting background;
 	public PauseSetting lightDistance;
 	public PauseSetting FBO;
-	public PauseSetting zoomlock;
-	public PauseSetting ratio;
 	
 	public PauseSetting time;
 	public PauseSetting fullbright;
@@ -57,22 +55,20 @@ public class PauseMenu {
 		resume = new PauseMenuButton(TextureManager.instance.pauseresume,0,200);
 		quit = new PauseMenuButton(TextureManager.instance.pauseexit,0,-400);
 		settings = new PauseMenuButton(TextureManager.instance.pausesettings,0,0);
-		back = new PauseMenuButton(TextureManager.instance.pauseback,-1080,-560);
+		back = new PauseMenuButton(TextureManager.instance.pauseback,-1000,-560);
 		cheats = new PauseMenuButton(TextureManager.instance.pausecheat, 0,-200);
 		
-		resolution = new PauseSetting(0,500,"Resolution :","Changes the resolution of the window");
-		ratio = new PauseSetting(0,400,"Ratio :","Changes the ratio of the window");
-		fullscreen = new PauseSetting(0,300,"FullScreen :","Enables / disables fullscreen mode");
-		shadowQuality = new PauseSetting(0,200,"Shadows Quality :","Shader is often faster than Medium Quality for a better rendering quality");
-		lightSpeed = new PauseSetting(0,100,"Light Speed :","Higher number = faster lights but worse performances");
-		lightColor = new PauseSetting(0,00,"Colored Lights :","Colored lights require more CPU but looks better than white lights");
-		lightDistance = new PauseSetting(0,-100,"Light Prevision :","Reduces light glitches on the sides of the screen, but makes the game slower");
-		details = new PauseSetting(0,-200,"Details :","Ambient occlusion, better grass and better transitions between blocks");
-		vsync = new PauseSetting(0,-300,"VSync :","Enables/Disables VSync");
-		HQMagic = new PauseSetting(0,-400,"Spells quality :","Changes the quality of magic things");
-		background = new PauseSetting(0,-500,"Background :","Enables/Disables background");
-		FBO = new PauseSetting(0,-600,"More Shaders :","Slows down the game, enables magic space deformations and better colors");
-		zoomlock = new PauseSetting(0,600,"Zoom Lock :","Locks the zoom to HD default");
+		resolution = new PauseSetting(0,500,"Resolution :","Changes the resolution of the window (16/9 ratio only)");
+		fullscreen = new PauseSetting(0,400,"FullScreen :","Enables / disables fullscreen mode");
+		shadowQuality = new PauseSetting(0,300,"Shadows Quality :","Shader is often faster than Medium Quality for a better rendering quality");
+		lightSpeed = new PauseSetting(0,200,"Light Speed :","Higher number = faster lights but worse performances");
+		lightColor = new PauseSetting(0,100,"Colored Lights :","Colored lights require more CPU but looks better than white lights");
+		lightDistance = new PauseSetting(0,0,"Light Prevision :","Reduces light glitches on the sides of the screen, but makes the game slower");
+		details = new PauseSetting(0,-100,"Details :","Ambient occlusion, better grass and better transitions between blocks");
+		vsync = new PauseSetting(0,-200,"VSync :","Enables/Disables VSync");
+		HQMagic = new PauseSetting(0,-300,"Spells quality :","Changes the quality of magic things");
+		background = new PauseSetting(0,-400,"Background :","Enables/Disables background");
+		FBO = new PauseSetting(0,-500,"More Shaders :","Slows down the game, enables magic space deformations and better colors");
 		
 		time = new PauseSetting(0,500,"Time :","Cheat, Changes the time between night and day");
 		fullbright = new PauseSetting(0,400,"Fullbright :","Cheat, Disables all shadows, and increases performances");
@@ -128,11 +124,8 @@ public class PauseMenu {
 		}
 		else if(setting)
 		{
-			String resx = String.valueOf(Constants.resolutions[Parameters.i.resolution]);
-			float ratiof = 3f/4f;
-			if(Parameters.i.ratio)ratiof = 9f/16f;
-			
-			String resy = String.valueOf((int)(ratiof*Constants.resolutions[Parameters.i.resolution]));
+			String resx = String.valueOf(Constants.resolutions[Parameters.i.resolution].x);
+			String resy = String.valueOf(Constants.resolutions[Parameters.i.resolution].y);
 			
 			resx = String.valueOf(Gdx.graphics.getWidth());
 			resy = String.valueOf(Gdx.graphics.getHeight());
@@ -177,13 +170,6 @@ public class PauseMenu {
 			FBO.value = Tools.booltoyes(Parameters.i.FBORender);
 			FBO.draw(batch);
 			
-			if(Parameters.i.ratio)ratio.value = "16:9";
-			else ratio.value = "4:3";
-			ratio.draw(batch);
-			
-			zoomlock.value = Tools.booltoyes(Parameters.i.zoomLock);
-			zoomlock.draw(batch);
-			
 			back.draw(batch);
 			
 			if(Inputs.instance.mouseup)
@@ -195,23 +181,11 @@ public class PauseMenu {
 					cheat = false;
 				}
 				
-				else if(zoomlock.isTouchedLeft() || zoomlock.isTouchedRight())
-				{
-					Parameters.i.zoomLock = !Parameters.i.zoomLock;
-					GameScreen.manualResize();
-				}
-				
-				else if(ratio.isTouchedLeft() || ratio.isTouchedRight())
-				{
-					Parameters.i.ratio = !Parameters.i.ratio;
-					Main.updateResolution();
-				}
-				
-				else if(resolution.isTouchedRight())
+				if(resolution.isTouchedRight())
 				{
 					for(int i = 0; i<Constants.resolutions.length; i++)
 					{
-						if(Constants.resolutions[i] > Gdx.graphics.getWidth()+0.1f)
+						if(Constants.resolutions[i].x > Gdx.graphics.getWidth()+0.1f)
 						{
 							Parameters.i.resolution = i;
 							break;
@@ -221,72 +195,60 @@ public class PauseMenu {
 					
 					Main.updateResolution();
 				}
-				else if(resolution.isTouchedLeft())
+				if(resolution.isTouchedLeft())if(Parameters.i.resolution>0)
 				{
-					if(Parameters.i.resolution>0)
+					for(int i = Constants.resolutions.length-1; i>=0; i--)
 					{
-						for(int i = Constants.resolutions.length-1; i>=0; i--)
+						if(Constants.resolutions[i].x < Gdx.graphics.getWidth()-0.1f)
 						{
-							if(Constants.resolutions[i] < Gdx.graphics.getWidth()-0.1f)
-							{
-								Parameters.i.resolution = i;
-								break;
-							}
-							else if(i == 0)Parameters.i.resolution = i;
+							Parameters.i.resolution = i;
+							break;
 						}
-						Main.updateResolution();
+						else if(i == 0)Parameters.i.resolution = i;
 					}
+					Main.updateResolution();
 				}
 				
-				
-				else if(fullscreen.isTouchedRight()||fullscreen.isTouchedLeft())
+				if(fullscreen.isTouchedRight()||fullscreen.isTouchedLeft())
 				{
 					Parameters.i.fullscreen = !Parameters.i.fullscreen;
 					Main.updateResolution();
 				}
 				
-				else if(FBO.isTouchedRight()||FBO.isTouchedLeft())Parameters.i.FBORender = !Parameters.i.FBORender;
+				if(FBO.isTouchedRight()||FBO.isTouchedLeft())Parameters.i.FBORender = !Parameters.i.FBORender;
 				
-				else if(HQMagic.isTouchedRight()||HQMagic.isTouchedLeft())Parameters.i.goodmagic = !Parameters.i.goodmagic;
+				if(HQMagic.isTouchedRight()||HQMagic.isTouchedLeft())Parameters.i.goodmagic = !Parameters.i.goodmagic;
 				
-				else if(vsync.isTouchedRight()||vsync.isTouchedLeft())
+				if(vsync.isTouchedRight()||vsync.isTouchedLeft())
 				{
 					Parameters.i.vsync = !Parameters.i.vsync;
 					Gdx.graphics.setVSync(Parameters.i.vsync);
 				}
 				
-				else if(background.isTouchedRight()||background.isTouchedLeft())
+				if(background.isTouchedRight()||background.isTouchedLeft())
 				{
 					Parameters.i.background = !Parameters.i.background;
 				}
 				
 				
-				else if(shadowQuality.isTouchedLeft()){if(Parameters.i.HQ>1)Parameters.i.HQ--;}
-				else if(shadowQuality.isTouchedRight()){if(Parameters.i.HQ<Constants.qualities.length-1)Parameters.i.HQ++;}
+				if(shadowQuality.isTouchedLeft())if(Parameters.i.HQ>1)Parameters.i.HQ--;
+				if(shadowQuality.isTouchedRight())if(Parameters.i.HQ<Constants.qualities.length-1)Parameters.i.HQ++;
 				
-				else if(lightDistance.isTouchedLeft()){if(Parameters.i.lightDistance>0)Parameters.i.lightDistance--;}
-				else if(lightDistance.isTouchedRight()){if(Parameters.i.lightDistance<Constants.lightDistances.length-1)Parameters.i.lightDistance++;}
+				if(lightDistance.isTouchedLeft())if(Parameters.i.lightDistance>0)Parameters.i.lightDistance--;
+				if(lightDistance.isTouchedRight())if(Parameters.i.lightDistance<Constants.lightDistances.length-1)Parameters.i.lightDistance++;
 				
-				else if(lightSpeed.isTouchedLeft())
+				if(lightSpeed.isTouchedLeft())if(Parameters.i.lightSpeed>=60)
 					{
-						if(Parameters.i.lightSpeed>=60)
-						{
-							Parameters.i.lightSpeed-=30;
-							if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
-						}
+						Parameters.i.lightSpeed-=30;
+						if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
 					}
-					
-				else if(lightSpeed.isTouchedRight())
+				if(lightSpeed.isTouchedRight())if(Parameters.i.lightSpeed<=270)
 					{
-						if(Parameters.i.lightSpeed<=270)
-						{
-							Parameters.i.lightSpeed+=30;
-							if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
-						}	
+						Parameters.i.lightSpeed+=30;
+						if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
 					}
-					
-				else if(lightColor.isTouchedRight()||lightColor.isTouchedLeft())Parameters.i.RGB = !Parameters.i.RGB;
-				else if(details.isTouchedRight()||details.isTouchedLeft())Parameters.i.details = !Parameters.i.details;
+				if(lightColor.isTouchedRight()||lightColor.isTouchedLeft())Parameters.i.RGB = !Parameters.i.RGB;
+				if(details.isTouchedRight()||details.isTouchedLeft())Parameters.i.details = !Parameters.i.details;
 			}
 		}
 		else if(cheat)
@@ -326,6 +288,9 @@ public class PauseMenu {
 				rain.value = Tools.booltoyes(Parameters.i.rain);
 				rain.draw(batch);
 				
+				axerange.value = Tools.booltoyes(Parameters.i.wayaxe);
+				axerange.draw(batch);
+				
 				transform.value = Constants.transformNames[Parameters.i.currentTransform+1];
 				if(GameScreen.player.transformingin || GameScreen.player.transformingout)transform.value = Constants.transformNames[GameScreen.player.nextTransform+1];
 				transform.draw(batch);
@@ -342,33 +307,34 @@ public class PauseMenu {
 						setting = false;
 						cheat = false;
 					}
-					else if(time.isTouchedRight()||time.isTouchedLeft())
+					if(time.isTouchedRight()||time.isTouchedLeft())
 					{
 						if(Parameters.i.daylight<0.5f)Parameters.i.daylight = 1;
 						else Parameters.i.daylight = 0.1f;
 					}
-					else if(fullbright.isTouchedRight()||fullbright.isTouchedLeft())Parameters.i.noShadow = !Parameters.i.noShadow;
-					else if(hitbox.isTouchedRight()||hitbox.isTouchedLeft())Parameters.i.drawhitbox = !Parameters.i.drawhitbox;
-					else if(superman.isTouchedRight()||superman.isTouchedLeft())Parameters.i.superman = !Parameters.i.superman;
-					else if(ultramagic.isTouchedRight()||ultramagic.isTouchedLeft())Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
-					else if(ultrarate.isTouchedRight()||ultrarate.isTouchedLeft())Parameters.i.ultrarate = !Parameters.i.ultrarate;
-					else if(ultrarange.isTouchedRight()||ultrarange.isTouchedLeft())Parameters.i.ultrarange = !Parameters.i.ultrarange;
-					else if(godmode.isTouchedRight()||godmode.isTouchedLeft())Parameters.i.godmode = !Parameters.i.godmode;
-					else if(gamespeed.isTouchedLeft() && Parameters.i.deltaMultiplier>0.01f)
+					if(fullbright.isTouchedRight()||fullbright.isTouchedLeft())Parameters.i.noShadow = !Parameters.i.noShadow;
+					if(hitbox.isTouchedRight()||hitbox.isTouchedLeft())Parameters.i.drawhitbox = !Parameters.i.drawhitbox;
+					if(superman.isTouchedRight()||superman.isTouchedLeft())Parameters.i.superman = !Parameters.i.superman;
+					if(ultramagic.isTouchedRight()||ultramagic.isTouchedLeft())Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
+					if(ultrarate.isTouchedRight()||ultrarate.isTouchedLeft())Parameters.i.ultrarate = !Parameters.i.ultrarate;
+					if(ultrarange.isTouchedRight()||ultrarange.isTouchedLeft())Parameters.i.ultrarange = !Parameters.i.ultrarange;
+					if(godmode.isTouchedRight()||godmode.isTouchedLeft())Parameters.i.godmode = !Parameters.i.godmode;
+					if(gamespeed.isTouchedLeft() && Parameters.i.deltaMultiplier>0.01f)
 					{
 						if(Parameters.i.deltaMultiplier<=0.11f)Parameters.i.deltaMultiplier-=0.01f;
 						else if(Parameters.i.deltaMultiplier<=2.5f)Parameters.i.deltaMultiplier-=0.1f;
 						else Parameters.i.deltaMultiplier-=1;
 					}
-					else if(gamespeed.isTouchedRight() && Parameters.i.deltaMultiplier<4)
+					if(gamespeed.isTouchedRight() && Parameters.i.deltaMultiplier<4)
 					{
 						if(Parameters.i.deltaMultiplier<0.095f)Parameters.i.deltaMultiplier+=0.01f;
 						else if(Parameters.i.deltaMultiplier<1.95f)Parameters.i.deltaMultiplier+=0.1f;
 						else Parameters.i.deltaMultiplier+=1;
 					}
-					else if(rain.isTouchedLeft() || rain.isTouchedRight())Parameters.i.rain = !Parameters.i.rain;
+					if(rain.isTouchedLeft() || rain.isTouchedRight())Parameters.i.rain = !Parameters.i.rain;
+					if(axerange.isTouchedLeft() || axerange.isTouchedRight())Parameters.i.wayaxe = !Parameters.i.wayaxe;
 					
-					else if(transform.isTouchedLeft())
+					if(transform.isTouchedLeft())
 					{
 						int tempcf = Parameters.i.currentTransform-1;
 						if(tempcf<-1)tempcf = GameScreen.player.transformList.size()-1;

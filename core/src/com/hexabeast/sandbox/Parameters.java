@@ -24,14 +24,13 @@ public class Parameters {
 	public boolean ultrarange = false;
 	public boolean godmode = false;
 	public boolean rain = false;
+	public boolean wayaxe = false;
 	public boolean background = true;
 	public boolean oldtransition = false;
 	public int currentTransform = -1;
 	public boolean goodmagic = true;
 	public int lightDistance = 2;
 	public boolean FBORender = false;
-	public boolean zoomLock = false;
-	public boolean ratio = true;
 	
 	Parameters()
 	{

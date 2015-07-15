@@ -466,7 +466,7 @@ public class Inventory {
 		}
 		
 
-		float posX = x-GameScreen.camera.viewportWidth+100;
+		float posX = x-1130;
 		float posY = y-210;
 		
 		float posBackX = posX;
@@ -483,7 +483,7 @@ public class Inventory {
 		craftResultItem.setPositionAll(posX+imWidth*space*spaceFac*4-21, posY+4);
 		
 		backCraftSprite.setPosition(posX, posY-42);
-		buttonCraftSprite.setPosition(posX+255, posY-115);
+		buttonCraftSprite.setPosition(-875, posY-115);
 		
 		backSprites[0][6].setPosition(posBackX, posBackY);
 		backSprites[1][6].setPosition(posBackX+imWidth*space*spaceFac, posBackY);

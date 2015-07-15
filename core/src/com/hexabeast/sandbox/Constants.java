@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Constants {
 	public static String[] qualities = {"None", "Low Quality", "Medium Quality", "Medium Quality+", "Shader (Pixel)", "Shader (Realistic)"};
-	public static int[] resolutions = {800, 1024,1280,1600,1920};
+	public static Vec2int[] resolutions = {new Vec2int(800,450), new Vec2int(1024,576),new Vec2int(1280,720),new Vec2int(1600,900),new Vec2int(1680,1050),new Vec2int(1920,1080)};
 	public static float invof = 6;
 	public static int treelimit = 10000000;
 	public static int chestlimit = 20000000;
