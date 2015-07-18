@@ -112,8 +112,8 @@ public class MapLayer {
 				return AllBlocTypes.instance.Unbreak;
 			}
 			
-			if(x<0)x = width+x;
-			if(x>width-1)x = 0+(x-(width));
+			while(x<0)x = width+x;
+			while(x>width-1)x = 0+(x-(width));
 		}
 		return blocs[x][y];
 	}
@@ -147,8 +147,8 @@ public class MapLayer {
 		{
 			if(GameScreen.noLimit)
 			{
-				if(x<0)x = width+x;
-				if(x>width-1)x = 0+(x-(width));
+				while(x<0)x = width+x;
+				while(x>width-1)x = 0+(x-(width));
 				
 				if(blocs[x][y]!= cell && important)
 				{
