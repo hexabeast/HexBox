@@ -280,7 +280,8 @@ public class Inputs implements InputProcessor{
 				Map.instance.lights.switchDayEnd();
 				break;
 			case Keys.I:
-				Parameters.i.details = !Parameters.i.details;
+				GameScreen.inventory.ToggleHide();
+				GameScreen.select.toggleOffset();
 				break;
 			case Keys.L:
 				Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
