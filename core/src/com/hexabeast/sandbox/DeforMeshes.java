@@ -21,6 +21,9 @@ public class DeforMeshes {
 	float impuwidth = 100;
 	float impuspeed = 600;
 	
+	float diffusetime = 3/4f; 
+	float diffusetime2;
+	
 	public ArrayList<Vec7> implist;
 	
 	int col;
@@ -45,6 +48,8 @@ public class DeforMeshes {
 	
 	public DeforMeshes(int col, int rows)
 	{
+		diffusetime2 = (1/diffusetime)*(1-diffusetime); 
+		
 		implist = new ArrayList<Vec7>();
 		this.col = col;
 		this.rows = rows;
@@ -156,11 +161,11 @@ public class DeforMeshes {
 						
 						dist = Math.max(0, coef*implist.get(l).b-Math.abs(coef*implist.get(l).a-vec.len()))/(coef*implist.get(l).b);
 						
-						float tier = coef*implist.get(l).d*1/3;
+						float tier = coef*implist.get(l).d*diffusetime;
 						
-						if(coef*implist.get(l).a>tier*2)
+						if(coef*implist.get(l).a>tier*diffusetime2)
 						{
-							dist *= 1-(coef*implist.get(l).a-tier*2)/tier;
+							dist *= 1-(coef*implist.get(l).a-tier*diffusetime2)/tier;
 						}
 						if(coef*implist.get(l).a<40)dist *= coef*implist.get(l).a/40;
 						
