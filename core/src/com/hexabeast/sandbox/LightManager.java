@@ -18,7 +18,7 @@ public class LightManager {
 	public List<Vector5Light> staticremoveList;
 	
 	float factorDirt = 0.8f;
-	float factorAirLow = 0.95f;
+	float factorAirLow = 0.975f;
 	float factorMin = 0.02f;
 	float speed = 1f/120;
 	float speedTime = 10;
@@ -55,7 +55,7 @@ public class LightManager {
 		chunkNumberX = Map.instance.width/chunksize;
 		chunkNumberY = Map.instance.height/chunksize;
 		
-		lightChanges = new LightCoord[150][150];
+		lightChanges = new LightCoord[200][200];
 
 		for(int i = 0; i<lightChanges.length; i++)
 		{
@@ -207,15 +207,19 @@ public class LightManager {
 	
 	public void setStaticLight(int x, int y, float z, float w, float v, int m)
 	{
-		if(lightArray[x][y].c[0]<z)lightArray[x][y].c[0] = z;
-		if(lightArray[x][y].c[1]<w)lightArray[x][y].c[1] = w;
-		if(lightArray[x][y].c[2]<v)lightArray[x][y].c[2] = v;
+		if(lightArray[x][y]!=null)
+		{
+			if(lightArray[x][y].c[0]<z)lightArray[x][y].c[0] = z;
+			if(lightArray[x][y].c[1]<w)lightArray[x][y].c[1] = w;
+			if(lightArray[x][y].c[2]<v)lightArray[x][y].c[2] = v;
+		}
+		
 	}
 	
 	
 	public void setStaticRemove(int x, int y)
 	{
-		staticremoveList.add(new Vector5Light(x,y,lightArray[x][y].c[0],lightArray[x][y].c[1],lightArray[x][y].c[2]));
+		if(lightArray[x][y]!=null)staticremoveList.add(new Vector5Light(x,y,lightArray[x][y].c[0],lightArray[x][y].c[1],lightArray[x][y].c[2]));
 	}
 	
 	public void setLight(int x, int y, float z, float w, float v)
@@ -409,9 +413,9 @@ public class LightManager {
 							if(source>factorMin)
 							{
 								source = Math.max(source,getHighest(getLight(ai+1,aj+1,n),getLight(ai-1,aj-1,n),getLight(ai+1,aj-1,n),getLight(ai-1,aj+1,n),0.88f));
-								if(source*(factorAirLow-0.3f)>factorMin)
+								if(source*(factorDirt)>factorMin)
 								{
-									setLightIntern(i,j,source*(factorAirLow-0.3f),n);
+									setLightIntern(i,j,source*(factorDirt),n);
 								}
 								else
 								{
@@ -523,6 +527,8 @@ public class LightManager {
 	
 	private float getHighest(float a, float b, float c, float d, float diag)
 	{
+		
+		
 		if(diag!=1)
 		{
 			a*=diag;
@@ -546,7 +552,19 @@ public class LightManager {
 		{
 			e = d;
 		}
-		return e;
+		/*if(Parameters.i.superman)
+		{
+			factorDirt = 0.65f;
+			factorAirLow = 0.95f;
+			return e;
+		}
+		
+		else
+		{*/
+		factorDirt = 0.8f;
+		factorAirLow = 0.975f;
+		return e*0.5f+((a+b+c+d)/8);
+		//}
 	}
 	
 	public void tempLight(float x, float y, float ix, float iy, float iz)

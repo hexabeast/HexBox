@@ -191,7 +191,7 @@ public class MagicProjectile extends Entity{
 		}
 		else if(!isExplodedEnd)
 		{
-			if(color!=Vector3.Zero)Map.instance.lights.tempLight(x, y,color.x*colorMultiplier, color.y*colorMultiplier, color.z*colorMultiplier);
+			if(color!=Vector3.Zero)Map.instance.lights.tempLight(x, y,color.x*colorMultiplier*1.2f, color.y*colorMultiplier*1.2f, color.z*colorMultiplier*1.2f);
 		}
 		
 		if(type == 0)
