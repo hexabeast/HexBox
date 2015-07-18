@@ -278,11 +278,11 @@ public class MagicProjectile extends Entity{
 		{
 			if(type == 4)
 			{
-				DeforMeshes.instance.addImpulsion(x, y,3000,1,1.5f);
+				DeforMeshes.instance.addImpulsion(x, y,500,0.7f,1.5f);
 			}
 			else
 			{
-				DeforMeshes.instance.addImpulsion(x, y,80,1,0.3f);
+				DeforMeshes.instance.addImpulsion(x, y,100,0.6f,0.4f);
 			}
 		}
 		
