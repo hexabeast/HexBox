@@ -317,50 +317,69 @@ public class ModifyTerrain {
 		newCell = 0;
 		
 		
-		if(decalaX != oldBreakPos.x || decalaY != oldBreakPos.y || oldLayer != layer.isMain)
-		{
-			currentDurability = getCell(layer,decalaX,decalaY).durability;
-			oldBreakPos.x = decalaX;
-			oldBreakPos.y = decalaY;
-		}
-		
-		
 		int limit = 0;
 		if(GameScreen.noLimit)limit =1000; 
 		
 		if(decalaX>=-limit && decalaY>1 && decalaX<layer.getWidth()+limit && decalaY<Map.instance.randomHeight && !GameScreen.isVillage())
 		{		
-			if(id == 0 || (id>999 && AllTools.instance.getType(id).isUseLess))
+			if(id == 0 || (id>999 && AllTools.instance.getType(id).isUseLess) || (id>999 && AllTools.instance.getType(id).type == AllTools.instance.Axe))
 			{
 				
 				if(Inputs.instance.shift)
 				{
 					Vector2 mous = Tools.getAbsoluteMouse();
-					Vector2 aimed = Tools.raycast(GameScreen.player.shoulderCoord.x, GameScreen.player.shoulderCoord.y, mous.x, mous.y, 4);
-					if(aimed.x>=0)
+					
+					Vector2 defaultVec = new Vector2(mous).sub(GameScreen.player.shoulderCoord);
+					
+					float range = AllTools.instance.getType(id).range+8;
+					if(Parameters.i.ultrarange)range = 1000000;
+					
+					Vector2 faster = new Vector2(1000000,1000000);
+					Vector2 bestaimed = new Vector2(-1,-1);
+					float limitlen = Math.min(range, new Vector2(decalaX*16+8 - GameScreen.player.middle.x,decalaY*16+8 - GameScreen.player.middle.y).len());
+					
+					for(int i = 0; i<7; i++)
 					{
-						decalaX = Tools.floor(aimed.x+0.1f);
-						decalaY = Tools.floor(aimed.y+0.1f);
+						Vector2 aimed = new Vector2(Tools.raycastVec(GameScreen.player.middle.x, GameScreen.player.middle.y-22+9*(i), defaultVec.x, defaultVec.y, 4));
+						
+						
+						if(aimed.y>=0)
+						{
+							Vector2 testvec = new Vector2(aimed.x*16+8 - GameScreen.player.middle.x,aimed.y*16+8 - GameScreen.player.middle.y);
+
+							if(faster.len()>testvec.len() && limitlen>=testvec.len())
+							{
+								faster = testvec;
+								bestaimed = aimed;
+							}
+						}
 					}
+					
+					if(bestaimed.y>=0)
+					{
+						decalaX = Tools.floor(bestaimed.x+0.1f);
+						decalaY = Tools.floor(bestaimed.y+0.1f);
+					}
+							
 				}
+				
+				if(decalaX != oldBreakPos.x || decalaY != oldBreakPos.y || oldLayer != layer.isMain)
+				{
+					currentDurability = getCell(layer,decalaX,decalaY).durability;
+					oldBreakPos.x = decalaX;
+					oldBreakPos.y = decalaY;
+				}
+				
+				
 				distToMiddleVec.x = decalaX*16+8-GameScreen.player.middle.x;
 				distToMiddleVec.y = decalaY*16+8-GameScreen.player.middle.y;
 				distToMiddle = distToMiddleVec.len();
-				UseItem(layer, true);
+				if(id == 0 || (id>999 && AllTools.instance.getType(id).isUseLess))UseItem(layer, true);
+				if(id>999 && AllTools.instance.getType(id).type == AllTools.instance.Axe)UseItem(layer, false);
 			}
 			else if(id>999)
 			{
 				
-				if(Inputs.instance.shift && (layer!=Map.instance.backLayer || AllTools.instance.getType(id).type != AllTools.instance.Axe ))
-				{
-					Vector2 mous = Tools.getAbsoluteMouse();
-					Vector2 aimed = Tools.raycast(GameScreen.player.shoulderCoord.x, GameScreen.player.shoulderCoord.y, mous.x, mous.y, 4);
-					if(aimed.x>=0)
-					{
-						decalaX = Tools.floor(aimed.x+0.1f);
-						decalaY = Tools.floor(aimed.y+0.1f);
-					}
-				}
 				distToMiddleVec.x = decalaX*16+8-GameScreen.player.middle.x;
 				distToMiddleVec.y = decalaY*16+8-GameScreen.player.middle.y;
 				distToMiddle = distToMiddleVec.len();

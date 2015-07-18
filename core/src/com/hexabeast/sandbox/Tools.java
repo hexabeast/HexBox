@@ -153,6 +153,41 @@ public class Tools {
 		return raycastvec;
 	}
 	
+	public static Vector2 raycastVec(float x, float y, float xf, float yf, float step)
+	{
+
+		
+		boolean end = false;
+		raycastvec.x = xf;
+		raycastvec.y = yf;
+		
+		raycastvec2.x = raycastvec.x;
+		raycastvec2.y = raycastvec.y;
+		
+		for(float i = step; !end; i+=step)
+		{
+			if(i>=raycastvec.len())
+			{
+				i = raycastvec.len();
+				end = true;
+			}
+			raycastvec2.clamp(i, i);
+			if(Map.instance.mainLayer.getBloc((int)((raycastvec2.x+x)/16), (int)((raycastvec2.y+y)/16)).collide)
+			{
+				raycastvec.x = (int)((raycastvec2.x+x)/16);
+				raycastvec.y = (int)((raycastvec2.y+y)/16);
+				
+				//drawLine(Color.WHITE, 3, x, y, raycastvec.x*16+8, raycastvec.y*16+8);
+				
+				return raycastvec;
+			}
+		}
+		raycastvec.x = -1;
+		raycastvec.y = -1;
+		
+		return raycastvec;
+	}
+	
 	public static Vector2 raycastAngle(float x, float y, float l, float angle, float step)
 	{
 		raycastvec.x = l;

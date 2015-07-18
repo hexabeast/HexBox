@@ -488,6 +488,8 @@ public class GameScreen implements Screen
 				
 				emmiter.update(Main.delta);
 				emmiter.draw(batch);
+				
+				//MouseInputs();
 			
 			batch.end();
 			
@@ -608,19 +610,42 @@ public class GameScreen implements Screen
 				
 				if(Inputs.instance.shift)
 				{
-					Vector2 aimed = Tools.raycast(player.shoulderCoord.x, player.shoulderCoord.y, mous.x, mous.y, 4);
-					if(aimed.x>=0)
+
+					Vector2 defaultVec = new Vector2(mous).sub(GameScreen.player.shoulderCoord);
+					
+					Vector2 faster = new Vector2(1000000,1000000);
+					Vector2 bestaimed = new Vector2(-1,-1);
+					float limitlen = new Vector2(px*16+8 - GameScreen.player.middle.x,py*16+8 - GameScreen.player.middle.y).len();
+					
+					for(int i = 0; i<7; i++)
 					{
-						px = Tools.floor(aimed.x+0.1f);
-						py = Tools.floor(aimed.y+0.1f);
+						Vector2 aimed = new Vector2(Tools.raycastVec(GameScreen.player.middle.x, GameScreen.player.middle.y-22+9*(i), defaultVec.x, defaultVec.y, 4));
+						
+						
+						if(aimed.y>=0)
+						{
+							Vector2 testvec = new Vector2(aimed.x*16+8 - GameScreen.player.middle.x,aimed.y*16+8 - GameScreen.player.middle.y);
+
+							if(faster.len()>testvec.len() && limitlen>testvec.len())
+							{
+								faster = testvec;
+								bestaimed = aimed;
+							}
+						}
+					}
+					
+					if(bestaimed.y>=0)
+					{
+						px = Tools.floor(bestaimed.x+0.1f);
+						py = Tools.floor(bestaimed.y+0.1f);
 					}
 				}
 				
 				if(axe)range = AllTools.instance.getType(GameScreen.player.currentCellID).range;
 				else range = ModifyTerrain.range;
 				
-				ModifyTerrain.instance.distToMiddleVec.x = px*16+8-GameScreen.player.middle.x;
-				ModifyTerrain.instance.distToMiddleVec.y = py*16+8-GameScreen.player.middle.y;
+				ModifyTerrain.instance.distToMiddleVec.x = px*16+8-GameScreen.player.shoulderCoord.x;
+				ModifyTerrain.instance.distToMiddleVec.y = py*16+8-GameScreen.player.shoulderCoord.y;
 				float distToMiddle = ModifyTerrain.instance.distToMiddleVec.len();
 					
 				if(distToMiddle>range)
