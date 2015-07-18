@@ -365,22 +365,32 @@ public void input()
 	}
 	if(!stuck)
 	{
+		float friction = Map.instance.mainLayer.getBloc(Tools.floor((x+w/2)/Map.instance.mainLayer.getTileWidth()), Tools.floor((y+15)/Map.instance.mainLayer.getTileHeight())).friction; 
+		
 		if(Inputs.instance.D)
 		{
-			acceleration.x = speed*12;
+			acceleration.x = 3000;
 			icy = false;
+			if(velocity.x<0)
+			{
+				velocity.x += (friction*Main.delta*1000)+(Math.abs(velocity.x)*Main.delta*10);
+			}
 		}
 		else if(Inputs.instance.Q)
 		{
 			icy = false;
-			acceleration.x = -speed*12;
+			acceleration.x = -3000;
+			if(velocity.x>0)
+			{
+				velocity.x -= (friction*Main.delta*1000)+(Math.abs(velocity.x)*Main.delta*10);
+			}
 		}
 		else
 		{
 			acceleration.x = 0;
 			if (velocity.x!=0 && !grappleFlying)
 			{
-				float friction = Map.instance.mainLayer.getBloc(Tools.floor((x+w/2)/Map.instance.mainLayer.getTileWidth()), Tools.floor((y+15)/Map.instance.mainLayer.getTileHeight())).friction; 
+				
 				if(!canJump)friction/=6;
 				if(velocity.x>0)
 				{
@@ -403,6 +413,21 @@ public void input()
 			else
 			{
 				animationTime = 0;
+			}
+		}
+		
+		
+		if(Math.abs(velocity.x)>speed && canJump)
+		{
+			if(velocity.x>0)
+			{
+				velocity.x -= (friction*Main.delta*1000)+(Math.abs(velocity.x)*Main.delta*10);
+				if(velocity.x<0)velocity.x=0;
+			}
+			else
+			{
+				velocity.x += (friction*Main.delta*1000)+(Math.abs(velocity.x)*Main.delta*10);
+				if(velocity.x>0)velocity.x=0;
 			}
 		}
 	}
@@ -433,7 +458,7 @@ public void Forces()
 		float oldvx = velocity.x;
 		
 		velocity.x+=acceleration.x*Main.delta;
-		if(velocity.len()>oldlen && velocity.len()>speed)
+		if(velocity.len()>oldlen && velocity.len()>originalSpeed)
 		{
 			velocity.x = oldvx;
 		}
@@ -442,7 +467,7 @@ public void Forces()
 		float oldvy = velocity.y;
 		
 		velocity.y+=acceleration.y*Main.delta;
-		if(velocity.len()>oldlen && velocity.len()>speed)
+		if(velocity.len()>oldlen && velocity.len()>originalSpeed)
 		{
 			velocity.y = oldvy;
 		}
@@ -453,7 +478,13 @@ public void Forces()
 		float oldlen = Math.abs(velocity.x);
 		float oldvx = velocity.x;
 		
-		velocity.x+=acceleration.x*Main.delta;
+		float multiplier = 1;
+		if(Math.abs(velocity.x)>originalSpeed*2/3f)
+		{
+			multiplier = 1/20f;
+		}
+		if(Math.abs(velocity.x)>originalSpeed*4/3f)multiplier = 2/10f;
+		velocity.x+=acceleration.x*Main.delta*multiplier;
 		if(Math.abs(velocity.x)>oldlen && Math.abs(velocity.x)>speed)
 		{
 			velocity.x = oldvx;
@@ -495,6 +526,7 @@ private void Collision(float delta)
 
 	x+=velocity.x*delta;
 	
+	
 	hitbox.update(x,y);
 	
 	if(hitbox.TestCollisions(true) || (hitbox.TestCollisionsHigh() && !hiking && hitbox.TestCollisions(false)))
@@ -505,12 +537,12 @@ private void Collision(float delta)
 	else if(hitbox.TestCollisions(false))
 	{
 		float oldY2 = y;
-		y+=speed*1.6f*delta;
+		y+=Math.min(Math.abs(16-((y+hitbox.min)-(int)((y+hitbox.min)/16)*16)),Math.abs(velocity.x)*1.6f*delta);
 		hitbox.update(x,y);	
 		if(hitbox.TestCollisions(true))
 		{
 			y = oldY2;
-			y+=speed*0.2f*delta;
+			y+=Math.abs(velocity.x)*0.2f*delta;
 			hitbox.update(x,y);	
 			if(hitbox.TestCollisions(true))
 			{

@@ -240,8 +240,9 @@ public class Tools {
 	{
 		if(vecFrom.x-vecTo.x>1000 || vecFrom.x-vecTo.x<-1000 || vecFrom.y-vecTo.y>1000 || vecFrom.y-vecTo.y<-1000)
 			return vecTo;
-		return new Vector3(vecFrom.x+((vecTo.x-vecFrom.x)/((1000/GameScreen.player.speed)+5))*Main.delta*60,vecFrom.y+((vecTo.y-vecFrom.y)/((1000/GameScreen.player.speed)+5))*Main.delta*60,0);
-		// /10
+		float speedfactorx = GameScreen.player.originalSpeed/    Math.max(GameScreen.player.originalSpeed, Math.abs(GameScreen.player.velocity.x));
+		float speedfactory = GameScreen.player.originalHorspeed/ Math.max(GameScreen.player.originalHorspeed, Math.abs(GameScreen.player.velocity.y));
+		return new Vector3(vecFrom.x+((vecTo.x-vecFrom.x)/((speedfactorx)*7+2))*Main.delta*60,vecFrom.y+((vecTo.y-vecFrom.y)/((speedfactory)*7+2))*Main.delta*60,0);
 	}
 	
 	public static void drawRect(float x, float y, float w, float h)
