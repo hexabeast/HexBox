@@ -174,7 +174,7 @@ public class AllTools {
 		ToolTypes[UltraHelmetId-1000].stackable = false;
 		ToolTypes[UltraHelmetId-1000].equipment = true;
 		ToolTypes[UltraHelmetId-1000].helmet = true;
-		ToolTypes[UltraHelmetId-1000].armorJump = 100;
+		ToolTypes[UltraHelmetId-1000].armorJump = 30;
 		ToolTypes[UltraHelmetId-1000].armorSpeed = 0;
 		ToolTypes[UltraHelmetId-1000].armorDefense = 50;
 		ToolTypes[UltraHelmetId-1000].weaponTexture = 9;
@@ -186,7 +186,7 @@ public class AllTools {
 		ToolTypes[UltraArmorId-1000].stackable = false;
 		ToolTypes[UltraArmorId-1000].equipment = true;
 		ToolTypes[UltraArmorId-1000].armor = true;
-		ToolTypes[UltraArmorId-1000].armorJump = 200;
+		ToolTypes[UltraArmorId-1000].armorJump = 50;
 		ToolTypes[UltraArmorId-1000].armorSpeed = 0;
 		ToolTypes[UltraArmorId-1000].armorDefense = 50;
 		ToolTypes[UltraArmorId-1000].weaponTexture = 10;
