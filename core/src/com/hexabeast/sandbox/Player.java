@@ -928,9 +928,9 @@ public void calculateVectors()
 	middle = new Vector2(x+bodyParts[0].getOriginX(), y+bodyParts[0].getOriginY());
 	hookCoord = new Vector2(middle.x, middle.y+6);
 	launcherCoord = new Vector2(shoulderCoord.x+launcherOffset.x, shoulderCoord.y+launcherOffset.y);
-	velocityCoord = new Vector2(Tools.getAbsoluteMouse().x-launcherCoord.x,Tools.getAbsoluteMouse().y-launcherCoord.y).clamp(400, 400);
-	velocityCoord2 = new Vector2(launcherCoord.x-shoulderCoord.x, launcherCoord.y-shoulderCoord.y).clamp(400, 400);
-	velocityHook = new Vector2(Tools.getAbsoluteMouse().x-hookCoord.x,Tools.getAbsoluteMouse().y-hookCoord.y).clamp(400, 400);
+	velocityCoord = new Vector2(Tools.getAbsoluteMouse().x-launcherCoord.x,Tools.getAbsoluteMouse().y-launcherCoord.y).setLength(400);
+	velocityCoord2 = new Vector2(launcherCoord.x-shoulderCoord.x, launcherCoord.y-shoulderCoord.y).setLength(100);
+	velocityHook = new Vector2(Tools.getAbsoluteMouse().x-hookCoord.x,Tools.getAbsoluteMouse().y-hookCoord.y).setLength(400);
 }
 
 public void SetArmors(boolean isTurned)
@@ -1112,7 +1112,7 @@ public boolean untransform()
  {
 	if(health<=0)isDead = true;
 	
-	if(transformed)grapple.playerAttached = false;
+	if(transformed || isDead)grapple.playerAttached = false;
 	
 	if(!transformed)
 	{

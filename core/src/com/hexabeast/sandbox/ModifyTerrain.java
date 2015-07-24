@@ -269,14 +269,14 @@ public class ModifyTerrain {
 				else if(type == AllTools.instance.Bow)
 				{
 					if(isLeft && Tools.raycast(GameScreen.player.shoulderCoord.x, GameScreen.player.shoulderCoord.y, GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, 4).x<0 && GameScreen.inventory.remove(AllTools.instance.getType(id).arrowType, 1))
-						GameScreen.entities.projectiles.AddProjectile(GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, GameScreen.player.velocityCoord2.x, GameScreen.player.velocityCoord2.y, AllTools.instance.getType(id).arrowType, GameScreen.player, AllTools.instance.getType(id).damage);
+						GameScreen.entities.projectiles.AddProjectile(GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, GameScreen.player.velocityCoord2.x*10, GameScreen.player.velocityCoord2.y*10, AllTools.instance.getType(id).arrowType, GameScreen.player, AllTools.instance.getType(id).damage);
 				}
 				else if(type == AllTools.instance.Hook && Inputs.instance.leftmousedown)
 				{
 					if(isLeft && !GameScreen.player.grapple.playerAttached)
 					{
 						if(AllTools.instance.getType(id).grapple)
-						GameScreen.entities.projectiles.AddGrapple(GameScreen.player.hookCoord.x, GameScreen.player.hookCoord.y, GameScreen.player.velocityCoord2.x, GameScreen.player.velocityCoord2.y, AllTools.instance.getType(id).grappleDistance, AllTools.instance.getType(id).grappleTex, AllTools.instance.getType(id).grappleTexRope);
+						GameScreen.entities.projectiles.AddGrapple(GameScreen.player.hookCoord.x, GameScreen.player.hookCoord.y, GameScreen.player.velocityCoord2.x*5, GameScreen.player.velocityCoord2.y*5, AllTools.instance.getType(id).grappleDistance, AllTools.instance.getType(id).grappleTex, AllTools.instance.getType(id).grappleTexRope);
 					}
 					else
 					{

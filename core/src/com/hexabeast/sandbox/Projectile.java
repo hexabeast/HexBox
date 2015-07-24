@@ -41,8 +41,8 @@ public class Projectile extends Entity{
 		this.owner = owner;
 		currentTime = 0;
 		
-		velocity.x = vx*3;
-		velocity.y = vy*3;
+		velocity.x = vx;
+		velocity.y = vy;
 		
 		if(type == AllTools.instance.ArrowId)tex = TextureManager.instance.arrow;
 		else if(type == 1)
@@ -140,10 +140,10 @@ public class Projectile extends Entity{
 			
 				velocity.y-= gravity*Main.delta/tests;
 			
-				velocity.x = Math.min(velocity.x, 800);
-				velocity.x = Math.max(velocity.x, -800);
-				velocity.y = Math.min(velocity.y, 800);
-				velocity.y = Math.max(velocity.y, -800);
+				velocity.x = Math.min(velocity.x, 1000);
+				velocity.x = Math.max(velocity.x, -1000);
+				velocity.y = Math.min(velocity.y, 1000);
+				velocity.y = Math.max(velocity.y, -1000);
 				
 				
 				int tx = Tools.floor((x)/16);
@@ -225,6 +225,7 @@ public class Projectile extends Entity{
 	@Override
 	public void draw(SpriteBatch batch)
 	{
+		super.draw(batch);
 		if(!Parameters.i.fullBright)
 		{
 			Vector3 color = Tools.getShadowColor(Tools.floor (x/16),Tools.floor (y/16));

@@ -240,11 +240,11 @@ public class BigInsecte extends Mob {
 				{
 					attacked = true;
 					Vector2 velo2;
-					if(!manual)velo2 = new Vector2(GameScreen.player.middle.x-(x+picpos.x), GameScreen.player.middle.y-(y+picpos.y)).clamp(300, 300);
+					if(!manual)velo2 = new Vector2(GameScreen.player.middle.x-(x+picpos.x), GameScreen.player.middle.y-(y+picpos.y)).setLength(800);
 					else
 					{
 						Vector2 mo = Tools.getAbsoluteMouse();
-						velo2 = new Vector2(mo.x-(x+picpos.x), mo.y-(y+picpos.y)).clamp(300, 300);
+						velo2 = new Vector2(mo.x-(x+picpos.x), mo.y-(y+picpos.y)).setLength(800);
 					}
 					velo2.y+=50;
 					float ang = velo2.angle();
