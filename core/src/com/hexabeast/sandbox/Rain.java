@@ -8,6 +8,7 @@ public class Rain {
 	
 	public ArrayList<RainDrop> rainList;
 	public Timer rainRate;
+	public float factor;
 	
 	public Rain()
 	{
@@ -17,6 +18,11 @@ public class Rain {
 
 	public void draw(SpriteBatch batch)
 	{
+		 factor = (float)GameScreen.camera.viewportWidth/1280f;
+		if(Parameters.i.zoomLock)factor = 1;
+		
+		System.out.println(GameScreen.camera.viewportWidth);
+		
 		if(Parameters.i.rain)
 		{
 			int ch = rainRate.multicheck();
@@ -24,7 +30,7 @@ public class Rain {
 			for(int i = 0; i<ch; i++)
 			{
 				if(GameScreen.camera.position.y>Map.instance.limit*16-2000)
-				rainList.add(new RainDrop((float) (GameScreen.camera.position.x+Math.random()*2000-1300), GameScreen.camera.position.y+800+(float)(Math.random()*500)));
+				rainList.add(new RainDrop((float) (GameScreen.camera.position.x+Math.random()*2000*factor-1300*factor), GameScreen.camera.position.y+800+(float)(Math.random()*500)));
 			}
 		}
 		
