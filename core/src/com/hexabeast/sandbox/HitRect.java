@@ -8,6 +8,7 @@ public class HitRect {
 	public ArrayList<Rectangle> normal;
 	public ArrayList<Rectangle> flipped;
 	public float turnoffx = 0;
+	public boolean noturn = false;
 	
 	public HitRect(float offx)
 	{
@@ -25,7 +26,7 @@ public class HitRect {
 	
 	public ArrayList<Rectangle> getRects(boolean turned)
 	{
-		if(!turned)
+		if(!turned || noturn)
 		{
 			return normal;
 		}
