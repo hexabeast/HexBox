@@ -21,7 +21,6 @@ public class Rain {
 		 factor = (float)GameScreen.camera.viewportWidth/1280f;
 		if(Parameters.i.zoomLock)factor = 1;
 		
-		System.out.println(GameScreen.camera.viewportWidth);
 		
 		if(Parameters.i.rain)
 		{
