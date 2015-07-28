@@ -73,12 +73,12 @@ public class MapLayer {
 		if(maxY>height-2)maxY = height-2;
 	}
 	
-	int getTileHeight()
+	public int getTileHeight()
 	{
 		return 16;
 	}
 	
-	int getTileWidth()
+	public int getTileWidth()
 	{
 		return 16;
 	}
