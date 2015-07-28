@@ -444,7 +444,7 @@ public class AllBlocTypes {
 			CrystalFire[i].name = "Fire Crystal";
 			CrystalFire[i].soundType = SoundManager.instance.metalSound;
 			CrystalFire[i].merge = Cobble;
-			CrystalFire[i].lightColor = new float[]{1.8f,0.5f,0.5f};
+			CrystalFire[i].lightColor = new float[]{1.8f,0.5f,0.3f};
 			CrystalFire[i].rarity = Constants.rarity9;
 		}
 		
