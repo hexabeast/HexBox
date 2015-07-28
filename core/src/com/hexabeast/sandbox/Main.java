@@ -174,6 +174,8 @@ public class Main extends Game {
 		
 		Inputs.instance.update();
 		
+		if(GameScreen.camera != null)Tools.computeAbsoluteMouse();
+		
 		if(pause)delta = Float.MIN_VALUE;
 		if(!PauseMenu.instance.clear && !pause)PauseMenu.instance.rebootMenu();
 		if(delta>0.03f)delta = 0.03f;

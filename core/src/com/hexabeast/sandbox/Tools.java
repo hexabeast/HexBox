@@ -18,6 +18,8 @@ public class Tools {
 	
 	public static Vector2 abpos = new Vector2();
 	public static Vector3 worldCoord = new Vector3();
+	
+	public static Vector2 absMouse = new Vector2();
 
 	public static final int LAST_BYTE = 0x000000FF;
 	
@@ -83,11 +85,14 @@ public class Tools {
 		//Main.batch.draw(tex, x-w/2, y, w/2, 0, w, vec.len(), 1, 1, vec.angle()-90, 0, 0, tex.getWidth(), (int) vec.len(), false, false);
 	}
 	
-	
+	public static void computeAbsoluteMouse()
+	{
+		absMouse.set(getAbsolutePos(Gdx.input.getX(),Gdx.input.getY()));	
+	}
 	
 	public static Vector2 getAbsoluteMouse()
 	{
-		return getAbsolutePos(Gdx.input.getX(),Gdx.input.getY());	
+		return absMouse;	
 	}
 	
 	public static Vector2 getAbsolutePos(float x, float y)

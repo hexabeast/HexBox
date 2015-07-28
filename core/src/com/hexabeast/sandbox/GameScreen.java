@@ -387,6 +387,7 @@ public class GameScreen implements Screen
 		camera.position.set((int)camera.position.x, (int)camera.position.y, (int)camera.position.z);
 		camera.update();
 		camera.position.set(camvec);
+		Tools.computeAbsoluteMouse();
 	}
 
 	private void TeleportPlayerOtherSide()
