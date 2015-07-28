@@ -102,7 +102,6 @@ public class Inputs implements InputProcessor{
 			rightmouseup = false;
 		}
 		
-		
 		if(tomousedown)
 		{
 			mousedown = true;
@@ -112,6 +111,7 @@ public class Inputs implements InputProcessor{
 		{
 			mousedown = false;
 		}
+
 		
 		if(toleftmousedown)
 		{
@@ -349,6 +349,9 @@ public class Inputs implements InputProcessor{
 				break;
 			case Keys.NUMPAD_3:
 				GameScreen.player.transform(2);
+				break;
+			case Keys.NUMPAD_4:
+				GameScreen.player.transform(3);
 				break;
 			case Keys.NUMPAD_0:
 				GameScreen.player.untransform();
