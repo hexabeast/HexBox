@@ -93,7 +93,7 @@ public class MenuScreen implements Screen {
 		batch.setProjectionMatrix(camera.combined);
 		
 		batch.begin();
-		batch.draw(TextureManager.instance.back,0,0,1280,1280/TextureManager.instance.back.getWidth()*TextureManager.instance.back.getHeight());
+		batch.draw(TextureManager.instance.back,-360,-240,2000,2000/TextureManager.instance.back.getWidth()*TextureManager.instance.back.getHeight());
 		
 		batch.draw(TextureManager.instance.layer4,x4,0,1280,1280/TextureManager.instance.layer4.getWidth()*TextureManager.instance.layer4.getHeight());
 		batch.draw(TextureManager.instance.layer4,x4+1280,0,1280,1280/TextureManager.instance.layer4.getWidth()*TextureManager.instance.layer4.getHeight());
