@@ -383,12 +383,10 @@ public class LightManager {
 						aj = j+miny;
 						
 						BlocType cell = Map.instance.mainLayer.getBloc(ai, aj);
+						BlocType cellb = Map.instance.backLayer.getBloc(ai, aj);
 						
 						if(AllBlocTypes.instance.IsTransparent(cell) || AllBlocTypes.instance.IsTransparent(Map.instance.mainLayer.getBloc(ai+1,aj)) || AllBlocTypes.instance.IsTransparent(Map.instance.mainLayer.getBloc(ai-1,aj)) || AllBlocTypes.instance.IsTransparent(Map.instance.mainLayer.getBloc(ai,aj-1)) || AllBlocTypes.instance.IsTransparent(Map.instance.mainLayer.getBloc(ai,aj+1)))
 						{
-							cell = Map.instance.backLayer.getBloc(ai, aj);
-							//isLosange = true;
-								
 							float source = 0;
 							
 							source = getHighest(getLight(ai,aj+1,n),getLight(ai,aj-1,n),getLight(ai+1,aj,n),getLight(ai-1,aj,n),1);
@@ -402,7 +400,7 @@ public class LightManager {
 								setLightIntern(i,j,0,n);
 							}
 							
-							if(aj>Map.instance.limit && AllBlocTypes.instance.IsTransparent(cell) && getLightChange(i,j,n)<Parameters.i.daylight)
+							if(aj>Map.instance.limit && AllBlocTypes.instance.IsTransparent(cellb) && getLightChange(i,j,n)<Parameters.i.daylight)
 							{
 								setLightIntern(i,j,Parameters.i.daylight,n);
 							}
@@ -428,7 +426,6 @@ public class LightManager {
 							}
 						}
 						
-						cell = Map.instance.mainLayer.getBloc(ai, aj);
 						if(cell.lightFull)
 						{
 							if(Parameters.i.RGB)
@@ -442,6 +439,23 @@ public class LightManager {
 								setLightIntern(i,j,Math.max((float) (coll+0.1f), getLightChange(i,j,n)),n);
 							}
 						}
+						
+						if(cellb.lightFull)
+						{
+							if(Parameters.i.RGB)
+							{
+								float coll = cellb.lightColor[n]*0.9f;
+								if(!AllBlocTypes.instance.IsTransparent(cell))coll*=0.6f;
+								setLightIntern(i,j,Math.max((float) (coll+0.1f), getLightChange(i,j,n)),n);
+							}
+							else
+							{
+								float coll = Math.max(cellb.lightColor[0], Math.max(cell.lightColor[1], cellb.lightColor[2]))*0.9f;
+								if(!AllBlocTypes.instance.IsTransparent(cell))coll*=0.6f;
+								setLightIntern(i,j,Math.max((float) (coll+0.1f), getLightChange(i,j,n)),n);
+							}
+						}
+						
 					}
 				}
 			}
