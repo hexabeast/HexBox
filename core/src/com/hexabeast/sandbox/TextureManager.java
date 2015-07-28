@@ -93,8 +93,8 @@ public class TextureManager {
 	public Texture layer5;
 	
 	public TextureRegion particle;
-	public TextureRegion armRTexture;
-	public TextureRegion armLTexture;
+	public TextureRegion armTexture;
+	public TextureRegion armTextureOld;
 	public TextureRegion selecbacktext;
 	public TextureRegion torchText;
 	public TextureRegion cadre;
@@ -123,12 +123,13 @@ public class TextureManager {
 	public TextureRegion Abody;
 	public TextureRegion[] Alegs;
 	
-	public TextureRegion Beyes;
+	public TextureRegion Beye;
 	public TextureRegion Bhairs;
 	public TextureRegion Bhead;
 	public TextureRegion Bleg;
 	public TextureRegion Bbody;
 	public TextureRegion[] Blegs;
+	public TextureRegion[] Beyes;
 	
 	public TextureRegion miningHelmet;
 	public TextureRegion bow;
@@ -256,7 +257,7 @@ public class TextureManager {
 		dinorouge = newTexture("mobs/dinorouge.png");
 		biginsecte = newTexture("mobs/biginsecte.png");
 		
-		bonhommeWeapon = newTexture("weapons/PickAxes/bonhomme13weapon.png");
+		bonhommeWeapon = newTexture("weapons/PickAxes/pickaxe1.png");
 		greenSceptre = newTexture("weapons/Magic/sceptreGreen.png");
 		redSceptre = newTexture("weapons/Magic/sceptreRed.png");
 		purpleSceptre = newTexture("weapons/Magic/sceptrePurple.png");
@@ -313,8 +314,8 @@ public class TextureManager {
 		layer4 = new Texture("background/layer4.png");
 		layer5 = new Texture("background/layer5.png");
 		
-		armRTexture = newTexture(Gdx.files.internal("players/bonhomme21arm.png"));
-		armLTexture = newTexture(Gdx.files.internal("players/bonhomme21arm2.png"));
+		armTexture = newTexture(Gdx.files.internal("players/arm1.png"));
+		armTextureOld = newTexture(Gdx.files.internal("players/arm1old.png"));
 		
 		rain = newTexture(Gdx.files.internal("others/raindrop.png"));
 		
@@ -346,7 +347,7 @@ public class TextureManager {
 		Aleg = newTexture(Gdx.files.internal("players/1/legs.png"));
 		Abody = newTexture(Gdx.files.internal("players/1/body.png"));
 		
-		Beyes = newTexture(Gdx.files.internal("players/1bis/eyes.png"));
+		Beye = newTexture(Gdx.files.internal("players/1bis/eyes.png"));
 		Bhead = newTexture(Gdx.files.internal("players/1bis/head.png"));
 		Bhairs = newTexture(Gdx.files.internal("players/1bis/hairs.png"));
 		Bleg = newTexture(Gdx.files.internal("players/1bis/legs.png"));
@@ -407,6 +408,8 @@ public class TextureManager {
 		//REGIONS
 		Alegs = Aleg.split(Aleg.getRegionWidth()/12, Aleg.getRegionHeight())[0];
 		Blegs = Bleg.split(Bleg.getRegionWidth()/12, Bleg.getRegionHeight())[0];
+		
+		Beyes = Beye.split(Beye.getRegionWidth()/2, Beye.getRegionHeight())[0];
 		
 		wolf[0] = new TextureRegion(badwolf, 0, 0, 41, 22);
 		wolf[1] = new TextureRegion(badwolf, 41, 0, 41, 22);
