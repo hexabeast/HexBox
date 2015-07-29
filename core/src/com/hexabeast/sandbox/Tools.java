@@ -90,6 +90,14 @@ public class Tools {
 		absMouse.set(getAbsolutePos(Gdx.input.getX(),Gdx.input.getY()));	
 	}
 	
+	public static float angleCrop(float angle) 
+	{
+	    while(angle<0)angle+=360;
+	    while(angle>360)angle-=360;
+
+	    return angle;
+	}
+	
 	public static Vector2 getAbsoluteMouse()
 	{
 		return absMouse;	
