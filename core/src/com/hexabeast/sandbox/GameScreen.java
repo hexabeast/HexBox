@@ -91,8 +91,8 @@ public class GameScreen implements Screen
 		
 		UpdateAndDrawRenderer();
 		
-		if(!Main.pause && !player.transformed)MouseInputs();
-		
+		if(!Main.pause && (!player.transformed || Parameters.i.currentTransform != 4))MouseInputs();
+		//TODO
 		SwapCam();
 		
 		if(CurFPS!=Gdx.graphics.getFramesPerSecond())
