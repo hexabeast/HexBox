@@ -1184,7 +1184,7 @@ public boolean untransform()
 		shoulderCoord = transformPlayer.shoulderPos;
 		
 		velocityCoord = transformPlayer.cannonToVisorCoord;
-		velocityCoord2 = transformPlayer.shoulderToVisorCoord;
+		velocityCoord2 = transformPlayer.shoulderToCannonCoord;
 		velocityHook = transformPlayer.hookToVisorCoord;
 		
 		transoffy = hitbox.min-transformList.get(Parameters.i.currentTransform).hitbox.min;

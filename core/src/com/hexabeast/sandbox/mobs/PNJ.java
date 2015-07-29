@@ -349,7 +349,7 @@ public class PNJ extends Mob{
 
 		Vector2 launcherOffset = new Vector2(AllTools.instance.getType(currentItem).launcherDistance,0);
 		
-		launcherOffset.setAngle(rarmRotation-AllTools.instance.getType(currentItem).launcherAngle);
+		launcherOffset.setAngle(rarmRotation+AllTools.instance.getType(currentItem).launcherAngle);
 		
 		
 		middle.x = x+width/2;
