@@ -133,8 +133,8 @@ public class MapLayer {
 			{
 				return AllBlocTypes.instance.full;
 			}
-			if(x<0)x = width+x;
-			if(x>width-1)x = 0+(x-(width));
+			while(x<0)x = width+x;
+			while(x>width-1)x = 0+(x-(width));
 		}
 		
 		return state[x][y];
