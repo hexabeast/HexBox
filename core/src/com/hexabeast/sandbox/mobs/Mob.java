@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.hexabeast.sandbox.AllEntities;
 import com.hexabeast.sandbox.Entity;
@@ -21,14 +22,26 @@ import com.hexabeast.sandbox.Tools;
 public class Mob extends Entity 
 {
 	public int id = 0;
+	
+	//POSITION / VELOCITY / ACCELERATION
+	
 	public float x = 0;
 	public float y = 0;
 	public float vx = 0;
 	public float vy = 0;
 	public float ax = 0;
 	public float ay = 0;
+	
+	//CARACTERISTICS
+	
 	public int type = 0;
 	public float health = 100;
+	
+	public float speedx = 250;
+	public float speedy = 1000;
+	
+	public int casesX = 1;
+	public int casesY = 1;
 	
 	public boolean manual = false;
 	
@@ -41,11 +54,7 @@ public class Mob extends Entity
 	public boolean damaged = false;
 	public float lastdamaged = 0;
 	public float damagerate = 0.1f;
-	
-	public float speedx = 250;
-	public float speedy = 1000;
-	public int casesX = 1;
-	public int casesY = 1;
+
 	public ArrayList<TextureRegion> tex = new ArrayList<TextureRegion>();
 	public boolean canJump = false;
 	
@@ -53,6 +62,10 @@ public class Mob extends Entity
 	
 	public HitBox hitbox;
 	public HitRect hitrect;
+	
+	public boolean isMain = false;
+	
+	Vector2 VisorPos = new Vector2();
 	
 	public void superDraw(SpriteBatch batch)
 	{
@@ -66,6 +79,7 @@ public class Mob extends Entity
 		casesX = Tools.floor(width/16)+1;
 		casesY = Tools.floor(height/16)+1;
 	}
+
 	
 	public void checkPoints()
 	{
@@ -174,6 +188,7 @@ public class Mob extends Entity
 	public void visual(){}
 	
 	public void premove(){}
+	public void preinput(){}
 	
 	public void graphicDraw(SpriteBatch batch)
 	{
@@ -253,7 +268,16 @@ public class Mob extends Entity
 	public void goJump(){}
 	public void goStandX(){}
 	public void goStandY(){}
-	public void goAttack(){}
+	public void goClickLeftInstant(){}
+	public void goClickRightInstant(){}
+	public void goClickLeftPressed(){}
+	public void goClickRightPressed(){}
+	public void setItemId(int item){}
+	public void setVisorPos(Vector2 v)
+	{
+		VisorPos.x = v.x;
+		VisorPos.y = v.y;
+	}
 	
 	@Override
 	public float getX()
