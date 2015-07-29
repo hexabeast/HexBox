@@ -227,7 +227,7 @@ public class AllTools {
 		ToolTypes[BowId-1000].rate = 0.5f;
 		ToolTypes[BowId-1000].obstacleProof = true;
 		ToolTypes[BowId-1000].stackable = false;
-		ToolTypes[BowId-1000].angle = 20;
+		ToolTypes[BowId-1000].angle = 10;
 		ToolTypes[BowId-1000].arrowType = ArrowId;
 		ToolTypes[BowId-1000].rarity = Constants.rarity4;
 		
