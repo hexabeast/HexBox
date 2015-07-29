@@ -104,7 +104,6 @@ public class Player extends Entity{
 	public int currentCellState = 0;
 	
 	public boolean hurt;
-	public float handvelocity = 0;
 	
 	public float currentDamage = 0;
 	
@@ -166,6 +165,7 @@ public class Player extends Entity{
 		
 		transformPlayer = new PNJ();
 		transformPlayer.manual = true;
+		transformPlayer.isMain = true;
 		transformPlayer.speedx = 250;
 		transformPlayer.speedy = 1000;
 		transformList.add(transformPlayer);
@@ -196,8 +196,8 @@ public class Player extends Entity{
 		armHang = new Sprite(GameScreen.items.getTextureById(1));
 		armHang.setSize(32, 32);
 		armWeapon = new Sprite(AllTools.instance.getRegion(1));
-		arm = new Sprite(TextureManager.instance.armRTexture);
-		arm2 = new Sprite(TextureManager.instance.armRTexture);
+		arm = new Sprite(TextureManager.instance.armTextureOld);
+		arm2 = new Sprite(TextureManager.instance.armTextureOld);
 		
 		armWeapon.setScale(0.7f);
 		arm.setScale(0.7f);
@@ -340,6 +340,8 @@ public class Player extends Entity{
 	
 public void inputTransform()
 {	
+	transformList.get(Parameters.i.currentTransform).preinput();
+	
 	if(Inputs.instance.Q)transformList.get(Parameters.i.currentTransform).goLeft();
 	else if(Inputs.instance.D)transformList.get(Parameters.i.currentTransform).goRight();
 	else transformList.get(Parameters.i.currentTransform).goStandX();
@@ -348,8 +350,16 @@ public void inputTransform()
 	else if(Inputs.instance.Z)transformList.get(Parameters.i.currentTransform).goUp();
 	else transformList.get(Parameters.i.currentTransform).goStandY();
 
-	if(Inputs.instance.mousedown && !Main.pause)transformList.get(Parameters.i.currentTransform).goAttack();
+	if(Inputs.instance.leftmousedown && !Main.pause)transformList.get(Parameters.i.currentTransform).goClickLeftInstant();
+	if(Inputs.instance.rightmousedown && !Main.pause)transformList.get(Parameters.i.currentTransform).goClickRightInstant();
+	
+	if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !Main.pause)transformList.get(Parameters.i.currentTransform).goClickLeftPressed();
+	if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && !Main.pause)transformList.get(Parameters.i.currentTransform).goClickRightPressed();
+	
 	if(Inputs.instance.space)transformList.get(Parameters.i.currentTransform).goJump();
+	
+	transformList.get(Parameters.i.currentTransform).setItemId(currentCellID);
+	transformList.get(Parameters.i.currentTransform).setVisorPos(Tools.getAbsoluteMouse());
 }
 	
 public void input()
@@ -496,14 +506,16 @@ public void Forces()
 
 	velocity.clamp(0, 2000);
 
-	oldX = x;
-	oldY = y;
+	
 	
 	animationTime += Main.delta*Math.abs(velocity.x)/250;
 }
 	
 private void Collision(float delta)
 {
+	oldX = x;
+	oldY = y;
+	
 	y += velocity.y * delta;
 	hitbox.update(x,y);
 	
@@ -613,7 +625,6 @@ public void visualThings()
 	
 	float teoangle = getAngle(new Vector2(arm.getX()+arm.getOriginX(), arm.getY()+arm.getOriginY()),Tools.getAbsoluteMouse());
 	
-	float cur = currentAngle;
 	if(currentAngle==0)currentAngle = teoangle;
 	else if(( !sword ))currentAngle = Tools.fLerpAngle(currentAngle, teoangle, AllTools.instance.getType(currentCellID).uptime);
 	else if(sword)
@@ -622,8 +633,6 @@ public void visualThings()
 	}
 	
 	
-	
-	if(handvelocity>1200)handvelocity = 1200;
 	
 	if(teoangle>270 || teoangle<90)
 	{
@@ -740,8 +749,6 @@ public void visualThings()
 
 	// <- SWORD
 	
-	handvelocity = Math.abs(cur-currentAngle)*(1/Main.delta);
-	
 	if((velocity.x>0 && isTurned) || (velocity.x<0 && !isTurned))
 		legAnimWalk.setPlayMode(PlayMode.LOOP);
 	else
@@ -760,7 +767,6 @@ public void visualThings()
 
 	arm.setScale(isTurned ? Math.abs(bodyParts[0].getScaleX()):!isTurned ?-Math.abs(bodyParts[0].getScaleX()):arm.getScaleX(), bodyParts[0].getScaleY());
 	arm2.setScale(isTurned ? Math.abs(bodyParts[0].getScaleX()):!isTurned ?-Math.abs(bodyParts[0].getScaleX()):arm2.getScaleX(), bodyParts[0].getScaleY());
-	
 	
 	armWeapon.setScale(isTurned ? Math.abs(bodyParts[0].getScaleX()):!isTurned ?-Math.abs(bodyParts[0].getScaleX()):arm.getScaleX(), bodyParts[0].getScaleY());
 	float tempOffsetX;
@@ -1172,6 +1178,15 @@ public boolean untransform()
 	}
 	else
 	{
+		middle = transformPlayer.middle;
+		launcherCoord = transformPlayer.cannonCoord;
+		hookCoord = transformPlayer.hookAnchorCoord;
+		shoulderCoord = transformPlayer.shoulderPos;
+		
+		velocityCoord = transformPlayer.cannonToVisorCoord;
+		velocityCoord2 = transformPlayer.shoulderToVisorCoord;
+		velocityHook = transformPlayer.hookToVisorCoord;
+		
 		transoffy = hitbox.min-transformList.get(Parameters.i.currentTransform).hitbox.min;
 		transoffx = -transformList.get(Parameters.i.currentTransform).manualoffx;
 		detach = true;
