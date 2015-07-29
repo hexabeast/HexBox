@@ -280,7 +280,7 @@ public class Wolf extends Mob{
 	}
 	
 	@Override
-	public void goAttack()
+	public void goClickLeftInstant()
 	{	
 		Vector2 mach = machpos;
 		

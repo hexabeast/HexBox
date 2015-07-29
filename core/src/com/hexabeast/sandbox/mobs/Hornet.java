@@ -222,7 +222,7 @@ public class Hornet extends Mob{
 	}
 	
 	@Override
-	public void goAttack()
+	public void goClickLeftInstant()
 	{	
 		
 		if(AllEntities.getType(Tools.floor((x+width/2)/16), Tools.floor((y+height/2)/16)) == AllEntities.mobtype)

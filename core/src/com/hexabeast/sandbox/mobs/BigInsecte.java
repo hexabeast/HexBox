@@ -8,7 +8,6 @@ import com.hexabeast.sandbox.HitBox;
 import com.hexabeast.sandbox.HitRect;
 import com.hexabeast.sandbox.Main;
 import com.hexabeast.sandbox.TextureManager;
-import com.hexabeast.sandbox.Tools;
 
 public class BigInsecte extends Mob {
 	float wingrate = 0.06f;
@@ -135,7 +134,7 @@ public class BigInsecte extends Mob {
 		{
 			if(!Main.pause)
 			{
-				if(x+manualoffx+38>Tools.getAbsoluteMouse().x)
+				if(x+manualoffx+38>VisorPos.x)
 				{
 					if(!isTurned && turnTest())isTurned = true;
 				}
@@ -222,7 +221,7 @@ public class BigInsecte extends Mob {
 	}
 	
 	@Override
-	public void goAttack()
+	public void goClickLeftInstant()
 	{
 		attack = true;
 		attacktime = Main.time;
@@ -243,8 +242,7 @@ public class BigInsecte extends Mob {
 					if(!manual)velo2 = new Vector2(GameScreen.player.middle.x-(x+picpos.x), GameScreen.player.middle.y-(y+picpos.y)).setLength(800);
 					else
 					{
-						Vector2 mo = Tools.getAbsoluteMouse();
-						velo2 = new Vector2(mo.x-(x+picpos.x), mo.y-(y+picpos.y)).setLength(800);
+						velo2 = new Vector2(VisorPos.x-(x+picpos.x), VisorPos.y-(y+picpos.y)).setLength(800);
 					}
 					velo2.y+=50;
 					float ang = velo2.angle();
