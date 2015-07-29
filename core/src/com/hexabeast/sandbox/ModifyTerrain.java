@@ -163,7 +163,7 @@ public class ModifyTerrain {
 		boolean canCutTrees = true;
 		float efficiency = 1;
 		float rate = 0.3f;
-		int type =  AllTools.instance.Axe;
+		int type = AllTools.instance.Axe;
 		float range = ModifyTerrain.range;
 		
 		if(!hand)
