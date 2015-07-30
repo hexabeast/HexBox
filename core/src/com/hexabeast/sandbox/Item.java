@@ -37,8 +37,8 @@ public class Item extends Entity {
 		
 		float oldY = getY(), tileWidth = Map.instance.mainLayer.getTileWidth(), tileHeight = Map.instance.mainLayer.getTileHeight();
 		
-		float xDistance = getX()-(GameScreen.player.x+GameScreen.player.w/4);
-		float yDistance = getY()-(GameScreen.player.y+GameScreen.player.h/3);
+		float xDistance = getX()-(GameScreen.player.PNJ.x+GameScreen.player.PNJ.width/2);
+		float yDistance = getY()-(GameScreen.player.PNJ.y+GameScreen.player.PNJ.height/2);
 		
 		int xOffset;
 		if(xDistance>=0)xOffset = 60;

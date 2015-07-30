@@ -38,7 +38,7 @@ public class AllFurnitures {
 		fur.entitype = AllEntities.furnituretype;
 		if(AllTools.instance.getType(type).turnable)
 		{
-			fur.isTurned = GameScreen.player.isTurned;
+			fur.isTurned = GameScreen.player.PNJ.isTurned;
 		}
 		fur.checkPoints();
 		furnitureList[x/chunksize][y/chunksize].add(fur);

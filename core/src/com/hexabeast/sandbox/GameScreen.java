@@ -310,8 +310,7 @@ public class GameScreen implements Screen
 		selectBatch = new SpriteBatch();*/
 		
 		player = new Player();
-		player.x = player.initialPos.x;
-		player.y = player.initialPos.y;
+		player.setPosition(player.initialPos.x, player.initialPos.y);
 		//TODO
 		
 		
@@ -319,7 +318,7 @@ public class GameScreen implements Screen
 		Tools.checkItems();
 		
 		camera.zoom = gameZoom;
-		camera.position.set(player.x, player.y, camera.position.z);	
+		camera.position.set(player.PNJ.x+player.PNJ.middle.x/2, player.PNJ.y+player.PNJ.middle.y/2, camera.position.z);	
 	}
 
 	static void SwapCam()
@@ -354,7 +353,7 @@ public class GameScreen implements Screen
 		if(isVillage())noLimit = false;
 		else noLimit = true;
 		
-		camera.position.set(Tools.Lerp(camera.position,new Vector3((player.x+player.w/2)+1, (player.y+player.h/2)+0.5f, (int)10)));
+		camera.position.set(Tools.Lerp(camera.position,new Vector3((player.PNJ.x+player.PNJ.width/2), (player.PNJ.y+player.PNJ.height/2), (int)10)));
 		
 		if(!noLimit)
 		{
@@ -397,10 +396,10 @@ public class GameScreen implements Screen
 			if(camiddle.x<0)
 			{
 				
-				float x = (Map.instance.width)*16+(player.x);
-				player.setPosition(x,player.y);
+				float x = (Map.instance.width)*16+(player.PNJ.x);
+				player.setPosition(x,player.PNJ.y);
 				camera.position.set(camera.position.x+(Map.instance.width)*16, camera.position.y, camera.position.z);
-				player.grapple.tpOtherSide();
+				player.PNJ.hook.tpOtherSide();
 				for(int l = DeforMeshes.instance.implist.size()-1; l>=0; l--)
 				{
 					DeforMeshes.instance.implist.get(l).x+=(Map.instance.width)*16;
@@ -410,10 +409,10 @@ public class GameScreen implements Screen
 			if(camiddle.x>=(Map.instance.width)*16)
 			{
 				
-				float x = 0+(player.x-(Map.instance.width)*16);
-				player.setPosition(x,player.y);
+				float x = 0+(player.PNJ.x-(Map.instance.width)*16);
+				player.setPosition(x,player.PNJ.y);
 				camera.position.set(camera.position.x-(Map.instance.width)*16, camera.position.y, camera.position.z);
-				player.grapple.tpOtherSide();
+				player.PNJ.hook.tpOtherSide();
 				
 				for(int l = DeforMeshes.instance.implist.size()-1; l>=0; l--)
 				{
@@ -471,9 +470,8 @@ public class GameScreen implements Screen
 				
 				entities.projectiles.DrawProjectiles(batch);
 				
-				if(!Main.noUI)player.draw(batch);
 				entities.projectiles.DrawGrapples(batch);
-				if(!Main.noUI && !player.transformed && !player.transformingin && !player.transformingout)player.graphicDraw(batch,1);
+				if(!Main.noUI)player.draw(batch);
 				
 				entities.mobs.DrawAll(batch);
 				entities.DrawAll(batch);
@@ -612,20 +610,20 @@ public class GameScreen implements Screen
 				if(Inputs.instance.shift)
 				{
 
-					Vector2 defaultVec = new Vector2(mous).sub(GameScreen.player.shoulderCoord);
+					Vector2 defaultVec = new Vector2(mous).sub(GameScreen.player.PNJ.shoulderPos);
 					
 					Vector2 faster = new Vector2(1000000,1000000);
 					Vector2 bestaimed = new Vector2(-1,-1);
-					float limitlen = new Vector2(px*16+8 - GameScreen.player.middle.x,py*16+8 - GameScreen.player.middle.y).len();
+					float limitlen = new Vector2(px*16+8 - GameScreen.player.PNJ.middle.x,py*16+8 - GameScreen.player.PNJ.middle.y).len();
 					
 					for(int i = 0; i<7; i++)
 					{
-						Vector2 aimed = new Vector2(Tools.raycastVec(GameScreen.player.middle.x, GameScreen.player.middle.y-22+9*(i), defaultVec.x, defaultVec.y, 4));
+						Vector2 aimed = new Vector2(Tools.raycastVec(GameScreen.player.PNJ.middle.x, GameScreen.player.PNJ.middle.y-22+9*(i), defaultVec.x, defaultVec.y, 4));
 						
 						
 						if(aimed.y>=0)
 						{
-							Vector2 testvec = new Vector2(aimed.x*16+8 - GameScreen.player.middle.x,aimed.y*16+8 - GameScreen.player.middle.y);
+							Vector2 testvec = new Vector2(aimed.x*16+8 - GameScreen.player.PNJ.middle.x,aimed.y*16+8 - GameScreen.player.PNJ.middle.y);
 
 							if(faster.len()>testvec.len() && limitlen>testvec.len())
 							{
@@ -645,8 +643,8 @@ public class GameScreen implements Screen
 				if(axe)range = AllTools.instance.getType(GameScreen.player.currentCellID).range;
 				else range = ModifyTerrain.range;
 				
-				ModifyTerrain.instance.distToMiddleVec.x = px*16+8-GameScreen.player.shoulderCoord.x;
-				ModifyTerrain.instance.distToMiddleVec.y = py*16+8-GameScreen.player.shoulderCoord.y;
+				ModifyTerrain.instance.distToMiddleVec.x = px*16+8-GameScreen.player.PNJ.shoulderPos.x;
+				ModifyTerrain.instance.distToMiddleVec.y = py*16+8-GameScreen.player.PNJ.shoulderPos.y;
 				float distToMiddle = ModifyTerrain.instance.distToMiddleVec.len();
 					
 				if(distToMiddle>range)
@@ -689,8 +687,8 @@ public class GameScreen implements Screen
 				int w = 16;
 				int h = 16;
 				
-				ModifyTerrain.instance.distToMiddleVec.x = px*16+8-GameScreen.player.middle.x;
-				ModifyTerrain.instance.distToMiddleVec.y = py*16+8-GameScreen.player.middle.y;
+				ModifyTerrain.instance.distToMiddleVec.x = px*16+8-GameScreen.player.PNJ.middle.x;
+				ModifyTerrain.instance.distToMiddleVec.y = py*16+8-GameScreen.player.PNJ.middle.y;
 				float distToMiddle = ModifyTerrain.instance.distToMiddleVec.len();
 				
 				boolean ok = true;
@@ -749,7 +747,7 @@ public class GameScreen implements Screen
 				int offy = -2;
 				if(block)offy = 0;
 				if(tree)offy = -6;
-				if(!player.isTurned || (!furniture))batch.draw(tex, px*16, py*16+offy, w, h);
+				if(!player.currentForm.isTurned || (!furniture))batch.draw(tex, px*16, py*16+offy, w, h);
 				else batch.draw(tex, px*16+w, py*16+offy, -w, h);
 
 				batch.setColor(col);
@@ -797,7 +795,7 @@ public class GameScreen implements Screen
 	public static boolean isVillage()
 	{
 		if(Main.mobile)return false;
-		if(player.getX()<Map.villageWidth*16 && player.getY()>Map.instance.height*16-Map.villageHeight*16)
+		if(player.PNJ.x<Map.villageWidth*16 && player.PNJ.y>Map.instance.height*16-Map.villageHeight*16)
 		{
 			return true;
 		}

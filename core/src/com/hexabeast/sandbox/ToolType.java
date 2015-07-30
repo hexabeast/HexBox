@@ -25,9 +25,19 @@ public boolean armor;
 public boolean helmet;
 public boolean arms;
 public boolean legs;
-public float armorDefense;
-public float armorSpeed;
-public float armorJump;
+
+public boolean helmetHair;
+
+public int armorId = -1;
+public int helmetId = -1;
+public int armsId = -1;
+public int legsId = -1;
+
+public float armorDefense = 0;
+public float armorSpeed = 0;
+public float armorJump = 0;
+public float armorPower = 0;
+
 public boolean equipment;
 public float angle;
 public int arrowType = 0;

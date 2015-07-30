@@ -47,6 +47,7 @@ public class Hornet extends Mob{
 		
 		offx = 0;
 		health = 50;
+		maxHealth = 50;
 		
 		hitrect = new HitRect(offx+width);
 		hitrect.add(new Rectangle(6,5,48,22));
@@ -58,12 +59,12 @@ public class Hornet extends Mob{
 	}
 	
 	@Override
-	public void damage(float d, float immortality, float x, float y)
+	public void Hurt(float d, float immortality, float x, float y)
 	{
 		decisionTimer.rate = 0;
 		aggressive = true;
 		speedx = maxspeedx;
-		super.damage(d, immortality,x,y);
+		super.Hurt(d, immortality,x,y);
 	}
 	
 	@Override
@@ -76,8 +77,8 @@ public class Hornet extends Mob{
 			{
 				decisionTimer.rate = (float) ((basedecisionrate/8+Math.random())*basedecisionrate/10);
 				
-				velo.x = GameScreen.player.middle.x-(x+width/2);
-				velo.y = GameScreen.player.middle.y-(y+height/2);
+				velo.x = GameScreen.player.PNJ.middle.x-(x+width/2);
+				velo.y = GameScreen.player.PNJ.middle.y-(y+height/2);
 				
 				if(velo.len()>720)aggressive = false;
 
@@ -108,8 +109,8 @@ public class Hornet extends Mob{
 				{
 					for(int j = 0; j<colrects.size(); j++)
 					{
-						colrec.x = colrects.get(j).x-(GameScreen.player.x+GameScreen.player.transoffx)+x;
-						colrec.y = colrects.get(j).y-(GameScreen.player.y+GameScreen.player.transoffy)+y;
+						colrec.x = colrects.get(j).x-(GameScreen.player.PNJ.x+GameScreen.player.transoffx)+x;
+						colrec.y = colrects.get(j).y-(GameScreen.player.PNJ.y+GameScreen.player.transoffy)+y;
 						colrec.width = colrects.get(j).width;
 						colrec.height = colrects.get(j).height;
 						
@@ -125,7 +126,7 @@ public class Hornet extends Mob{
 				if(touched)
 				{
 					agressTimer.reboot();
-					GameScreen.player.Hurt(power, 0, 0, x+width/2, y+height/2);
+					GameScreen.player.Hurt(power, 0, x+width/2, y+height/2);
 				}
 			}
 		}
@@ -251,7 +252,7 @@ public class Hornet extends Mob{
 			}
 			if(touched)
 			{
-				m.damage(power, 0.5f, x+width/2, y+height/2);
+				m.Hurt(power, 0.5f, x+width/2, y+height/2);
 			}
 		}
 	}

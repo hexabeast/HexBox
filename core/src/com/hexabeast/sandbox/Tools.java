@@ -253,8 +253,8 @@ public class Tools {
 	{
 		if(vecFrom.x-vecTo.x>1000 || vecFrom.x-vecTo.x<-1000 || vecFrom.y-vecTo.y>1000 || vecFrom.y-vecTo.y<-1000)
 			return vecTo;
-		float speedfactorx = GameScreen.player.originalSpeed/    Math.max(GameScreen.player.originalSpeed, Math.abs(GameScreen.player.velocity.x));
-		float speedfactory = GameScreen.player.originalHorspeed/ Math.max(GameScreen.player.originalHorspeed, Math.abs(GameScreen.player.velocity.y));
+		float speedfactorx = GameScreen.player.PNJ.baseSpeedx/    Math.max(GameScreen.player.PNJ.baseSpeedx, Math.abs(GameScreen.player.PNJ.vx));
+		float speedfactory = GameScreen.player.PNJ.baseSpeedy/ Math.max(GameScreen.player.PNJ.baseSpeedy, Math.abs(GameScreen.player.PNJ.vy));
 		return new Vector3(vecFrom.x+((vecTo.x-vecFrom.x)/((speedfactorx)*7+2))*Main.delta*60,vecFrom.y+((vecTo.y-vecFrom.y)/((speedfactory)*7+2))*Main.delta*60,0);
 	}
 	
@@ -318,10 +318,21 @@ public class Tools {
 			y-=360;
 		}
 		
+		if(Math.abs(x-y)<0.3f)return y;
+		
+		float result;
+		
 		float t = (y-x)*speed*Main.delta;
-		if(t<-40*speed*Main.delta)t=-40*speed*Main.delta;
-		if(t>40*speed*Main.delta)t=40*speed*Main.delta;
-		float result = x+t;
+		if(t<-40*speed*Main.delta)
+		{
+			t=-40*speed*Main.delta;
+		}
+		else if(t>40*speed*Main.delta)
+		{
+			t=40*speed*Main.delta;
+		}
+
+		result = x+t;
 		
 		while(result>360)result-=360;
 		while(result<0)result+=360;

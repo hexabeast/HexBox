@@ -98,13 +98,13 @@ public class Flashes {
 			{
 				GameScreen.player.setPosition(GameScreen.player.initialPos.x,GameScreen.player.initialPos.y);
 				GameScreen.player.transformed = false;
-				Parameters.i.currentTransform = -1;
+				Parameters.i.currentTransform = 0;
 				respawn = false;
 			}
 			if(regen)
 			{
-				GameScreen.player.health = GameScreen.player.maxHealth;
-				GameScreen.player.detach = true;
+				GameScreen.player.PNJ.health = GameScreen.player.PNJ.maxHealth;
+				GameScreen.player.PNJ.detach = true;
 				 regen = false;
 			}
 			/*if(teleport)

@@ -167,7 +167,7 @@ public class Inputs implements InputProcessor{
 		if(Main.ingame && !Main.pause)
 		{
 			int tid = GameScreen.inventory.presentorch(1);
-			if(tid>=0 && ModifyTerrain.instance.UseAbsolute(GameScreen.player.middle.x, GameScreen.player.middle.y,  tid, GameScreen.player.currentCellState, Map.instance.mainLayer,Main.time,false))
+			if(tid>=0 && ModifyTerrain.instance.UseAbsolute(GameScreen.player.PNJ.middle.x, GameScreen.player.PNJ.middle.y,  tid, GameScreen.player.currentCellState, Map.instance.mainLayer,Main.time,false))
 			GameScreen.inventory.remove(tid, 1);
 		}
 	}
@@ -200,11 +200,9 @@ public class Inputs implements InputProcessor{
 				break;
 			case Keys.D:
 				D = true;
-				GameScreen.player.animationTime = 0;
 				break;
 			case Keys.Q:
 				Q = true;
-				GameScreen.player.animationTime = 0;
 				break;
 			case Keys.Z:
 				Z = true;
@@ -333,34 +331,31 @@ public class Inputs implements InputProcessor{
 				//GamePlay.mobs.SpawnRedDino(x, y);
 				break;
 			case Keys.NUMPAD_9:
-				GameScreen.entities.mobs.placeMob(GameScreen.player.x, GameScreen.player.y+50, 3);
+				GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
 				break;
 			case Keys.NUMPAD_8:
-				GameScreen.entities.mobs.placeMob(GameScreen.player.x, GameScreen.player.y+50, 1);
+				GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
 				break;
 			case Keys.NUMPAD_7:
-				for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.x, GameScreen.player.y+50, 2);
+				for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
 				break;
 			case Keys.NUMPAD_1:
-				GameScreen.player.transform(0);
-				break;
-			case Keys.NUMPAD_2:
 				GameScreen.player.transform(1);
 				break;
-			case Keys.NUMPAD_3:
+			case Keys.NUMPAD_2:
 				GameScreen.player.transform(2);
 				break;
-			case Keys.NUMPAD_4:
+			case Keys.NUMPAD_3:
 				GameScreen.player.transform(3);
 				break;
 			case Keys.NUMPAD_0:
-				GameScreen.player.untransform();
+				GameScreen.player.transform(0);
 				break;
 			case Keys.F:
 				Parameters.i.noShadow = !Parameters.i.noShadow;
 				break;
 			case Keys.G:
-				GameScreen.player.Hurt(20,0,0,GameScreen.player.middle.x, GameScreen.player.middle.y);
+				GameScreen.player.PNJ.Hurt(20,0,GameScreen.player.PNJ.middle.x, GameScreen.player.PNJ.middle.y);
 				break;
 			case Keys.E:
 				GameScreen.inventory.ToggleHide();

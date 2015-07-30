@@ -16,7 +16,7 @@ public class TextureManager {
 	public static TextureManager instance;
 	
 	public int PNJNumber = 1;
-	public int PNJArmorNumber = 0;
+	public int PNJArmorNumber = 20;
 
 	int sX = 3;
 	int sY = 2;
@@ -140,11 +140,13 @@ public class TextureManager {
 	
 	
 	
-	public TextureRegion[] PNJHelmet = new TextureRegion[PNJNumber];
-	public TextureRegion[] PNJArmor = new TextureRegion[PNJNumber];
-	public TextureRegion[] PNJArm = new TextureRegion[PNJNumber];
-	public TextureRegion[] PNJLegginsList = new TextureRegion[PNJNumber];
-	public TextureRegion[][] PNJLeggins = new TextureRegion[PNJNumber][];
+	public Texture PNJAtlas;
+	
+	public TextureRegion[] PNJHelmet = new TextureRegion[PNJArmorNumber];
+	public TextureRegion[] PNJArmor = new TextureRegion[PNJArmorNumber];
+	public TextureRegion[] PNJGlove = new TextureRegion[PNJArmorNumber];
+	public TextureRegion[] PNJLegginsList = new TextureRegion[PNJArmorNumber];
+	public TextureRegion[][] PNJLeggins = new TextureRegion[PNJArmorNumber][];
 	
 	
 	
@@ -264,6 +266,8 @@ public class TextureManager {
 		
 		materials = new Texture("materials/materials.png");
 		
+		PNJAtlas = new Texture("players/PNJAtlas.png");
+		
 		empty = newTexture(Gdx.files.internal("others/empty.png"));
 
 		item = newTexture(Gdx.files.internal("icones/items.png"));
@@ -367,21 +371,20 @@ public class TextureManager {
 		
 		for(int i = 0; i<PNJNumber; i++)
 		{
-			PNJeye[0] = newTexture(Gdx.files.internal("players/1bis/eyes.png"));
-			PNJhead[0] = newTexture(Gdx.files.internal("players/1bis/head.png"));
-			PNJhairs[0] = newTexture(Gdx.files.internal("players/1bis/hairs.png"));
-			PNJlegList[0] = newTexture(Gdx.files.internal("players/1bis/legs.png"));
-			PNJbody[0] = newTexture(Gdx.files.internal("players/1bis/body.png"));
-			
-			PNJarmTexture[i] = newTexture(Gdx.files.internal("players/arm"+String.valueOf(i+1)+".png"));
+			PNJeye[i] = new TextureRegion(PNJAtlas,468,i*26,52,26);
+			PNJhead[i] = new TextureRegion(PNJAtlas,416,i*26,26,26);
+			PNJhairs[i] = new TextureRegion(PNJAtlas,442,i*26,26,26);
+			PNJlegList[i] = new TextureRegion(PNJAtlas,520,i*26,312,26);
+			PNJbody[i] = new TextureRegion(PNJAtlas,390,i*26,26,26);
+			PNJarmTexture[i] = new TextureRegion(PNJAtlas,832,i*26,26,26);
 		}
 		
 		for(int i = 0; i<PNJArmorNumber; i++)
 		{
-			PNJHelmet[0] = newTexture(Gdx.files.internal("players/1bis/eyes.png"));
-			PNJArmor[0] = newTexture(Gdx.files.internal("players/1bis/head.png"));
-			PNJArm[0] = newTexture(Gdx.files.internal("players/1bis/hairs.png"));
-			PNJLegginsList[0] = newTexture(Gdx.files.internal("players/1bis/legs.png"));
+			PNJArmor[i] = new TextureRegion(PNJAtlas,0,i*26,26,26);
+			PNJHelmet[i] = new TextureRegion(PNJAtlas,26,i*26,26,26);
+			PNJLegginsList[i] = new TextureRegion(PNJAtlas,2*26,i*26,312,26);
+			PNJGlove[i] = new TextureRegion(PNJAtlas,14*26,i*26,26,26);
 		}
 		
 		joy = newTexture(Gdx.files.internal("menu/joystick.png"));

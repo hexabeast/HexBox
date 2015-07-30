@@ -115,11 +115,11 @@ public class MagicProjectile extends Entity{
 			boolean touched = false;
 			ArrayList<Rectangle> rects = GameScreen.player.getHitRect();
 			
-			if(GameScreen.player!=owner)
+			if(GameScreen.player.PNJ!=owner)
 			{
 				for(int i = 0; i<rects.size(); i++)
 				{
-					if(rects.get(i).contains(x-(GameScreen.player.x+GameScreen.player.transoffx), y-(GameScreen.player.y+GameScreen.player.transoffy)))
+					if(rects.get(i).contains(x-(GameScreen.player.PNJ.x+GameScreen.player.transoffx), y-(GameScreen.player.PNJ.y+GameScreen.player.transoffy)))
 					{
 						touched = true;
 						break;
@@ -127,7 +127,7 @@ public class MagicProjectile extends Entity{
 				}
 				if(touched)
 				{
-					GameScreen.player.Hurt(damage, 0, 0,x,y);
+					GameScreen.player.PNJ.Hurt(damage, 0,x,y);
 					Explode();
 				}
 			}
@@ -153,7 +153,7 @@ public class MagicProjectile extends Entity{
 					{
 						Explode();
 						
-						m.damage(damage,0,x,y);
+						m.Hurt(damage,0,x,y);
 					}
 				}
 			}

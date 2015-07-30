@@ -178,6 +178,7 @@ public class AllTools {
 		ToolTypes[UltraHelmetId-1000].armorSpeed = 0;
 		ToolTypes[UltraHelmetId-1000].armorDefense = 50;
 		ToolTypes[UltraHelmetId-1000].weaponTexture = 9;
+		ToolTypes[UltraHelmetId-1000].helmetId = 0;
 		ToolTypes[UltraHelmetId-1000].rarity = Constants.rarity10;
 		
 		ToolTypes[UltraArmorId-1000].type = UseLess; 
@@ -190,6 +191,7 @@ public class AllTools {
 		ToolTypes[UltraArmorId-1000].armorSpeed = 0;
 		ToolTypes[UltraArmorId-1000].armorDefense = 50;
 		ToolTypes[UltraArmorId-1000].weaponTexture = 10;
+		ToolTypes[UltraArmorId-1000].armorId = 0;
 		ToolTypes[UltraArmorId-1000].rarity = Constants.rarity10;
 		
 		ToolTypes[UltraArmsId-1000].type = UseLess; 
@@ -202,6 +204,7 @@ public class AllTools {
 		ToolTypes[UltraArmsId-1000].armorSpeed = 200;
 		ToolTypes[UltraArmsId-1000].armorDefense = 50;
 		ToolTypes[UltraArmsId-1000].weaponTexture = 11;
+		ToolTypes[UltraArmsId-1000].armsId = 0;
 		ToolTypes[UltraArmsId-1000].rarity = Constants.rarity10;
 		
 		ToolTypes[UltraLegginsId-1000].type = UseLess; 
@@ -214,6 +217,7 @@ public class AllTools {
 		ToolTypes[UltraLegginsId-1000].armorSpeed = 500;
 		ToolTypes[UltraLegginsId-1000].armorDefense = 50;
 		ToolTypes[UltraLegginsId-1000].weaponTexture = 1;//legginTexture
+		ToolTypes[UltraLegginsId-1000].legsId = 0;
 		ToolTypes[UltraLegginsId-1000].rarity = Constants.rarity10;
 		
 		ToolTypes[BowId-1000].type = Bow; 
@@ -367,6 +371,7 @@ public class AllTools {
 		ToolTypes[MiningHelmetId-1000].helmetLight = true;
 		ToolTypes[MiningHelmetId-1000].armorDefense = 3;
 		ToolTypes[MiningHelmetId-1000].weaponTexture = 24;
+		ToolTypes[MiningHelmetId-1000].helmetId = 1;
 		ToolTypes[MiningHelmetId-1000].rarity = Constants.rarity5;
 		
 

@@ -17,13 +17,18 @@ import com.hexabeast.sandbox.Main;
 import com.hexabeast.sandbox.Parameters;
 import com.hexabeast.sandbox.Shaders;
 import com.hexabeast.sandbox.TextureManager;
+import com.hexabeast.sandbox.ToolType;
 import com.hexabeast.sandbox.Tools;
 
 public class Mob extends Entity 
 {
 	public int id = 0;
 	
-	//POSITION / VELOCITY / ACCELERATION
+	//TEXTURES
+	public ArrayList<TextureRegion> tex = new ArrayList<TextureRegion>();
+	
+	
+	//POSITION / VELOCITY / ACCELERATION / SIZE
 	
 	public float x = 0;
 	public float y = 0;
@@ -32,40 +37,45 @@ public class Mob extends Entity
 	public float ax = 0;
 	public float ay = 0;
 	
-	//CARACTERISTICS
+	public int casesX = 1;
+	public int casesY = 1;
 	
-	public int type = 0;
-	public float health = 100;
+	public float manualoffx = 0;
+	
+	Vector2 VisorPos = new Vector2();
+	
+	//PHYSICS
 	
 	public float speedx = 250;
 	public float speedy = 1000;
 	
-	public int casesX = 1;
-	public int casesY = 1;
+	public HitBox hitbox;
+	public HitRect hitrect;
 	
-	public boolean manual = false;
+	public boolean canJump = false;
+	
+	//TIMERS
 	
 	public boolean attacked = false;
 	public float redrate = 0.05f;
 	public float lastred = 0;
 	
-	public float power = 5;
-	
 	public boolean damaged = false;
 	public float lastdamaged = 0;
 	public float damagerate = 0.1f;
-
-	public ArrayList<TextureRegion> tex = new ArrayList<TextureRegion>();
-	public boolean canJump = false;
 	
-	public float manualoffx = 0;
+	//CARACTERISTICS
 	
-	public HitBox hitbox;
-	public HitRect hitrect;
+	public float maxHealth = 100;
+	public int type = 0;
+	public float health = 100;
+	public float defense = 100;
+	public float power = 10;
 	
+	public boolean manual = false;
 	public boolean isMain = false;
 	
-	Vector2 VisorPos = new Vector2();
+	
 	
 	public void superDraw(SpriteBatch batch)
 	{
@@ -90,10 +100,12 @@ public class Mob extends Entity
 		}
 	}
 	
-	public void damage(float d, float immortality, float x, float y)
+	public void Hurt(float d, float immortality, float x, float y)
 	{
 		if(!damaged)
 		{
+			d*=(100f/defense);
+			
 			if(immortality>0)
 			{
 				damagerate = immortality;
@@ -278,6 +290,13 @@ public class Mob extends Entity
 		VisorPos.x = v.x;
 		VisorPos.y = v.y;
 	}
+	public void setEquipment(ToolType equip){}
+	public void setHelmet(ToolType equip){}
+	public void setArmor(ToolType equip){}
+	public void setGlove(ToolType equip){}
+	public void setLeggins(ToolType equip){}
+	public void setHook(ToolType equip){}
+	public void goHook(){}
 	
 	@Override
 	public float getX()

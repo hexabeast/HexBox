@@ -369,7 +369,7 @@ public class Tree extends Entity{
 	
 	public boolean isCollidingTree(float x, float y)
 	{
-		if(Math.abs(GameScreen.player.x-x)<3000)
+		if(Math.abs(GameScreen.camera.position.x-x)<3000)
 		{
 			if(isEclosed)
 			{
@@ -389,7 +389,7 @@ public class Tree extends Entity{
 	
 	public boolean isBreakingTree(float x, float y)
 	{
-		if(Math.abs(GameScreen.player.x-x)<3000)
+		if(Math.abs(GameScreen.camera.position.x-x)<3000)
 		{
 			if(isClicked(Stroncs[0],x,y,0,0))return true;
 			if(isClicked(Stroncs[1],x,y,0,0))return true;

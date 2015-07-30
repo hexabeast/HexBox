@@ -10,36 +10,36 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class Grapple extends Entity{
-	float currentTime = 0;
-	float lifeTime = 5;
+	public float currentTime = 0;
+	public float lifeTime = 5;
 	
-	boolean isStarted = false;
-	boolean isPlanted = false;
-	boolean playerAttached = false;
-	boolean playerAttachedOnce = false;
+	public boolean isStarted = false;
+	public boolean isPlanted = false;
+	public boolean playerAttached = false;
+	public boolean playerAttachedOnce = false;
 
-	float verymin = 8;
-	float verymax = 1500;
-	float max = 0;
-	Vector2 grapfront = new Vector2(16,0);
-	Vector2 corde = new Vector2(1,0);
+	public float verymin = 8;
+	public float verymax = 1500;
+	public float max = 0;
+	public Vector2 grapfront = new Vector2(16,0);
+	public Vector2 corde = new Vector2(1,0);
 
 	public float gravity = 400;
 	
-	float vmultiplier = 4;
-	boolean todetach = false;
+	public float vmultiplier = 4;
+	public boolean todetach = false;
 	
-	Vector2 liaison = new Vector2();
+	public Vector2 liaison = new Vector2();
 	
-	float x;
-	float y;
-	Vector2 velocity = new Vector2();
+	public float x;
+	public float y;
+	public Vector2 velocity = new Vector2();
 	public Vector2 lastangle = new Vector2(1,1);
-	TextureRegion tex;
-	Texture ropeTex;
-	float rot;
+	public TextureRegion tex;
+	public Texture ropeTex;
+	public float rot;
 	
-	boolean justspawned = true;
+	public boolean justspawned = true;
 	
 	public Grapple(float x, float y, float vx, float vy, float distance, TextureRegion tex, Texture ropeTex) 
 	{
@@ -67,8 +67,8 @@ public class Grapple extends Entity{
 	{
 		super.draw(batch);
 		
-		liaison.x = GameScreen.player.hookCoord.x-x;
-		liaison.y = GameScreen.player.hookCoord.y-y;
+		liaison.x = GameScreen.player.PNJ.hookAnchorCoord.x-x;
+		liaison.y = GameScreen.player.PNJ.hookAnchorCoord.y-y;
 		
 		if(Math.abs(velocity.x)>0.01f || Math.abs(velocity.y)>0.01f)rot = Tools.fLerpAngle(rot, velocity.angle(), 10);
 		grapfront.setAngle(rot);
@@ -146,8 +146,8 @@ public class Grapple extends Entity{
 		corde.clamp(0, Math.max(0, corde.len()-1000*Main.delta));
 		if(playerAttached)
 		{
-			corde.x = GameScreen.player.hookCoord.x-x;
-			corde.y = GameScreen.player.hookCoord.y-2-y;
+			corde.x = GameScreen.player.PNJ.hookAnchorCoord.x-x;
+			corde.y = GameScreen.player.PNJ.hookAnchorCoord.y-2-y;
 		}
 		
 		if(todetach)playerAttached = false;
@@ -187,7 +187,7 @@ public class Grapple extends Entity{
 	
 	public Vector2 getLine()
 	{
-		return new Vector2(GameScreen.player.hookCoord.x-x, GameScreen.player.hookCoord.y-y);
+		return new Vector2(GameScreen.player.PNJ.hookAnchorCoord.x-x, GameScreen.player.PNJ.hookAnchorCoord.y-y);
 	}
 	
 	 @Override

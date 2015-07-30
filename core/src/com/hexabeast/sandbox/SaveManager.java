@@ -56,8 +56,8 @@ public class SaveManager {
 	public static void Save() throws IOException
 	{
 		if(sav == null)sav = new Save();
-		sav.playerPos = new Vector2(GameScreen.player.x,GameScreen.player.y);
-		sav.health = GameScreen.player.health;
+		sav.playerPos = new Vector2(GameScreen.player.PNJ.x,GameScreen.player.PNJ.y);
+		sav.health = GameScreen.player.currentForm.health;
 		//SAVE INV
 		if(GameScreen.inventory != null)
 		{
@@ -106,9 +106,9 @@ public class SaveManager {
 		
 		if(sav != null)
 		{
-		GameScreen.player.x = (sav.playerPos.x);
-		GameScreen.player.y = (sav.playerPos.y);
-		GameScreen.player.health = sav.health;
+		GameScreen.player.PNJ.x = (sav.playerPos.x);
+		GameScreen.player.PNJ.y = (sav.playerPos.y);
+		GameScreen.player.PNJ.health = sav.health;
 		}
 		
 		

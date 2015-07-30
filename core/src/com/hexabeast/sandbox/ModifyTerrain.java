@@ -178,7 +178,7 @@ public class ModifyTerrain {
 		
 		if(type == AllTools.instance.Sceptre && !isLeft && AllTools.instance.getType(id).magiclight)
 		{	
-			Map.instance.lights.torche(GameScreen.player.launcherCoord, GameScreen.player.velocityCoord, AllTools.instance.getType(id).torchangle,2,2,2,false,0);
+			Map.instance.lights.torche(GameScreen.player.PNJ.cannonCoord, GameScreen.player.PNJ.cannonToVisorCoord, AllTools.instance.getType(id).torchangle,2,2,2,false,0);
 		}
 		
 		if(Parameters.i.ultrarange)range = 100000;
@@ -259,24 +259,24 @@ public class ModifyTerrain {
 				{
 					if(AllTools.instance.getType(id).magicprojectile)
 					{
-						if(isLeft && Tools.raycast(GameScreen.player.shoulderCoord.x, GameScreen.player.shoulderCoord.y, GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, 4).x<0)
+						if(isLeft && Tools.raycast(GameScreen.player.PNJ.shoulderPos.x, GameScreen.player.PNJ.shoulderPos.y, GameScreen.player.PNJ.cannonCoord.x, GameScreen.player.PNJ.cannonCoord.y, 4).x<0)
 						{
-							GameScreen.entities.projectiles.AddMagicProjectile(GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, GameScreen.player.velocityCoord.x, GameScreen.player.velocityCoord.y, AllTools.instance.getType(id).sceptreType,  AllTools.instance.getType(id).damage, GameScreen.player);
+							GameScreen.entities.projectiles.AddMagicProjectile(GameScreen.player.PNJ.cannonCoord.x, GameScreen.player.PNJ.cannonCoord.y, GameScreen.player.PNJ.cannonToVisorCoord.x, GameScreen.player.PNJ.cannonToVisorCoord.y, AllTools.instance.getType(id).sceptreType,  AllTools.instance.getType(id).damage, GameScreen.player.PNJ);
 						}
 					
 					}
 				}
 				else if(type == AllTools.instance.Bow)
 				{
-					if(isLeft && Tools.raycast(GameScreen.player.shoulderCoord.x, GameScreen.player.shoulderCoord.y, GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, 4).x<0 && GameScreen.inventory.remove(AllTools.instance.getType(id).arrowType, 1))
-						GameScreen.entities.projectiles.AddProjectile(GameScreen.player.launcherCoord.x, GameScreen.player.launcherCoord.y, GameScreen.player.velocityCoord2.x*10, GameScreen.player.velocityCoord2.y*10, AllTools.instance.getType(id).arrowType, GameScreen.player, AllTools.instance.getType(id).damage);
+					if(isLeft && Tools.raycast(GameScreen.player.PNJ.shoulderPos.x, GameScreen.player.PNJ.shoulderPos.y, GameScreen.player.PNJ.cannonCoord.x, GameScreen.player.PNJ.cannonCoord.y, 4).x<0 && GameScreen.inventory.remove(AllTools.instance.getType(id).arrowType, 1))
+						GameScreen.entities.projectiles.AddProjectile(GameScreen.player.PNJ.cannonCoord.x, GameScreen.player.PNJ.cannonCoord.y, GameScreen.player.PNJ.shoulderToCannonCoord.x*10, GameScreen.player.PNJ.shoulderToCannonCoord.y*10, AllTools.instance.getType(id).arrowType, GameScreen.player.PNJ, AllTools.instance.getType(id).damage);
 				}
 				else if(type == AllTools.instance.Hook && Inputs.instance.leftmousedown)
 				{
-					if(isLeft && !GameScreen.player.grapple.playerAttached)
+					if(isLeft && !GameScreen.player.PNJ.hook.playerAttached)
 					{
 						if(AllTools.instance.getType(id).grapple)
-						GameScreen.entities.projectiles.AddGrapple(GameScreen.player.hookCoord.x, GameScreen.player.hookCoord.y, GameScreen.player.velocityCoord2.x*5, GameScreen.player.velocityCoord2.y*5, AllTools.instance.getType(id).grappleDistance, AllTools.instance.getType(id).grappleTex, AllTools.instance.getType(id).grappleTexRope);
+						GameScreen.entities.projectiles.AddGrapple(GameScreen.player.PNJ,GameScreen.player.PNJ.hookAnchorCoord.x, GameScreen.player.PNJ.hookAnchorCoord.y, GameScreen.player.PNJ.hookToVisorCoord.x, GameScreen.player.PNJ.hookToVisorCoord.y, AllTools.instance.getType(id).grappleDistance, AllTools.instance.getType(id).grappleTex, AllTools.instance.getType(id).grappleTexRope);
 					}
 					else
 					{
@@ -329,23 +329,23 @@ public class ModifyTerrain {
 				{
 					Vector2 mous = Tools.getAbsoluteMouse();
 					
-					Vector2 defaultVec = new Vector2(mous).sub(GameScreen.player.shoulderCoord);
+					Vector2 defaultVec = new Vector2(mous).sub(GameScreen.player.PNJ.shoulderPos);
 					
 					float range = AllTools.instance.getType(id).range+8;
 					if(Parameters.i.ultrarange)range = 1000000;
 					
 					Vector2 faster = new Vector2(1000000,1000000);
 					Vector2 bestaimed = new Vector2(-1,-1);
-					float limitlen = Math.min(range, new Vector2(decalaX*16+8 - GameScreen.player.middle.x,decalaY*16+8 - GameScreen.player.middle.y).len());
+					float limitlen = Math.min(range, new Vector2(decalaX*16+8 - GameScreen.player.PNJ.middle.x,decalaY*16+8 - GameScreen.player.PNJ.middle.y).len());
 					
 					for(int i = 0; i<7; i++)
 					{
-						Vector2 aimed = new Vector2(Tools.raycastVec(GameScreen.player.middle.x, GameScreen.player.middle.y-22+9*(i), defaultVec.x, defaultVec.y, 4));
+						Vector2 aimed = new Vector2(Tools.raycastVec(GameScreen.player.PNJ.middle.x, GameScreen.player.PNJ.middle.y-22+9*(i), defaultVec.x, defaultVec.y, 4));
 						
 						
 						if(aimed.y>=0)
 						{
-							Vector2 testvec = new Vector2(aimed.x*16+8 - GameScreen.player.middle.x,aimed.y*16+8 - GameScreen.player.middle.y);
+							Vector2 testvec = new Vector2(aimed.x*16+8 - GameScreen.player.PNJ.middle.x,aimed.y*16+8 - GameScreen.player.PNJ.middle.y);
 
 							if(faster.len()>testvec.len() && limitlen>=testvec.len())
 							{
@@ -371,8 +371,8 @@ public class ModifyTerrain {
 				}
 				
 				
-				distToMiddleVec.x = decalaX*16+8-GameScreen.player.middle.x;
-				distToMiddleVec.y = decalaY*16+8-GameScreen.player.middle.y;
+				distToMiddleVec.x = decalaX*16+8-GameScreen.player.PNJ.middle.x;
+				distToMiddleVec.y = decalaY*16+8-GameScreen.player.PNJ.middle.y;
 				distToMiddle = distToMiddleVec.len();
 				if(id == 0 || (id>999 && AllTools.instance.getType(id).isUseLess))UseItem(layer, true);
 				if(id>999 && AllTools.instance.getType(id).type == AllTools.instance.Axe)UseItem(layer, false);
@@ -380,15 +380,15 @@ public class ModifyTerrain {
 			else if(id>999)
 			{
 				
-				distToMiddleVec.x = decalaX*16+8-GameScreen.player.middle.x;
-				distToMiddleVec.y = decalaY*16+8-GameScreen.player.middle.y;
+				distToMiddleVec.x = decalaX*16+8-GameScreen.player.PNJ.middle.x;
+				distToMiddleVec.y = decalaY*16+8-GameScreen.player.PNJ.middle.y;
 				distToMiddle = distToMiddleVec.len();
 				UseItem(layer,false);
 			}
 			else
 			{
-				distToMiddleVec.x = decalaX*16+8-GameScreen.player.middle.x;
-				distToMiddleVec.y = decalaY*16+8-GameScreen.player.middle.y;
+				distToMiddleVec.x = decalaX*16+8-GameScreen.player.PNJ.middle.x;
+				distToMiddleVec.y = decalaY*16+8-GameScreen.player.PNJ.middle.y;
 				distToMiddle = distToMiddleVec.len();
 				if((range>=distToMiddle && justone(layer, decalaX, decalaY, id)) || Parameters.i.ultrarange)
 				{

@@ -153,7 +153,7 @@ public class Inventory {
 		{
 			for(int i = 0; i<tempItem.number; i++)
 			{
-				GameScreen.items.placeItem(GameScreen.items.CreateItem(tempItem.id,GameScreen.player.middle.x,GameScreen.player.middle.y));
+				GameScreen.items.placeItem(GameScreen.items.CreateItem(tempItem.id,GameScreen.player.PNJ.middle.x,GameScreen.player.PNJ.middle.y));
 			}
 		}
 		else

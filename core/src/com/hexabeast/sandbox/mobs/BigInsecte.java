@@ -38,6 +38,7 @@ public class BigInsecte extends Mob {
 		calculateSize(0);
 		
 		offx = 320-width;
+		maxHealth = 500;
 		health = 500;
 		
 		hitrect = new HitRect(offx+width);
@@ -51,8 +52,8 @@ public class BigInsecte extends Mob {
 	@Override
 	public void IA()
 	{
-		velo.x = GameScreen.player.middle.x-(x+picpos.x)+15;
-		velo.y = GameScreen.player.middle.y-(y+picpos.y)+35;
+		velo.x = GameScreen.player.PNJ.middle.x-(x+picpos.x)+15;
+		velo.y = GameScreen.player.PNJ.middle.y-(y+picpos.y)+35;
 		velo.clamp(100, 300);
 		
 		if(lastdecision+decisionrate<Main.time)
@@ -239,7 +240,7 @@ public class BigInsecte extends Mob {
 				{
 					attacked = true;
 					Vector2 velo2;
-					if(!manual)velo2 = new Vector2(GameScreen.player.middle.x-(x+picpos.x), GameScreen.player.middle.y-(y+picpos.y)).setLength(800);
+					if(!manual)velo2 = new Vector2(GameScreen.player.PNJ.middle.x-(x+picpos.x), GameScreen.player.PNJ.middle.y-(y+picpos.y)).setLength(800);
 					else
 					{
 						velo2 = new Vector2(VisorPos.x-(x+picpos.x), VisorPos.y-(y+picpos.y)).setLength(800);
@@ -272,7 +273,7 @@ public class BigInsecte extends Mob {
 					}
 					
 					Entity owner = this;
-					if(manual)owner = GameScreen.player;
+					if(manual)owner = GameScreen.player.PNJ;
 					
 					GameScreen.entities.projectiles.AddProjectile(x+picpos.x, y+picpos.y, velo2.x, velo2.y, 1, owner,power);
 					velo2.rotate(15);

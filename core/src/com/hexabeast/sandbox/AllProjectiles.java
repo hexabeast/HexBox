@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.hexabeast.sandbox.mobs.PNJ;
 
 public class AllProjectiles {
 	public List<MagicProjectile> projList = new ArrayList<MagicProjectile>();
@@ -71,11 +72,11 @@ public class AllProjectiles {
 		projList2.add(new Projectile(x,y,vx,vy,type, owner, damage));
 	}
 	
-	public void AddGrapple(float x, float y, float vx, float vy, float distance, TextureRegion tex, Texture ropeTex)
+	public void AddGrapple(PNJ pnj, float x, float y, float vx, float vy, float distance, TextureRegion tex, Texture ropeTex)
 	{
-		GameScreen.player.grapple.playerAttached = false;
-		GameScreen.player.grapple = new Grapple(x,y,vx,vy, distance, tex, ropeTex);
-		projList3.add(GameScreen.player.grapple);
+		pnj.hook.playerAttached = false;
+		pnj.hook = new Grapple(x,y,vx,vy, distance, tex, ropeTex);
+		projList3.add(pnj.hook);
 	}
 	
 	public void DrawMagic(SpriteBatch batch)

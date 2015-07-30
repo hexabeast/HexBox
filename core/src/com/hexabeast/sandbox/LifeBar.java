@@ -31,7 +31,7 @@ public class LifeBar {
 	{
 		LB.setPosition(x, y);
 		backLB.setPosition(x, y);
-		greenLB.setPosition(LB.getX()-(GameScreen.player.maxHealth-GameScreen.player.health)/GameScreen.player.maxHealth*greenLB.getWidth()*scale+12, y);
+		greenLB.setPosition(LB.getX()-(GameScreen.player.PNJ.maxHealth-GameScreen.player.PNJ.health)/GameScreen.player.PNJ.maxHealth*greenLB.getWidth()*scale+12, y);
 		redLB.setPosition(floatLerp(redLB.getX(), greenLB.getX()),y);
 		
 		backLB.draw(batch);

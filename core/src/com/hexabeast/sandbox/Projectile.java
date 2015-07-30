@@ -156,14 +156,14 @@ public class Projectile extends Entity{
 					velocity.y = 0;
 				}
 				
-				if(!inoffensive && GameScreen.player!=owner)
+				if(!inoffensive && GameScreen.player.PNJ!=owner)
 				{
 					boolean touched = false;
 					ArrayList<Rectangle> rects = GameScreen.player.getHitRect();
 					
 					for(int i = 0; i<rects.size(); i++)
 					{
-						if(rects.get(i).contains(x-(GameScreen.player.x+GameScreen.player.transoffx), y-(GameScreen.player.y+GameScreen.player.transoffy)))
+						if(rects.get(i).contains(x-(GameScreen.player.currentForm.x+GameScreen.player.transoffx), y-(GameScreen.player.currentForm.y+GameScreen.player.transoffy)))
 						{
 							touched = true;
 							break;
@@ -171,8 +171,8 @@ public class Projectile extends Entity{
 					}
 					if(touched)
 					{
-						GameScreen.player.Hurt(damage, 0, 0, x, y);
-						attach(GameScreen.player);
+						GameScreen.player.currentForm.Hurt(damage, 0, x, y);
+						attach(GameScreen.player.PNJ);
 					}
 				}
 				
@@ -197,7 +197,7 @@ public class Projectile extends Entity{
 						{
 							if(m.attach)attach(m);
 							else inoffensive = true;
-							m.damage(damage,0,x,y);
+							m.Hurt(damage,0,x,y);
 						}
 					}
 				}			
@@ -205,7 +205,7 @@ public class Projectile extends Entity{
 		}
 		else
 		{
-			if(type>999 && !targetAttached && Math.abs(x-GameScreen.player.middle.x)<GameScreen.player.width/3 && Math.abs(y-GameScreen.player.middle.y)<GameScreen.player.height/3+16)
+			if(type>999 && !targetAttached && Math.abs(x-GameScreen.player.PNJ.middle.x)<GameScreen.player.PNJ.width/3 && Math.abs(y-GameScreen.player.PNJ.middle.y)<GameScreen.player.PNJ.height/2+16)
 			{
 				if(!GameScreen.inventory.isFull(type))
 				{
