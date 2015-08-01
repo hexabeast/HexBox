@@ -139,9 +139,9 @@ public class AllMobs {
 				
 				for (int i = 0; i < mobList[rj][rk].size(); i++)
 				{
+					mobList[rj][rk].get(i).superDraw(batch);
 					mobList[rj][rk].get(i).update();
 					mobList[rj][rk].get(i).draw(batch);
-					mobList[rj][rk].get(i).superDraw(batch);
 				}
 			}
 		}

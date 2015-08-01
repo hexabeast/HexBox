@@ -75,7 +75,7 @@ public class AllProjectiles {
 	public void AddGrapple(PNJ pnj, float x, float y, float vx, float vy, float distance, TextureRegion tex, Texture ropeTex)
 	{
 		pnj.hook.playerAttached = false;
-		pnj.hook = new Grapple(x,y,vx,vy, distance, tex, ropeTex);
+		pnj.hook = new Grapple(pnj,x,y,vx,vy, distance, tex, ropeTex);
 		projList3.add(pnj.hook);
 	}
 	

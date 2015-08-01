@@ -127,7 +127,7 @@ public class MagicProjectile extends Entity{
 				}
 				if(touched)
 				{
-					GameScreen.player.PNJ.Hurt(damage, 0,x,y);
+					GameScreen.player.Hurt(damage, 0,x,y);
 					Explode();
 				}
 			}

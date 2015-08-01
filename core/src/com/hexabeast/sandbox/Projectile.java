@@ -171,7 +171,7 @@ public class Projectile extends Entity{
 					}
 					if(touched)
 					{
-						GameScreen.player.currentForm.Hurt(damage, 0, x, y);
+						GameScreen.player.Hurt(damage, 0, x, y);
 						attach(GameScreen.player.PNJ);
 					}
 				}

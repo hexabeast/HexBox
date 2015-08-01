@@ -1,13 +1,12 @@
 package com.hexabeast.sandbox;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.hexabeast.sandbox.mobs.PNJ;
 
 public class Grapple extends Entity{
 	public float currentTime = 0;
@@ -41,8 +40,12 @@ public class Grapple extends Entity{
 	
 	public boolean justspawned = true;
 	
-	public Grapple(float x, float y, float vx, float vy, float distance, TextureRegion tex, Texture ropeTex) 
+	public PNJ owner;
+	
+	public Grapple(PNJ owner, float x, float y, float vx, float vy, float distance, TextureRegion tex, Texture ropeTex) 
 	{
+		
+		this.owner = owner;
 		justspawned = true;
 		this.tex = tex;
 		this.ropeTex = ropeTex;
@@ -146,25 +149,25 @@ public class Grapple extends Entity{
 		corde.clamp(0, Math.max(0, corde.len()-1000*Main.delta));
 		if(playerAttached)
 		{
-			corde.x = GameScreen.player.PNJ.hookAnchorCoord.x-x;
-			corde.y = GameScreen.player.PNJ.hookAnchorCoord.y-2-y;
+			corde.x = owner.hookAnchorCoord.x-x;
+			corde.y = owner.hookAnchorCoord.y-2-y;
 		}
 		
 		if(todetach)playerAttached = false;
 		
-		if(((Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && AllTools.instance.getType(GameScreen.player.currentCellID).grapple) || Inputs.instance.Z)&& isPlanted && playerAttached)
+		if(((owner.rightPress && AllTools.instance.getType(GameScreen.player.currentCellID).grapple) || owner.upPressed)&& isPlanted && playerAttached)
 		{
 			if(max>verymin)max-=500*Main.delta;
 			else max = verymin;
 		}
 		
-		if((Inputs.instance.S)&& isPlanted && playerAttached)
+		if((owner.downPressed)&& isPlanted && playerAttached)
 		{
 			if(max<verymax-10)max+=500*Main.delta;
 			else max = verymax-10;
 		}
-		if(Inputs.instance.leftmousedown && AllTools.instance.getType(GameScreen.player.currentCellID).grapple && !justspawned && playerAttached)todetach=true;
-		if(Inputs.instance.middleOrAPressed && !justspawned && playerAttached)todetach=true;
+		///if(Inputs.instance.leftmousedown && AllTools.instance.getType(GameScreen.player.currentCellID).grapple && !justspawned && playerAttached)todetach=true;
+		//if(Inputs.instance.middleOrAPressed && !justspawned && playerAttached)todetach=true;
 	
 		if(!Parameters.i.fullBright)
 		{
@@ -187,7 +190,7 @@ public class Grapple extends Entity{
 	
 	public Vector2 getLine()
 	{
-		return new Vector2(GameScreen.player.PNJ.hookAnchorCoord.x-x, GameScreen.player.PNJ.hookAnchorCoord.y-y);
+		return new Vector2(owner.hookAnchorCoord.x-x, owner.hookAnchorCoord.y-y);
 	}
 	
 	 @Override

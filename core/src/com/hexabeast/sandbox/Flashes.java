@@ -105,7 +105,8 @@ public class Flashes {
 			{
 				GameScreen.player.PNJ.health = GameScreen.player.PNJ.maxHealth;
 				GameScreen.player.PNJ.detach = true;
-				 regen = false;
+				GameScreen.player.PNJ.isDead = false;
+				regen = false;
 			}
 			/*if(teleport)
 			{
@@ -129,12 +130,13 @@ public class Flashes {
 			running = true;
 		}
 		
+		
 		 Gdx.gl.glEnable(GL20.GL_BLEND);
 		 Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		 GameScreen.shapeRenderer.setProjectionMatrix(GameScreen.camera.combined);
 		 GameScreen.shapeRenderer.begin(ShapeType.Filled);
 		 GameScreen.shapeRenderer.setColor(new Color(color.r, color.g, color.b, alpha));
-		 GameScreen.shapeRenderer.rect(-200000, -200000, 400000,400000);
+		 GameScreen.shapeRenderer.rect(-200000, -200000, 4000000,4000000);
 		 GameScreen.shapeRenderer.end();
 	}
 }

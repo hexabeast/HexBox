@@ -405,6 +405,9 @@ public class GameScreen implements Screen
 					DeforMeshes.instance.implist.get(l).x+=(Map.instance.width)*16;
 				}
 				
+				player.PNJ.calculateShoulder();
+				player.PNJ.calculateVectors();
+				
 			}
 			if(camiddle.x>=(Map.instance.width)*16)
 			{
@@ -419,6 +422,9 @@ public class GameScreen implements Screen
 					DeforMeshes.instance.implist.get(l).x-=(Map.instance.width)*16;
 				}
 			}
+			
+			player.PNJ.calculateShoulder();
+			player.PNJ.calculateVectors();
 			
 			resetCamera();
 		}
@@ -471,6 +477,7 @@ public class GameScreen implements Screen
 				entities.projectiles.DrawProjectiles(batch);
 				
 				entities.projectiles.DrawGrapples(batch);
+				player.Update();
 				if(!Main.noUI)player.draw(batch);
 				
 				entities.mobs.DrawAll(batch);

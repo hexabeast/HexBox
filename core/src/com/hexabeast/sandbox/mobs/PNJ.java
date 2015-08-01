@@ -135,6 +135,9 @@ public class PNJ extends Mob{
 	public boolean leftClick;
 	public boolean rightClick;
 	
+	public boolean upPressed;
+	public boolean downPressed;
+	
 	//CARACTERISTICS
 	public int currentItem = 0;
 	public float baseDefense = 100;
@@ -143,7 +146,7 @@ public class PNJ extends Mob{
 
 	public PNJ()
 	{
-		hook = new Grapple(0,0,0,0,0,null,null);
+		hook = new Grapple(this,0,0,0,0,0,null,null);
 		hook.playerAttached = false;
 		
 		for(int i = 0; i<4; i++)equipment[i] = AllTools.instance.defaultType;
@@ -243,8 +246,8 @@ public class PNJ extends Mob{
 			}
 			else
 			{
-				if(!isTurned)batch.draw(GameScreen.items.getTextureById(currentItem), shoulderPos.x-handOffset.x, shoulderPos.y-handOffset.y, handOffset.x, handOffset.y, GameScreen.items.getTextureById(currentItem).getRegionWidth()*1.5f, GameScreen.items.getTextureById(currentItem).getRegionHeight()*1.5f, 1, 1, rarmRotation);
-				else 		 batch.draw(GameScreen.items.getTextureById(currentItem), shoulderPos.x+handOffset.x, shoulderPos.y-handOffset.y, -handOffset.x, handOffset.y, -GameScreen.items.getTextureById(currentItem).getRegionWidth()*1.5f, GameScreen.items.getTextureById(currentItem).getRegionHeight()*1.5f, 1, 1, rarmRotation);
+				if(!isTurned)batch.draw(GameScreen.items.getTextureById(currentItem), shoulderPos.x-handOffset.x, shoulderPos.y-handOffset.y, handOffset.x, handOffset.y, 24, 24, 1, 1, rarmRotation);
+				else 		 batch.draw(GameScreen.items.getTextureById(currentItem), shoulderPos.x+handOffset.x, shoulderPos.y-handOffset.y, -handOffset.x, handOffset.y, -24, 24, 1, 1, rarmRotation);
 			}
 		}
 		
@@ -428,12 +431,18 @@ public class PNJ extends Mob{
 	public void visual()
 	{
 		
-		
-		
 		speedx = baseSpeedx;
 		speedy = baseSpeedy;
 		power = basePower;
 		defense = baseDefense;
+		
+		if(Parameters.i.superman && isMain && manual)
+		{
+			speedx+=1000;
+			speedy+=200;
+			defense+=1000;
+			power+=1000;
+		}
 		
 		for(int i = 0; i<4; i++)
 		{
@@ -510,8 +519,8 @@ public class PNJ extends Mob{
 
 		Vector2 launcherOffset = new Vector2(AllTools.instance.getType(currentItem).launcherDistance,0);
 		
-		launcherOffset.setAngle(rarmRotation+AllTools.instance.getType(currentItem).launcherAngle);
-		
+		if(!isTurned)launcherOffset.setAngle(rarmRotation+AllTools.instance.getType(currentItem).launcherAngle);
+		else launcherOffset.setAngle(rarmRotation-AllTools.instance.getType(currentItem).launcherAngle+180);
 		
 		middle.x = x+width/2;
 		middle.y = y+height/2;
@@ -728,11 +737,12 @@ public class PNJ extends Mob{
 		}
 		else if(!hookFlying)
 		{
-			if(Math.abs(larmRotation-70)>0.1f)larmRotation = larmRotation+(70-larmRotation)*Main.delta*20;
+			if(Math.abs(larmRotation-27)>0.1f)larmRotation = larmRotation+(27-larmRotation)*Main.delta*20;
+			
 		}
 		else
 		{
-			if(Math.abs(larmRotation-27)>0.1f)larmRotation = larmRotation+(27-larmRotation)*Main.delta*20;
+			if(Math.abs(larmRotation-70)>0.1f)larmRotation = larmRotation+(70-larmRotation)*Main.delta*20;
 		}
 	}
 	
@@ -912,6 +922,18 @@ public class PNJ extends Mob{
 	}
 	
 	@Override
+	public void goUp()
+	{
+		upPressed = true;
+	}
+	
+	@Override
+	public void goDown()
+	{
+		downPressed = true;
+	}
+	
+	@Override
 	public void goClickRightInstant()
 	{
 		rightClick = true;
@@ -1016,6 +1038,8 @@ public class PNJ extends Mob{
 		currentFriction = Map.instance.mainLayer.getBloc(Tools.floor((x+width/2)/Map.instance.mainLayer.getTileWidth()), Tools.floor((y)/Map.instance.mainLayer.getTileHeight())).friction; 
 		leftPress = false;
 		rightPress = false;
+		downPressed = false;
+		upPressed = false;
 	}
 	
 }

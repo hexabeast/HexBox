@@ -117,29 +117,26 @@ public class Player{
 	
 	public void Update()
 	{
-		if(!Main.pause)
+		if(AllEntities.getType(Tools.floor(PNJ.middle.x/16), Tools.floor((PNJ.middle.y)/16-1)) == AllEntities.furnituretype)
 		{
-			if(AllEntities.getType(Tools.floor(PNJ.middle.x/16), Tools.floor(PNJ.middle.y/16)-1) == AllEntities.furnituretype)
+			Furniture f = (Furniture)AllEntities.getEntity(Tools.floor(PNJ.middle.x/16), Tools.floor(PNJ.middle.y/16)-1);
+			if(f.container)
 			{
-				Furniture f = (Furniture)AllEntities.getEntity(Tools.floor(PNJ.middle.x/16), Tools.floor(PNJ.middle.y/16)-1);
-				if(f.container)
+				if(f != GameScreen.inventory.chest || !GameScreen.inventory.chestopen)
 				{
-					if(f != GameScreen.inventory.chest || !GameScreen.inventory.chestopen)
-					{
-						GameScreen.inventory.putinchest(f);
-					}
-					GameScreen.inventory.chest = f;
-					GameScreen.inventory.chestopen = true;
+					GameScreen.inventory.putinchest(f);
 				}
-				else
-				{
-					GameScreen.inventory.chestopen = false;
-				}
+				GameScreen.inventory.chest = f;
+				GameScreen.inventory.chestopen = true;
 			}
 			else
 			{
 				GameScreen.inventory.chestopen = false;
 			}
+		}
+		else
+		{
+			GameScreen.inventory.chestopen = false;
 		}
 	}
 	
@@ -240,8 +237,12 @@ public boolean transform(int id)
 
 public void Hurt(float d, float immortality, float x, float y)
 {
-	hurt = true;
-	PNJ.Hurt(d, immortality, x, y);
+	
+	if(!Parameters.i.godmode)
+	{
+		hurt = true;
+		currentForm.Hurt(d, immortality, x, y);
+	}
 }
 
  public void draw(SpriteBatch batch)

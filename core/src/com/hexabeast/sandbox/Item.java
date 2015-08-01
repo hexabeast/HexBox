@@ -133,11 +133,11 @@ public class Item extends Entity {
 	@Override
 	 public void draw(SpriteBatch batch)
 	 {
+		super.draw(batch);
 		if(Main.delta<1)update(Main.delta);
 		Vector3 color = Tools.getShadowColor((int) ((getX()+spr.getWidth()/2)/16),(int) ((getY()+spr.getHeight()/2)/16));
 		spr.setColor(color.x,color.y,color.z,1);
-		spr.draw(batch);
-		super.draw(batch);
+		spr.draw(batch);	
 	 }
 	 
 	 @Override

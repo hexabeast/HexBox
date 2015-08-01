@@ -14,7 +14,6 @@ public class Furniture extends Entity{
 	public boolean container = false;
 	public int[] itemsids;
 	public int[] itemsnumbers;
-	public int id;
 	
 	public Furniture(int x,int y, int type)
 	{

@@ -106,6 +106,8 @@ public class Mob extends Entity
 		{
 			d*=(100f/defense);
 			
+			d = Math.max(d,1);
+			
 			if(immortality>0)
 			{
 				damagerate = immortality;

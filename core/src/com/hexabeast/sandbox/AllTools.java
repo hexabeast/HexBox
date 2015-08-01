@@ -87,7 +87,7 @@ public class AllTools {
 		ToolTypes[GreenSpId-1000].weaponTexture = 2;
 		ToolTypes[GreenSpId-1000].description = "A green magic wand";
 		ToolTypes[GreenSpId-1000].name = "Green Wand";
-		ToolTypes[GreenSpId-1000].launcherDistance = 63;
+		ToolTypes[GreenSpId-1000].launcherDistance = 60;
 		ToolTypes[GreenSpId-1000].launcherAngle = -18;
 		ToolTypes[GreenSpId-1000].sceptreType = 0;
 		ToolTypes[GreenSpId-1000].rate = 0.333f;
@@ -102,7 +102,7 @@ public class AllTools {
 		ToolTypes[RedSpId-1000].weaponTexture = 3;
 		ToolTypes[RedSpId-1000].description = "A red magic wand";
 		ToolTypes[RedSpId-1000].name = "Red Wand";
-		ToolTypes[RedSpId-1000].launcherDistance = 63;
+		ToolTypes[RedSpId-1000].launcherDistance = 60;
 		ToolTypes[RedSpId-1000].launcherAngle = -18;
 		ToolTypes[RedSpId-1000].sceptreType = 1;
 		ToolTypes[RedSpId-1000].rate = 0.2f;
@@ -117,7 +117,7 @@ public class AllTools {
 		ToolTypes[PurpleSpId-1000].weaponTexture = 4;
 		ToolTypes[PurpleSpId-1000].description = "A purple magic wand";
 		ToolTypes[PurpleSpId-1000].name = "Purple Wand";
-		ToolTypes[PurpleSpId-1000].launcherDistance = 63;
+		ToolTypes[PurpleSpId-1000].launcherDistance = 60;
 		ToolTypes[PurpleSpId-1000].launcherAngle = -18;
 		ToolTypes[PurpleSpId-1000].sceptreType = 2;
 		ToolTypes[PurpleSpId-1000].rate = 0.6f;
@@ -132,7 +132,7 @@ public class AllTools {
 		ToolTypes[BlueSpId-1000].weaponTexture = 5;
 		ToolTypes[BlueSpId-1000].description = "A blue magic wand";
 		ToolTypes[BlueSpId-1000].name = "Blue Wand";
-		ToolTypes[BlueSpId-1000].launcherDistance = 63;
+		ToolTypes[BlueSpId-1000].launcherDistance = 60;
 		ToolTypes[BlueSpId-1000].launcherAngle = -18;
 		ToolTypes[BlueSpId-1000].sceptreType = 3;
 		ToolTypes[BlueSpId-1000].rate = 0.2f;
@@ -148,7 +148,7 @@ public class AllTools {
 		ToolTypes[BlackSpId-1000].weaponTexture = 6;
 		ToolTypes[BlackSpId-1000].description = "A black magic wand, use it to illuminate your way";
 		ToolTypes[BlackSpId-1000].name = "Black Wand";
-		ToolTypes[BlackSpId-1000].launcherDistance = 63;
+		ToolTypes[BlackSpId-1000].launcherDistance = 60;
 		ToolTypes[BlackSpId-1000].launcherAngle = -18;
 		ToolTypes[BlackSpId-1000].sceptreType = 4;
 		ToolTypes[BlackSpId-1000].rate = 2f;
@@ -227,7 +227,7 @@ public class AllTools {
 		ToolTypes[BowId-1000].description = "A simple crossbow";
 		ToolTypes[BowId-1000].name = "Wooden crossbow";
 		ToolTypes[BowId-1000].launcherDistance = 50;
-		ToolTypes[BowId-1000].launcherAngle = -89;
+		ToolTypes[BowId-1000].launcherAngle = -87;
 		ToolTypes[BowId-1000].rate = 0.5f;
 		ToolTypes[BowId-1000].obstacleProof = true;
 		ToolTypes[BowId-1000].stackable = false;

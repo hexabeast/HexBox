@@ -34,7 +34,6 @@ public class AllFurnitures {
 		if(y>=Map.instance.height)y = Map.instance.height-1;
 		
 		Furniture fur = new Furniture(x,y,type);
-		fur.id = furnitureListAll.size()+Constants.treelimit;
 		fur.entitype = AllEntities.furnituretype;
 		if(AllTools.instance.getType(type).turnable)
 		{
@@ -78,25 +77,19 @@ public class AllFurnitures {
 		if(y>=Map.instance.height)y = Map.instance.height-1;
 		
 		Furniture fur = new Furniture(x,y,type);
+		
+		fur.entitype = AllEntities.furnituretype;
 		if(fur.container)
 		{
 			fur.itemsids = ids;
 			fur.itemsnumbers = numbers;
 		}
 		fur.isTurned = turned;
-		fur.id = furnitureListAll.size()+Constants.treelimit;
 		fur.checkPoints();
 		furnitureList[x/chunksize][y/chunksize].add(fur);
 		furnitureListAll.add(fur);
 	}
 
-	public void checkIDs()
-	{
-		for(int i = 0; i<furnitureListAll.size(); i++)
-		{
-			furnitureListAll.get(i).id = i+Constants.treelimit;
-		}
-	}
 	
 	public void DrawAll(SpriteBatch batch)
 	{
@@ -134,7 +127,6 @@ public class AllFurnitures {
 			        	Tools.checkItems();
 			        	furnitureListAll.remove(furnitureList[rj][rk].get(i));
 			        	furnitureList[rj][rk].remove(i);
-			        	checkIDs();
 			        }
 				}
 			}

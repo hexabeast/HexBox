@@ -269,7 +269,7 @@ public class Wolf extends Mob{
 	@Override
 	public void goStandX()
 	{
-		if(canJump)currentBody = 0;
+		if(canJump && currentBody>1)currentBody = 0;
 		ax = 0;
 		running = false;
 	}
@@ -339,7 +339,7 @@ public class Wolf extends Mob{
 		{
 			currentBody++;
 			if(currentBody>1)
-			{
+			{	
 				currentBody = 0;
 			}
 		}
