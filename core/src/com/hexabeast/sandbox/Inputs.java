@@ -355,7 +355,7 @@ public class Inputs implements InputProcessor{
 				Parameters.i.noShadow = !Parameters.i.noShadow;
 				break;
 			case Keys.G:
-				GameScreen.player.PNJ.Hurt(20,0,GameScreen.player.PNJ.middle.x, GameScreen.player.PNJ.middle.y);
+				GameScreen.player.Hurt(20,0,GameScreen.player.PNJ.middle.x, GameScreen.player.PNJ.middle.y);
 				break;
 			case Keys.E:
 				GameScreen.inventory.ToggleHide();
