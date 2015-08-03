@@ -35,11 +35,11 @@ public class DeforMeshes {
 	
 	float[] texCoordx;
 	float[] texCoordy;
-	float[][] pCoordx;
-	float[][] pCoordy;
+	int[][] pCoordx;
+	int[][] pCoordy;
 	
-	float[][] ppCoordx;
-	float[][] ppCoordy;
+	int[][] ppCoordx;
+	int[][] ppCoordy;
 	
 	float[] verts;
 	
@@ -57,11 +57,11 @@ public class DeforMeshes {
 		texCoordx = new float[col+1];
 		texCoordy = new float[rows+1];
 		
-		ppCoordx = new float[col+1][rows+1];
-		ppCoordy = new float[col+1][rows+1];
+		ppCoordx = new int[col+1][rows+1];
+		ppCoordy = new int[col+1][rows+1];
 		
-		pCoordx = new float[col+1][rows+1];
-		pCoordy = new float[col+1][rows+1];
+		pCoordx = new int[col+1][rows+1];
+		pCoordy = new int[col+1][rows+1];
 		
 		ready = false;
 		
@@ -86,18 +86,18 @@ public class DeforMeshes {
 		{
 			for(int k = 0; k<rows+1; k++)
 			{
-				pCoordx[j][k] =  width*j;
+				pCoordx[j][k] =  (int) (width*j);
 			}
-			texCoordx[j] = (width*j)/totwidth;
+			texCoordx[j] = (float)pCoordx[j][0]/totwidth;
 		}
 		  
 		for(int k = 0; k<rows+1; k++)
 		{
 			for(int j = 0; j<col+1; j++)
 			{
-				pCoordy[j][k] =  height*k;
+				pCoordy[j][k] =  (int) (height*k);
 			}
-			texCoordy[k] = (height*k)/totheight;
+			texCoordy[k] = (float)pCoordy[0][k]/totheight;
 		}
 		  
 		for(int j = 0; j<col+1; j++)

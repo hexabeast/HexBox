@@ -55,7 +55,7 @@ public class Main extends Game {
 	@Override
 	public void create () {
 		Parameters.i = new Parameters();
-		DeforMeshes.instance = new DeforMeshes(32, 24);
+		DeforMeshes.instance = new DeforMeshes(32, 18);
 		
 		windowWidth = Gdx.graphics.getWidth();
 		windowHeight = Gdx.graphics.getHeight();
