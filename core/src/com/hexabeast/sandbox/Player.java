@@ -115,30 +115,7 @@ public class Player{
 		return (Math.abs(x-PNJ.x-PNJ.width/2)<PNJ.width/3.5f && Math.abs(y-PNJ.y-PNJ.height/2)<PNJ.height/2.2f);
 	}
 	
-	public void Update()
-	{
-		if(AllEntities.getType(Tools.floor(PNJ.middle.x/16), Tools.floor((PNJ.middle.y)/16-1)) == AllEntities.furnituretype)
-		{
-			Furniture f = (Furniture)AllEntities.getEntity(Tools.floor(PNJ.middle.x/16), Tools.floor(PNJ.middle.y/16)-1);
-			if(f.container)
-			{
-				if(f != GameScreen.inventory.chest || !GameScreen.inventory.chestopen)
-				{
-					GameScreen.inventory.putinchest(f);
-				}
-				GameScreen.inventory.chest = f;
-				GameScreen.inventory.chestopen = true;
-			}
-			else
-			{
-				GameScreen.inventory.chestopen = false;
-			}
-		}
-		else
-		{
-			GameScreen.inventory.chestopen = false;
-		}
-	}
+	
 	
 	/*public void computeVillage()
 	{
@@ -245,8 +222,31 @@ public void Hurt(float d, float immortality, float x, float y)
 	}
 }
 
- public void draw(SpriteBatch batch)
- { 
+public void Update()
+{
+	if(AllEntities.getType(Tools.floor(PNJ.middle.x/16), Tools.floor((PNJ.middle.y)/16-1)) == AllEntities.furnituretype)
+	{
+		Furniture f = (Furniture)AllEntities.getEntity(Tools.floor(PNJ.middle.x/16), Tools.floor(PNJ.middle.y/16)-1);
+		if(f.container)
+		{
+			if(f != GameScreen.inventory.chest || !GameScreen.inventory.chestopen)
+			{
+				GameScreen.inventory.putinchest(f);
+			}
+			GameScreen.inventory.chest = f;
+			GameScreen.inventory.chestopen = true;
+		}
+		else
+		{
+			GameScreen.inventory.chestopen = false;
+		}
+	}
+	else
+	{
+		GameScreen.inventory.chestopen = false;
+	}
+	
+	
 	if(transformList.get(Parameters.i.currentTransform).health<=0 || transformList.get(Parameters.i.currentTransform).isDead)isDead = true;
 	
 	if(transformed || isDead)PNJ.hook.playerAttached = false;
@@ -257,7 +257,6 @@ public void Hurt(float d, float immortality, float x, float y)
 	
 	inputTransform();
 	transformList.get(Parameters.i.currentTransform).update();
-	transformList.get(Parameters.i.currentTransform).draw(batch);
 	
 	if(Parameters.i.currentTransform!=0)
 	{
@@ -270,12 +269,6 @@ public void Hurt(float d, float immortality, float x, float y)
 	
 	if(transformingin)
 	{
-		Shaders.instance.setWhiteShader();
-		batch.setColor(1, 1, 1,Math.min(1,(Main.time-transformtime)/(transformrate/4)));
-		transformList.get(Parameters.i.currentTransform).graphicDraw(batch);
-		batch.setColor(Color.WHITE);
-		Shaders.instance.setShadowShader();
-		
 		if(Main.time-transformtime>(transformrate/2))
 		{
 			transformingin = false;
@@ -301,11 +294,7 @@ public void Hurt(float d, float immortality, float x, float y)
 	}
 	else if(transformingout)
 	{
-		Shaders.instance.setWhiteShader();
-		batch.setColor(1, 1, 1, Math.min(1,Math.max(0, (-Main.time+transformtime+transformrate)/(transformrate/4))));
-		transformList.get(Parameters.i.currentTransform).graphicDraw(batch);
-		batch.setColor(Color.WHITE);
-		Shaders.instance.setShadowShader();
+		
 		
 		if(Main.time-transformtime>(transformrate))
 		{
@@ -327,6 +316,27 @@ public void Hurt(float d, float immortality, float x, float y)
 	if(Parameters.i.currentTransform!=0)transformed = true;
 	else transformed = false;
 	currentForm = transformList.get(Parameters.i.currentTransform);
+}
+ 
+ public void draw(SpriteBatch batch)
+ { 
+	 transformList.get(Parameters.i.currentTransform).draw(batch);
+ 	if(transformingin)
+	{
+ 		Shaders.instance.setWhiteShader();
+		batch.setColor(1, 1, 1,Math.min(1,(Main.time-transformtime)/(transformrate/4)));
+		transformList.get(Parameters.i.currentTransform).graphicDraw(batch);
+		batch.setColor(Color.WHITE);
+		Shaders.instance.setShadowShader();
+	}
+	else if(transformingout)
+	{
+		Shaders.instance.setWhiteShader();
+		batch.setColor(1, 1, 1, Math.min(1,Math.max(0, (-Main.time+transformtime+transformrate)/(transformrate/4))));
+		transformList.get(Parameters.i.currentTransform).graphicDraw(batch);
+		batch.setColor(Color.WHITE);
+		Shaders.instance.setShadowShader();
+	}
  }
 
 }

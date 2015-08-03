@@ -81,8 +81,6 @@ public class PNJ extends Mob{
 	
 	public float speedx = 250;
 	public float speedy = 210;
-
-	public float horspeed = 210;
 	
 	public boolean larmRotationDirection;
 	
@@ -439,7 +437,7 @@ public class PNJ extends Mob{
 		if(Parameters.i.superman && isMain && manual)
 		{
 			speedx+=1000;
-			speedy+=200;
+			speedy+=100;
 			defense+=1000;
 			power+=1000;
 		}
@@ -856,7 +854,7 @@ public class PNJ extends Mob{
 	{
 		if(canJump)
 		{
-			vy = horspeed*2.4f;
+			vy = speedy*2.4f;
 			canJump = false;
 		}
 	}
