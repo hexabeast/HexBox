@@ -289,7 +289,7 @@ public class PauseMenu {
 				else if(details.isTouchedRight()||details.isTouchedLeft())Parameters.i.details = !Parameters.i.details;
 			}
 		}
-		else if(cheat)
+		else if(cheat && !NetworkManager.instance.online)
 		{
 			if(Parameters.i.cheat)
 			{
@@ -371,13 +371,13 @@ public class PauseMenu {
 					else if(transform.isTouchedLeft())
 					{
 						int tempcf = Parameters.i.currentTransform-1;
-						if(tempcf<-1)tempcf = GameScreen.player.transformList.size()-1;
+						if(tempcf<0)tempcf = GameScreen.player.transformList.size()-1;
 						GameScreen.player.transform(tempcf);
 					}
 					else if(transform.isTouchedRight())
 					{
 						int tempcf = Parameters.i.currentTransform+1;
-						if(tempcf>=GameScreen.player.transformList.size())tempcf = -1;
+						if(tempcf>=GameScreen.player.transformList.size())tempcf = 0;
 						GameScreen.player.transform(tempcf);
 					}
 					

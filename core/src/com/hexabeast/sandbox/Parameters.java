@@ -26,7 +26,7 @@ public class Parameters {
 	public boolean rain = false;
 	public boolean background = true;
 	public boolean oldtransition = false;
-	public int currentTransform = -1;
+	public int currentTransform = 0;
 	public boolean goodmagic = true;
 	public int lightDistance = 2;
 	public boolean FBORender = false;
@@ -38,7 +38,10 @@ public class Parameters {
 		
 	}
 	
-	
+	public void disableCheats()
+	{
+		
+	}
 
 	public void SwitchQuality()
 	{

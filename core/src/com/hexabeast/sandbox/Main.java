@@ -22,9 +22,9 @@ public class Main extends Game {
 	public static float delta;
 	public static float time = 0;
 	public static boolean pause = false;
-	public static boolean devtest = false;
+	public static boolean devtest = true;
 	
-	public static NetworkManager network= new NetworkManager();
+	public static NetworkManager network;
 	
 	public static int windowWidth = 1280;
 	public static int windowHeight = 720;
@@ -56,6 +56,9 @@ public class Main extends Game {
 	
 	@Override
 	public void create () {
+		
+		network= new NetworkManager();
+		
 		Parameters.i = new Parameters();
 		DeforMeshes.instance = new DeforMeshes(32, 18);
 		
@@ -178,7 +181,7 @@ public class Main extends Game {
 		
 		if(GameScreen.camera != null)Tools.computeAbsoluteMouse();
 		
-		if(pause)delta = Float.MIN_VALUE;
+		if(pause && !NetworkManager.instance.online)delta = Float.MIN_VALUE;
 		if(!PauseMenu.instance.clear && !pause)PauseMenu.instance.rebootMenu();
 		if(delta>0.03f)delta = 0.03f;
 		

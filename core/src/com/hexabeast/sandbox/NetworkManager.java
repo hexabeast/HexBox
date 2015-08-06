@@ -1,7 +1,6 @@
 package com.hexabeast.sandbox;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -14,13 +13,16 @@ public class NetworkManager {
 
 	public Client client;
 	
+	public NetworkRequestList modifications;
 	
-	public ArrayList<Object> modifications;
+	String name = "John";
+	
+	boolean online = false;
 	
 	public NetworkManager()
 	{
 		instance = this;
-		modifications = new ArrayList<Object>();
+		modifications = new NetworkRequestList();
 		client = new Client();
 		HServer.initKryoClasses(client.getKryo());
 	    
@@ -37,11 +39,12 @@ public class NetworkManager {
 	       
 	       public void connected(Connection c)
 	       {
-	    	   client.sendTCP(0);
+	    	   online = true;
+	    	   System.out.println("online");
            }
            public void disconnected(Connection c)
            {
-               
+        	   online = false;
            }
            
 		});

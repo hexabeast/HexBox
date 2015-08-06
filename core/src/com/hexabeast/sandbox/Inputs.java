@@ -3,6 +3,7 @@ package com.hexabeast.sandbox;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.hexabeast.hexboxserver.NInputUpdate;
 
 public class Inputs implements InputProcessor{
 	public static Inputs instance;
@@ -33,6 +34,9 @@ public class Inputs implements InputProcessor{
 	public boolean D = false;
 	public boolean shift = false;
 	public boolean space = false;
+	public boolean spacePressed = false;
+	
+	public NInputUpdate Ninput = new NInputUpdate();
 	
 	@Override
 	public boolean keyTyped(char character) {return false;}
@@ -62,6 +66,17 @@ public class Inputs implements InputProcessor{
 
 	public void update()
 	{
+		if(NetworkManager.instance.online)
+		{
+			Ninput.Z = Z;
+			Ninput.Q = Q;
+			Ninput.S = S;
+			Ninput.D = D;
+			Ninput.A = middleOrAPressed;
+			Ninput.Space = spacePressed;
+			Ninput.mousePos = Tools.getAbsoluteMouse();
+		}
+		
 		if(tomouseup)
 		{
 			mouseup = true;
@@ -179,14 +194,15 @@ public class Inputs implements InputProcessor{
 		{
 			switch(keycode){
 			case Keys.V:
-				Map.instance.lights.switchDayBegin(-0.5f);
+				if(!NetworkManager.instance.online)Map.instance.lights.switchDayBegin(-0.5f);
 				break;
 			case Keys.B:
-				Map.instance.lights.switchDayBegin(0.5f);
+				if(!NetworkManager.instance.online)Map.instance.lights.switchDayBegin(0.5f);
 				break;
 				
 			case Keys.SPACE:
 				space = true;
+				spacePressed = true;
 				break;
 			case Keys.SHIFT_LEFT:
 				shift = true;
@@ -282,11 +298,14 @@ public class Inputs implements InputProcessor{
 				GameScreen.select.toggleOffset();
 				break;
 			case Keys.L:
-				Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
+				if(!NetworkManager.instance.online)Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
 				break;
 			case Keys.K:
-				if(Parameters.i.deltaMultiplier >0.5f) Parameters.i.deltaMultiplier = 0.2f;
-				else Parameters.i.deltaMultiplier = 1f;
+				if(!NetworkManager.instance.online)
+				{
+					if(Parameters.i.deltaMultiplier >0.5f) Parameters.i.deltaMultiplier = 0.2f;
+					else Parameters.i.deltaMultiplier = 1f;
+				}
 				break;
 			case Keys.B:
 				Map.instance.lights.switchDayEnd();
@@ -306,6 +325,9 @@ public class Inputs implements InputProcessor{
 			case Keys.W:
 				Z = false;
 				break;	
+			case Keys.SPACE:	
+				spacePressed = false;
+				break;
 			case Keys.S:
 				S = false;
 				break;
@@ -324,32 +346,32 @@ public class Inputs implements InputProcessor{
 				Main.zoom = 40;
 				break;
 			case Keys.M:
-				Parameters.i.superman = !Parameters.i.superman;
+				if(!NetworkManager.instance.online)Parameters.i.superman = !Parameters.i.superman;
 				break;
 			case Keys.R:
 				Parameters.i.SwitchQuality();
 				//GamePlay.mobs.SpawnRedDino(x, y);
 				break;
 			case Keys.NUMPAD_9:
-				GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
+				if(!NetworkManager.instance.online)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
 				break;
 			case Keys.NUMPAD_8:
-				GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
+				if(!NetworkManager.instance.online)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
 				break;
 			case Keys.NUMPAD_7:
-				for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
+				if(!NetworkManager.instance.online)for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
 				break;
 			case Keys.NUMPAD_1:
-				GameScreen.player.transform(1);
+				if(!NetworkManager.instance.online)GameScreen.player.transform(1);
 				break;
 			case Keys.NUMPAD_2:
-				GameScreen.player.transform(2);
+				if(!NetworkManager.instance.online)GameScreen.player.transform(2);
 				break;
 			case Keys.NUMPAD_3:
-				GameScreen.player.transform(3);
+				if(!NetworkManager.instance.online)GameScreen.player.transform(3);
 				break;
 			case Keys.NUMPAD_0:
-				GameScreen.player.transform(0);
+				if(!NetworkManager.instance.online)GameScreen.player.transform(0);
 				break;
 			case Keys.F:
 				Parameters.i.noShadow = !Parameters.i.noShadow;

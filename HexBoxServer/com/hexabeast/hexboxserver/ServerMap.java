@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.StreamUtils;
@@ -31,27 +30,15 @@ public class ServerMap {
 	
 	public boolean changedChunks[][][];
 	
-	
 	Json json;
 	
-	String fileName;
-	
+	String fileName;	
 	
 	public ServerMap(String fileName)
 	{
 		this.fileName = fileName;
 		json = new Json();
 		
-		mapFiles = new  FileHandle[2][chunkNumberWidth][chunkNumberHeight];
-		
-		for(int i=0; i<chunkNumberWidth; i++)
-		{
-			for(int j=0; j<chunkNumberHeight; j++)
-			{
-				mapFiles[0][i][j] = Gdx.files.local("data/maps/"+fileName+"/"+fileName+"1-"+String.valueOf(i)+"-"+String.valueOf(j)+".tmhm");
-				mapFiles[1][i][j] = Gdx.files.local("data/maps/"+fileName+"/"+fileName+"2-"+String.valueOf(i)+"-"+String.valueOf(j)+".tmhm");
-			}
-		}
 		
 		//LOAD PROPERTIES
 		
@@ -71,6 +58,23 @@ public class ServerMap {
 			{
 				width = properties.width;
 				height = properties.height;
+				System.out.println("Map size : "+String.valueOf(width)+" x " +String.valueOf(height));
+			}
+			
+			System.out.println("Map loading...");
+			
+			chunkNumberWidth = (int)(width/chunkWidth);
+			chunkNumberHeight = (int)(height/chunkHeight);
+			
+			mapFiles = new  FileHandle[2][chunkNumberWidth][chunkNumberHeight];
+			
+			for(int i=0; i<chunkNumberWidth; i++)
+			{
+				for(int j=0; j<chunkNumberHeight; j++)
+				{
+					mapFiles[0][i][j] = new FileHandle("data/maps/"+fileName+"/"+fileName+"1-"+String.valueOf(i)+"-"+String.valueOf(j)+".tmhm");
+					mapFiles[1][i][j] = new FileHandle("data/maps/"+fileName+"/"+fileName+"2-"+String.valueOf(i)+"-"+String.valueOf(j)+".tmhm");
+				}
 			}
 			
 			layers = new byte[2][width][height];
@@ -79,17 +83,14 @@ public class ServerMap {
 				loadMap(layers[0], mapFiles[0]);
 				loadMap(layers[1], mapFiles[1]);
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("Error loading map");
 			}
 			
-			System.out.println("Map loaded");
+			System.out.println("Map loaded!");
 		}
 		
 		//STOPLOAD PROPERTIES
 		
-		
-		chunkNumberWidth = (int)(width/chunkWidth);
-		chunkNumberHeight = (int)(height/chunkHeight);
 		
 		changedChunks = new boolean[2][chunkNumberWidth][chunkNumberHeight];
 	}
@@ -114,6 +115,7 @@ public class ServerMap {
 					{
 							is.read(temp);
 							layer[k][l] = (temp[0]);
+							
 					}
 				}
 				

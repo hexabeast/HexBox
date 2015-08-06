@@ -80,6 +80,16 @@ public class SoundManager {
 			}
 		}
 		
+		public void playSound(Sound sound, float volume, float pitch, float x, float y)
+		{
+			x = x-GameScreen.player.PNJ.middle.x;
+			y = y-GameScreen.player.PNJ.middle.y;
+			float distance = (float) Math.sqrt(x*x+y*y);
+			
+			float pan = Math.min(0.5f, Math.abs(x)/1500f)*(x/Math.abs(x));
+			sound.play(Math.max(0, (2000-distance)/2000)*volume, pitch, pan);
+		}
+		
 		public void playAmbiance()
 		{
 			oldPlay ++;

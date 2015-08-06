@@ -111,8 +111,7 @@ public class ModifyTerrain {
 	
 	public void breakBlock(int decalaX, int decalaY, MapLayer layer)
 	{
-		GameScreen.emmiter.addParticles(5, TextureManager.instance.ParticleBlocs[getCell(layer,decalaX,decalaY).Id], decalaX*16+8, decalaY*16+8);
-		SoundManager.instance.Break[getCell(layer,decalaX,decalaY).soundType].setPitch(SoundManager.instance.Break[getCell(layer,decalaX,decalaY).soundType].play(),getCell(layer,decalaX,decalaY).pitch);
+		hurtBlock(decalaX, decalaY, layer);
 		Item nit = GameScreen.items.CreateItem(getCell(layer,decalaX,decalaY).dropId,decalaX*16+8+(float)(Math.random()*5),decalaY*16+8);
 		GameScreen.items.placeItem(nit);
 		SetCell(layer,AllBlocTypes.instance.Empty, AllBlocTypes.instance.full,decalaX,decalaY);
@@ -126,7 +125,8 @@ public class ModifyTerrain {
 	public void hurtBlock(int decalaX, int decalaY, MapLayer layer)
 	{
 		GameScreen.emmiter.addParticles(5, TextureManager.instance.ParticleBlocs[getCell(layer,decalaX,decalaY).Id], decalaX*16+8, decalaY*16+8);
-		SoundManager.instance.Break[getCell(layer,decalaX,decalaY).soundType].setPitch(SoundManager.instance.Break[getCell(layer,decalaX,decalaY).soundType].play(),getCell(layer,decalaX,decalaY).pitch);
+		SoundManager.instance.playSound(SoundManager.instance.Break[getCell(layer,decalaX,decalaY).soundType], 1, getCell(layer,decalaX,decalaY).pitch, decalaX*16, decalaY*16);
+		
 		MapChecker.instance.CheckCell(layer,decalaX,decalaY);
 	}
 	
@@ -203,7 +203,7 @@ public class ModifyTerrain {
 					if(furn.isEmpty())
 					{
 						furn.isDead = true;
-						SoundManager.instance.Break[1].setPitch(SoundManager.instance.Break[1].play(),1);
+						SoundManager.instance.playSound(SoundManager.instance.Break[1], 1, 1, decalaX*16, decalaY*16);
 						Item nit = GameScreen.items.CreateItem(furn.type,decalaX*16+8+(float)(Math.random()*5),furn.y*16+furn.casesY*8);
 						GameScreen.items.placeItem(nit);
 						lastTime = time;
