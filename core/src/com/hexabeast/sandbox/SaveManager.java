@@ -16,7 +16,7 @@ public class SaveManager {
 	public static FileHandle file1;
 	public static FileHandle file2;
 	public static FileHandle file3;
-	public StringWriter writer;
+	public static StringWriter writer;
 	public static Json json;
 	
 	public SaveManager() {

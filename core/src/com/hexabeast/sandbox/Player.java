@@ -83,7 +83,7 @@ public class Player{
 		initialPos = new Vector2(Map.instance.width/2, Map.instance.randomHeight-40);
 		if(Main.devtest)initialPos = new Vector2(2, Map.instance.randomHeight-40);
 		
-		while(!Map.instance.mainLayer.blocs[Tools.floor(initialPos.x)][Tools.floor(initialPos.y-5)].collide)
+		while(!Map.instance.mainLayer.getBloc(Tools.floor(initialPos.x),Tools.floor(initialPos.y-5)).collide)
 		{
 			initialPos.y--;
 		}

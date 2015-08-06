@@ -64,6 +64,42 @@ public class Map {
 		
 		Gdx.files.local("data/maps/"+fileName).mkdirs();
 		
+		
+		//LOAD PROPERTIES
+		
+				FileHandle propertiesFile;
+				propertiesFile = Gdx.files.local("data/maps/"+fileName+"/properties.json");
+				
+				if(!propertiesFile.file().exists()) 
+				{
+					try {
+						propertiesFile.file().createNewFile();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+					MapProperties properties = new MapProperties();
+					properties.width = width;
+					properties.height = height;
+					
+					String saveproperties = SaveManager.json.toJson(properties);
+					propertiesFile.writeString(saveproperties, false);
+				}
+				else
+				{
+					MapProperties properties;
+
+					properties = SaveManager.json.fromJson(MapProperties.class, propertiesFile);
+					
+					if(properties != null)
+					{
+						width = properties.width;
+						height = properties.height;
+					}
+				}
+				
+		//STOPLOAD PROPERTIES
+		
 		if(Main.mobile)
 		{
 			randomHeight = 999;
@@ -81,6 +117,8 @@ public class Map {
 		limit = MapGenerator.limit;
 		
 		instance = this;
+		
+		
 		
 		chunkNumberWidth = (int)(width/chunkWidth);
 		chunkNumberHeight = (int)(height/chunkHeight);
@@ -143,6 +181,7 @@ public class Map {
 		
 		lights = new LightManager();
 	}
+	
 	
 	
 	public void Save() throws IOException 

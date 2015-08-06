@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.hexabeast.sandbox.particles.HParticleEmmiter;
+import com.hexabeast.hexboxserver.NBlockModification;
 
 public class GameScreen implements Screen 
 {	
@@ -65,6 +66,18 @@ public class GameScreen implements Screen
 	@Override
 	public void render(float delta) 
 	{		
+		for(int i = 0; i<NetworkManager.instance.modifications.size(); i++)
+		{
+			if(NetworkManager.instance.modifications.get(i) instanceof NBlockModification)
+			{
+				NBlockModification modif = (NBlockModification)NetworkManager.instance.modifications.get(i);
+				MapLayer layer = Map.instance.mainLayer;
+				if(!modif.layer)layer = Map.instance.backLayer;
+				ModifyTerrain.instance.breakBlock(modif.x, modif.y, layer);
+			}
+		}
+		
+		
 		Clear();
 		TeleportPlayerOtherSide();
 		if(Parameters.i.HQ >3)

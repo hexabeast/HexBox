@@ -22,7 +22,9 @@ public class Main extends Game {
 	public static float delta;
 	public static float time = 0;
 	public static boolean pause = false;
-	public static boolean devtest = true;
+	public static boolean devtest = false;
+	
+	public static NetworkManager network= new NetworkManager();
 	
 	public static int windowWidth = 1280;
 	public static int windowHeight = 720;
@@ -184,7 +186,7 @@ public class Main extends Game {
 		
 		Shaders.instance.update();
 		
-		if(devtest)menu.play = true;
+		//if(devtest)menu.play = true;
 		
 		if(!menu.play)
 		{
@@ -203,7 +205,7 @@ public class Main extends Game {
 				MapChecker.instance = new MapChecker();
 				if(!mobile)
 				{
-					if(!devtest)Map.instance = new Map("calmap",7000,2500);
+					if(!devtest)Map.instance = new Map("calmap2",7000,2500);
 					else Map.instance = new Map("calmap2",2000,1500);
 				}
 				else
