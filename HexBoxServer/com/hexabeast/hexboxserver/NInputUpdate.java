@@ -9,12 +9,17 @@ public class NInputUpdate {
 		
 	}
 	
+	public int id;
+	
 	public boolean Q;
 	public boolean S;
 	public boolean D;
 	public boolean Z;
 	
 	public boolean A;
+	
+	public boolean Left;
+	public boolean Right;
 	
 	public boolean Space;
 	

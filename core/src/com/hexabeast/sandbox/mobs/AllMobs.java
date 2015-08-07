@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.hexabeast.hexboxserver.NInputUpdate;
 import com.hexabeast.hexboxserver.NPlayer;
 import com.hexabeast.hexboxserver.NPlayerUpdate;
 import com.hexabeast.sandbox.AllEntities;
@@ -17,7 +18,7 @@ public class AllMobs {
 	public List<Mob> mobListAll;
 	public List<Mob>[][] mobList;
 	
-	public HashMap<Integer,PNJ> Nplayers;
+	public HashMap<Integer,NetworkMob> Nplayers;
 	
 	public int chunksize = 100;
 	
@@ -186,42 +187,71 @@ public class AllMobs {
 	}
 	public void NetworkPlayer(NPlayer n)
 	{
-		PNJ npc = Nplayers.get(new Integer(n.id));
-		if(npc != null)
+		NetworkMob nnpc = Nplayers.get(new Integer(n.id));
+		
+		if(nnpc == null)
 		{
-			npc.x = n.x;
-			npc.y = n.y;
-			
-			npc.currentArm = n.armId;
-			npc.currentLegs = n.legId;
-			npc.currentHead = n.headId;
-			npc.currentBody = n.bodyId;
-			npc.currentHelmet = AllTools.instance.getType(n.helmetId);
-			npc.currentGlove = AllTools.instance.getType(n.gloveId);
-			npc.currentArmor = AllTools.instance.getType(n.armorId);
-			npc.currentLeggins = AllTools.instance.getType(n.legginsId);
-			npc.currentHook = AllTools.instance.getType(n.hookId);
-			
-			npc.currentItem = n.currentItem;
+			nnpc = new NetworkMob(new PNJ());
+			Nplayers.put(new Integer(n.id), nnpc);
 		}
-		else
+		
+		Mob npc = nnpc.mob;
+		npc.x = n.x;
+		npc.y = n.y;
+		
+		if(npc instanceof PNJ)
 		{
 			
+			((PNJ)npc).currentArm = n.armId;
+			((PNJ)npc).currentLegs = n.legId;
+			((PNJ)npc).currentHead = n.headId;
+			((PNJ)npc).currentBody = n.bodyId;
+			((PNJ)npc).currentItem = n.currentItem;
 		}
+		
+		if(AllTools.instance.getType(n.helmetId).helmet)npc.setEquipment(AllTools.instance.getType(n.helmetId));
+		else npc.setHelmet(AllTools.instance.defaultType);
+		
+		if(AllTools.instance.getType(n.armorId).armor)npc.setEquipment(AllTools.instance.getType(n.armorId));
+		else npc.setArmor(AllTools.instance.defaultType);
+		
+		if(AllTools.instance.getType(n.legginsId).legs)npc.setEquipment(AllTools.instance.getType(n.legginsId));
+		else npc.setLeggins(AllTools.instance.defaultType);
+		
+		if(AllTools.instance.getType(n.gloveId).arms)npc.setEquipment(AllTools.instance.getType(n.gloveId));
+		else npc.setGlove(AllTools.instance.defaultType);
+		
+		if(AllTools.instance.getType(n.hookId).grapple)npc.setHook(AllTools.instance.getType(n.hookId));
+		else npc.setHook(AllTools.instance.defaultType);
 	}
 	
 	public void NetworkPlayerUpdate(NPlayerUpdate n)
 	{
-		PNJ npc = Nplayers.get(new Integer(n.id));
-		if(npc != null)
+		NetworkMob nnpc = Nplayers.get(new Integer(n.id));
+		
+		if(nnpc != null)
 		{
+			Mob npc = nnpc.mob;
 			npc.x = n.x;
 			npc.y = n.y;
 			
 			npc.vx = n.vx;
 			npc.vy = n.vy;
 			
-			npc.currentItem = n.currentItem;
+			if(npc instanceof PNJ)
+			{
+				((PNJ)npc).currentItem = n.currentItem;
+			}
+		}
+	}
+	
+	public void NetworkInputUpdate(NInputUpdate n)
+	{
+		NetworkMob nnpc = Nplayers.get(new Integer(n.id));
+		
+		if(nnpc != null)
+		{
+			nnpc.n = n;
 		}
 	}
 }

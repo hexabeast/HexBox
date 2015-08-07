@@ -44,7 +44,6 @@ public class HServer {
 	        	  ((NPlayerUpdate)object).id = c.getID();
 	        	 server.sendToAllUDP(object);
 	          }
-	          
 	       }
 	       public void connected(Connection c)
 	       {

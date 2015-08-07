@@ -19,6 +19,9 @@ public class NetworkManager {
 	
 	boolean online = false;
 	
+	public Timer playerTimer;
+	public Timer playerUpdateTimer;
+	
 	public NetworkManager()
 	{
 		instance = this;
@@ -71,6 +74,16 @@ public class NetworkManager {
 	public void sendTCP(Object object)
 	{
 		client.sendTCP(object);
+	}
+	
+	public void sendUDP(Object object)
+	{
+		client.sendUDP(object);
+	}
+	
+	public void update()
+	{
+		
 	}
 	
 }

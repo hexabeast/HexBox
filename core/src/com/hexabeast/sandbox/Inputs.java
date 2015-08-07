@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.hexabeast.hexboxserver.NInputUpdate;
+import com.hexabeast.hexboxserver.Nclick;
 
 public class Inputs implements InputProcessor{
 	public static Inputs instance;
@@ -52,12 +53,21 @@ public class Inputs implements InputProcessor{
 		if(Main.ingame)GameScreen.updatePauseClick();
 		if(Main.ingame && !Main.pause)
 		{
-			if (button == Input.Buttons.RIGHT) {
+			Nclick iu = new Nclick();
+			if (button == Input.Buttons.RIGHT) 
+			{
 				GameScreen.PutOneItem(true);
+				iu.left = true;
 			}
 			else if(button == Input.Buttons.LEFT)
 			{
 				GameScreen.PutOneItem(false);
+				iu.right = true;
+			}
+			
+			if(NetworkManager.instance.online)
+			{
+				NetworkManager.instance.sendTCP(iu);
 			}
 		}
 		return false;

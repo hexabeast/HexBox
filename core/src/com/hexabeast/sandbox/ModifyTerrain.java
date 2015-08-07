@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.hexabeast.hexboxserver.NBlockModification;
 
 public class ModifyTerrain {
 
@@ -67,12 +68,7 @@ public class ModifyTerrain {
 				if(time>lastTimePose+ratePose2 && getCell(layer,decalaX+0,decalaY+0).air && !newCellType.air)// && (true || layer != oldLayer || decalaX != oldclicPos.x || decalaY != oldclicPos.y))
 				{
 					lastTimePose = time;
-					SetCell(layer,AllBlocTypes.instance.getType(newCell),AllBlocTypes.instance.full,decalaX,decalaY);
-					MapChecker.instance.CheckCell(layer,decalaX,decalaY);
-					MapChecker.instance.CheckCell(layer,decalaX+1,decalaY);
-					MapChecker.instance.CheckCell(layer,decalaX,decalaY+1);
-					MapChecker.instance.CheckCell(layer,decalaX-1,decalaY);
-					MapChecker.instance.CheckCell(layer,decalaX,decalaY-1);
+					setBlock(decalaX, decalaY, newCell, layer);
 					if(normalWay)GameScreen.inventory.invItemsArray[selectorId][0].number--;
 					Tools.checkItems();
 					success = true;
@@ -83,6 +79,58 @@ public class ModifyTerrain {
 		return success;
 	}
 	
+	public void setBlock(int x, int y, int id, MapLayer layer)
+	{
+		if(NetworkManager.instance.online)
+		{
+			NBlockModification nn = new NBlockModification();
+			nn.id = id;
+			nn.x = x;
+			nn.y = y;
+			nn.layer = layer.isMain;
+			
+			NetworkManager.instance.sendTCP(nn);
+		}
+		setBlockFinal(x, y, id, layer);
+	}
+	
+	public void setBlockFinal(int x, int y, int id, MapLayer layer)
+	{
+		SetCell(layer,AllBlocTypes.instance.getType(id),AllBlocTypes.instance.full,x,y);
+		MapChecker.instance.CheckCell(layer,x,y);
+		MapChecker.instance.CheckCell(layer,x+1,y);
+		MapChecker.instance.CheckCell(layer,x,y+1);
+		MapChecker.instance.CheckCell(layer,x-1,y);
+		MapChecker.instance.CheckCell(layer,x,y-1);
+	}
+	
+	public void breakBlock(int decalaX, int decalaY, MapLayer layer)
+	{
+		if(NetworkManager.instance.online)
+		{
+			NBlockModification nn = new NBlockModification();
+			nn.id = 0;
+			nn.x = decalaX;
+			nn.y = decalaY;
+			nn.layer = layer.isMain;
+			
+			NetworkManager.instance.sendTCP(nn);
+		}
+		breakBlockFinal(decalaX, decalaY, layer);
+	}
+	
+	public void breakBlockFinal(int decalaX, int decalaY, MapLayer layer)
+	{
+		hurtBlock(decalaX, decalaY, layer);
+		Item nit = GameScreen.items.CreateItem(getCell(layer,decalaX,decalaY).dropId,decalaX*16+8+(float)(Math.random()*5),decalaY*16+8);
+		GameScreen.items.placeItem(nit);
+		SetCell(layer,AllBlocTypes.instance.Empty, AllBlocTypes.instance.full,decalaX,decalaY);
+		MapChecker.instance.CheckCell(layer,decalaX,decalaY);
+		MapChecker.instance.CheckCell(layer,decalaX+1,decalaY);
+		MapChecker.instance.CheckCell(layer,decalaX,decalaY+1);
+		MapChecker.instance.CheckCell(layer,decalaX-1,decalaY);
+		MapChecker.instance.CheckCell(layer,decalaX,decalaY-1);	
+	}
 	
 	
 	public boolean isThereObstacle()
@@ -109,18 +157,7 @@ public class ModifyTerrain {
 	}
 	
 	
-	public void breakBlock(int decalaX, int decalaY, MapLayer layer)
-	{
-		hurtBlock(decalaX, decalaY, layer);
-		Item nit = GameScreen.items.CreateItem(getCell(layer,decalaX,decalaY).dropId,decalaX*16+8+(float)(Math.random()*5),decalaY*16+8);
-		GameScreen.items.placeItem(nit);
-		SetCell(layer,AllBlocTypes.instance.Empty, AllBlocTypes.instance.full,decalaX,decalaY);
-		MapChecker.instance.CheckCell(layer,decalaX,decalaY);
-		MapChecker.instance.CheckCell(layer,decalaX+1,decalaY);
-		MapChecker.instance.CheckCell(layer,decalaX,decalaY+1);
-		MapChecker.instance.CheckCell(layer,decalaX-1,decalaY);
-		MapChecker.instance.CheckCell(layer,decalaX,decalaY-1);	
-	}
+	
 	
 	public void hurtBlock(int decalaX, int decalaY, MapLayer layer)
 	{

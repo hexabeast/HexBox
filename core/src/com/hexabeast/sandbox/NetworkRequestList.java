@@ -3,6 +3,7 @@ package com.hexabeast.sandbox;
 import java.util.ArrayList;
 
 import com.hexabeast.hexboxserver.NBlockModification;
+import com.hexabeast.hexboxserver.NInputUpdate;
 import com.hexabeast.hexboxserver.NPlayer;
 import com.hexabeast.hexboxserver.NPlayerUpdate;
 
@@ -20,23 +21,29 @@ public class NetworkRequestList {
 		for(int i = 0; i<modifications.size(); i++)
 		{
 			Object object = modifications.get(i);
+
 			if(object instanceof NBlockModification)
 			{
 				NBlockModification modif = (NBlockModification)object;
 				MapLayer layer = Map.instance.mainLayer;
 				if(!modif.layer)layer = Map.instance.backLayer;
-				ModifyTerrain.instance.breakBlock(modif.x, modif.y, layer);
+				
+				if(modif.id != 0)ModifyTerrain.instance.setBlockFinal(modif.x, modif.y,modif.id, layer);
+				else ModifyTerrain.instance.breakBlockFinal(modif.x, modif.y, layer);
 			}
-			
-			if (object instanceof NPlayer)
-	          {
-	        	 GameScreen.entities.mobs.NetworkPlayer(((NPlayer)object));
-	          }
+			else if (object instanceof NPlayer)
+	        {
+				GameScreen.entities.mobs.NetworkPlayer(((NPlayer)object));
+	        }
 	          
-	          if (object instanceof NPlayerUpdate)
-	          {
-	        	  GameScreen.entities.mobs.NetworkPlayerUpdate(((NPlayerUpdate)object));
-	          }
+	        if (object instanceof NPlayerUpdate)
+	        {
+	        	GameScreen.entities.mobs.NetworkPlayerUpdate(((NPlayerUpdate)object));
+	        }
+	        if (object instanceof NInputUpdate)
+	        {INPUTCLICK
+	        	GameScreen.entities.mobs.NetworkInputUpdate(((NInputUpdate)object));
+	        }
 		}
 	}
 	
