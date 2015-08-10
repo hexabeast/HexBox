@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.hexabeast.hexboxserver.NInputUpdate;
 import com.hexabeast.hexboxserver.NPlayer;
 import com.hexabeast.hexboxserver.NPlayerUpdate;
+import com.hexabeast.hexboxserver.Nclick;
+import com.hexabeast.hexboxserver.Ndead;
 import com.hexabeast.sandbox.AllEntities;
 import com.hexabeast.sandbox.AllTools;
 import com.hexabeast.sandbox.GameScreen;
@@ -25,6 +28,7 @@ public class AllMobs {
 	@SuppressWarnings("unchecked")
 	public AllMobs() 
 	{
+		Nplayers = new HashMap<Integer, NetworkMob>();
 		mobList = new ArrayList[Map.instance.width/chunksize][Map.instance.height/chunksize];
 		for(int i = 0; i< mobList.length; i++)
 		{
@@ -114,13 +118,18 @@ public class AllMobs {
 			        	Tools.checkItems();
 			        	mobListAll.remove(mobListAll.indexOf(mobList[rj][rk].get(i)));
 			        	mobList[rj][rk].remove(i);
-			        	checkIDs();
+			        	//checkIDs();
 			        }
 				
 				for (int i = 0; i < mobList[rj][rk].size(); i++)
 				{
 					if(!mobList[rj][rk].get(i).isDead)mobList[rj][rk].get(i).checkPoints();
 				}
+			}
+			
+			for (NetworkMob ent : Nplayers.values())
+			{
+				ent.mob.checkPoints();
 			}
 		}
 	}
@@ -151,6 +160,26 @@ public class AllMobs {
 					mobList[rj][rk].get(i).draw(batch);
 				}
 			}
+		}
+		
+		//NETWORK
+		/* Iterator<Entry<Integer, NetworkMob>> it = Nplayers.entrySet().iterator();
+		 while (it.hasNext()) 
+		 {
+			 Entry<Integer, NetworkMob> ent = it.next();
+			
+			 ent.getValue().mob.superDraw(batch);
+			 ent.getValue().update();
+			 ent.getValue().draw();
+			 
+			 it.remove();
+		 }*/
+		 
+		for (NetworkMob ent : Nplayers.values())
+		{
+			ent.mob.superDraw(batch);
+			ent.update();
+			ent.draw();
 		}
 		
 		//CHUNK MOVE
@@ -251,7 +280,26 @@ public class AllMobs {
 		
 		if(nnpc != null)
 		{
+			n.mousePos = new Vector2(n.mousePos.x-nnpc.mob.x, n.mousePos.y-nnpc.mob.y);
 			nnpc.n = n;
 		}
+	}
+	
+	public void NetworkDead(Ndead n)
+	{
+		NetworkMob nnpc = Nplayers.get(new Integer(n.id));
+		
+		if(nnpc != null)
+		{
+			Nplayers.remove(nnpc);
+		}
+	}
+	
+	public void NetworkClickUpdate(Nclick n)
+	{
+		NetworkMob nnpc = Nplayers.get(new Integer(n.id));
+		if(n.jump)nnpc.mob.goJump();
+		if(n.right)nnpc.mob.goClickRightInstant();
+		if(n.left)nnpc.mob.goClickLeftInstant();
 	}
 }

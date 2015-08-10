@@ -1,9 +1,7 @@
 package com.hexabeast.sandbox.mobs;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 import com.hexabeast.hexboxserver.NInputUpdate;
-import com.hexabeast.sandbox.Inputs;
 import com.hexabeast.sandbox.Main;
 
 public class NetworkMob {
@@ -14,6 +12,7 @@ public class NetworkMob {
 	{
 		mob = m;
 		n = new NInputUpdate();
+		n.mousePos = new Vector2();
 	}
 	
 	public void update()
@@ -31,16 +30,12 @@ public class NetworkMob {
 		//if(Inputs.instance.leftmousedown && !Main.pause)mob.goClickLeftInstant();
 		//if(Inputs.instance.rightmousedown && !Main.pause)mob.goClickRightInstant();
 		
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !Main.pause)mob.goClickLeftPressed();
-		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && !Main.pause)mob.goClickRightPressed();
+		if(n.Left && !Main.pause)mob.goClickLeftPressed();
+		if(n.Right && !Main.pause)mob.goClickRightPressed();
 		
-		if(Inputs.instance.space)mob.goJump();
-		
-		
-		
-		if(Inputs.instance.middleOrAPressed)mob.goHook();
+		if(n.A)mob.goHook();
 
-		mob.setVisorPos(n.mousePos);
+		mob.setVisorPos(new Vector2(n.mousePos.x + mob.x, n.mousePos.y + mob.y));
 		
 		mob.update();
 	}

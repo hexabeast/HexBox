@@ -13,6 +13,8 @@ public class NPlayerUpdate {
 				
 	}
 	
+	public NPlayerUpdate(){}
+	
 	public int id = -1;
 	public float x;
 	public float y;

@@ -6,6 +6,8 @@ import com.hexabeast.hexboxserver.NBlockModification;
 import com.hexabeast.hexboxserver.NInputUpdate;
 import com.hexabeast.hexboxserver.NPlayer;
 import com.hexabeast.hexboxserver.NPlayerUpdate;
+import com.hexabeast.hexboxserver.Nclick;
+import com.hexabeast.hexboxserver.Ndead;
 
 public class NetworkRequestList {
 	
@@ -31,20 +33,29 @@ public class NetworkRequestList {
 				if(modif.id != 0)ModifyTerrain.instance.setBlockFinal(modif.x, modif.y,modif.id, layer);
 				else ModifyTerrain.instance.breakBlockFinal(modif.x, modif.y, layer);
 			}
-			else if (object instanceof NPlayer)
+			else if (object instanceof NPlayer && Main.ingame)
 	        {
 				GameScreen.entities.mobs.NetworkPlayer(((NPlayer)object));
 	        }
 	          
-	        if (object instanceof NPlayerUpdate)
+			else if (object instanceof NPlayerUpdate && Main.ingame)
 	        {
 	        	GameScreen.entities.mobs.NetworkPlayerUpdate(((NPlayerUpdate)object));
 	        }
-	        if (object instanceof NInputUpdate)
-	        {INPUTCLICK
+			else if (object instanceof NInputUpdate && Main.ingame)
+	        {
 	        	GameScreen.entities.mobs.NetworkInputUpdate(((NInputUpdate)object));
 	        }
+			else if (object instanceof Nclick && Main.ingame)
+	        {
+	        	GameScreen.entities.mobs.NetworkClickUpdate(((Nclick)object));
+	        }
+			else if (object instanceof Ndead && Main.ingame)
+	        {
+	        	GameScreen.entities.mobs.NetworkDead(((Ndead)object));
+	        }
 		}
+		modifications.clear();
 	}
 	
 	public synchronized void add(Object object)

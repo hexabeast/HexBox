@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.hexabeast.hexboxserver.NCompressedLayer;
 
 public class LoadingScreen implements Screen {
 
@@ -31,6 +32,11 @@ public class LoadingScreen implements Screen {
 	float width = Gdx.graphics.getWidth();
 	float height = Gdx.graphics.getHeight();
 	boolean mapLoaded = false;
+	
+	public boolean NmainLoaded;
+	public boolean NbackLoaded;
+	public NCompressedLayer NmainLayer;
+	public NCompressedLayer NbackLayer;
 	
 	boolean random;
 	public LoadingScreen(boolean Random) {
@@ -55,17 +61,26 @@ public class LoadingScreen implements Screen {
 					@Override
 					public void run()
 					{
-						if(random)LoadStateRandomAll();
-						else if(!random)LoadStateFileAll();
-						
-						Gdx.app.postRunnable(new Runnable()
+						if(Main.multiplayer)
 						{
-							@Override
-							public void run()
+							LoadNetwork();
+							
+						}
+						else
+						{
+							if(random)LoadStateRandomAll();
+							else if(!random)LoadStateFileAll();
+							
+							Gdx.app.postRunnable(new Runnable()
 							{
-								
-							}
-						});
+								@Override
+								public void run()
+								{
+									
+								}
+							});
+						}
+						
 					}
 				}
 			).start();
@@ -126,6 +141,59 @@ public class LoadingScreen implements Screen {
 		batch.draw(loadingJ, x+4, y, Jwidth, loadingJ.getHeight(), u, v, u2, v2);
         batch.draw(loadingV,x,y);
         batch.end();
+	}
+	
+	public void LoadNetwork()
+	{
+		System.out.println(1);
+		while(!NetworkManager.instance.online)
+		{
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println(2);
+		NetworkManager.instance.sendTCP("GetBackLayer");
+		
+		while(!NbackLoaded)
+		{
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println(3);
+		try {
+			Map.instance.backLayer = MapGenerator.instance.NLoad(NbackLayer.layer, false);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		System.out.println(4);
+		
+		while(!NmainLoaded)
+		{
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println(5);
+		
+		try {
+			Map.instance.mainLayer = MapGenerator.instance.NLoad(NmainLayer.layer, true);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		checkMap();
+		
+		mapLoaded = true;
 	}
 	
 	
@@ -190,6 +258,27 @@ public class LoadingScreen implements Screen {
 		
 		mapLoaded = true;
 		
+	}
+	
+	public void checkMap()
+	{
+		for(int i = 2; i<Map.instance.height; i++)
+		{
+			if(i<Map.instance.height-1)
+			{
+				MapChecker.instance.CheckLine(Map.instance.backLayer, i);
+				progress = 0.4f+((float)i/(float)(Map.instance.height-1))*0.3f;
+			}
+		}
+		
+		for(int i = 2; i<Map.instance.height; i++)
+		{
+			if(i<Map.instance.height-1)
+			{
+				MapChecker.instance.CheckLine(Map.instance.mainLayer, i);
+				progress = 0.7f+((float)i/(float)(Map.instance.height-1))*0.3f;
+			}
+		}
 	}
 	
 	public void LoadStateRandomAll()

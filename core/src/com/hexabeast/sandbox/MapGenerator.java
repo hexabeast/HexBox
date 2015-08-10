@@ -426,6 +426,34 @@ public class MapGenerator {
 		}
 		return layer;
 	}
+	
+	public MapLayer NLoad(String mapString, boolean isMain) throws IOException
+	{
+		MapLayer layer = new MapLayer(isMain);
+		InputStream is = null;
+		byte[] bytes;
+
+		bytes = Base64Coder.decode(mapString);
+		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+		is = new InflaterInputStream(bais);
+			
+		byte[] temp = new byte[1];
+			
+		for(int k = 0; k<Map.instance.width; k++)
+		{
+			for(int l = 0; l<Map.instance.height; l++)
+			{
+					is.read(temp);
+					layer.blocs[k][l] = AllBlocTypes.instance.getType((temp[0]));
+			}
+		}
+		StreamUtils.closeQuietly(is);
+		StreamUtils.closeQuietly(bais);
+
+		return layer;
+	}
+	
+	
 	/*
 	public byte[][] LoadVillage(FileHandle mapFile) throws IOException
 	{

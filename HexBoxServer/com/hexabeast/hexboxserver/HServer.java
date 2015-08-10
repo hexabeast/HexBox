@@ -19,45 +19,79 @@ public class HServer {
 	{
 		//ids = new ArrayList<Integer>();
 		
-		server = new Server();
+		server = new Server(1048576, 1048576);
 		
 		initKryoClasses(server.getKryo());
 		
 		server.addListener(new Listener() 
 		{
+		   @Override
 	       public void received (Connection c, Object object) 
 	       {
+	    	   if (object instanceof String) 
+		          {
+		             String str = (String)object;
+		             
+		             if(str.equals("GetMainLayer"))
+		             {
+		            	 Main.map.sendCompressedMap(true, c);
+		             }
+		             
+		             if(str.equals("GetBackLayer"))
+		             {
+		            	 Main.map.sendCompressedMap(false, c);
+		             }
+		          }
+	    	   
 	          if (object instanceof NBlockModification) 
 	          {
-	             //c.sendTCP(object);
-	             server.sendToAllTCP(object);
+	             NBlockModification nnn = (NBlockModification)object;
+	             Main.map.setBlock(nnn);
 	          }
 	          
 	          if (object instanceof NPlayer)
 	          {
 	        	 ((NPlayer)object).id = c.getID();
-	        	 server.sendToAllTCP(object);
+	        	 server.sendToAllExceptTCP(c.getID(),object);
 	          }
 	          
 	          if (object instanceof NPlayerUpdate)
 	          {
 	        	  ((NPlayerUpdate)object).id = c.getID();
-	        	 server.sendToAllUDP(object);
+	        	 server.sendToAllExceptUDP(c.getID(),object);
+	          }
+	          
+	          if (object instanceof NInputUpdate)
+	          {
+	        	  ((NInputUpdate)object).id = c.getID();
+	        	 server.sendToAllExceptUDP(c.getID(),object);
+	          }
+	          
+	          if (object instanceof Nclick)
+	          {
+	        	  ((Nclick)object).id = c.getID();
+	        	 server.sendToAllExceptUDP(c.getID(),object);
 	          }
 	       }
+		   @Override
 	       public void connected(Connection c)
 	       {
-	    	   
+	    	   System.out.println("Player connected!");
+	    	   c.sendTCP("Connected");
            }
+		   @Override
 	       public void disconnected (Connection c) 
 	       {
-	    	   
+			   System.out.println("Player disconnected");
+			   Ndead n = new Ndead();
+			   n.id = c.getID();
+	    	   server.sendToAllExceptTCP(c.getID(),n);
 	       }
 		});
 		
 		try 
 		{
-			server.bind(54321, 55321);
+			server.bind(43321, 45322);
 		} 
 		catch (IOException e) 
 		{
@@ -67,6 +101,16 @@ public class HServer {
 		server.start();
 		
 		System.out.println("Server started");
+	}
+	
+	public void sendBlock(NBlockModification n)
+	{
+		server.sendToAllTCP(n);
+	}
+	
+	public void sendLayer(NCompressedLayer n, Connection c)
+	{
+		c.sendTCP(n);
 	}
 	
 	public void stop()
@@ -83,5 +127,8 @@ public class HServer {
 		kryo.register(NPlayerUpdate.class);
 		kryo.register(NPlayer.class);
 		kryo.register(NInputUpdate.class);
+		kryo.register(String.class);
+		kryo.register(NCompressedLayer.class);
+		kryo.register(Ndead.class);
 	}
 }

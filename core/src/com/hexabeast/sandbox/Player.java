@@ -112,6 +112,7 @@ public class Player{
 	
 	public boolean isTouched(float x, float y)
 	{
+		//Rectangle box = new Rectangle(PNJ.hitbox.);
 		return (Math.abs(x-PNJ.x-PNJ.width/2)<PNJ.width/3.5f && Math.abs(y-PNJ.y-PNJ.height/2)<PNJ.height/2.2f);
 	}
 	

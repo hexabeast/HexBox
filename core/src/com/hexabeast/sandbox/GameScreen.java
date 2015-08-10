@@ -66,6 +66,7 @@ public class GameScreen implements Screen
 	public void render(float delta) 
 	{	
 		NetworkManager.instance.modifications.applyModifications();
+		NetworkManager.instance.update();
 		
 		Clear();
 		TeleportPlayerOtherSide();

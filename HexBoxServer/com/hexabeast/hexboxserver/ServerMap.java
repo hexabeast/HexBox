@@ -12,6 +12,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.StreamUtils;
 import com.esotericsoftware.jsonbeans.Json;
+import com.esotericsoftware.kryonet.Connection;
 
 public class ServerMap {
 	
@@ -93,6 +94,83 @@ public class ServerMap {
 		
 		
 		changedChunks = new boolean[2][chunkNumberWidth][chunkNumberHeight];
+	}
+	
+	public synchronized void setBlock(NBlockModification conf)
+	{
+		int x = conf.x;
+		int y = conf.y;
+		int layer = 0;
+		if(!conf.layer)layer = 1;
+		int id = conf.id;
+		if(x<0 || x>=width)
+		{
+			while(x<0)x = width+x;
+			while(x>width-1)x = 0+(x-(width));
+			
+			if(id != layers[layer][x][y])
+			{
+				setChanged(x,y,layer);
+				Main.server.sendBlock(conf);
+			}
+			layers[layer][x][y] = (byte) id;
+		}
+		else
+		{
+			if(id != layers[layer][x][y])
+			{
+				setChanged(x,y,layer);
+				Main.server.sendBlock(conf);
+			}
+			layers[layer][x][y] = (byte) id;
+		}
+	}
+		
+	public void setChanged(int x, int y, int layer)
+	{
+		int x2 = (int)((float)x/(float)width*changedChunks[0].length);
+		int y2 = (int)((float)y/(float)height*changedChunks[0][0].length);
+		changedChunks[layer][x2][y2] = true;
+	}
+	
+	public synchronized void sendCompressedMap(boolean isMain, Connection c)
+	{
+		try {
+			sendLayer(isMain,c);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendLayer(boolean isMain, Connection c) throws IOException
+	{
+		int m = 0;
+		if(!isMain)m = 1;
+		ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+        DeflaterOutputStream dos;
+
+		baos2 = new ByteArrayOutputStream();
+		
+        dos = new DeflaterOutputStream(baos2);
+		
+        for(int k = 0; k<width; k++)
+		{
+        	for(int l = 0; l<height; l++)
+			{
+				dos.write(layers[m][k][l] & 0x000000FF);
+			}
+		}
+		if(dos != null) {
+            dos.finish();
+        }
+		NCompressedLayer l = new NCompressedLayer();
+		l.layer = new String(Base64Coder.encode(baos2.toByteArray()));
+		l.isMain = isMain;
+		
+		Main.server.sendLayer(l,c);
+		 System.out.println("Map sent!");
+		
+		baos2.close();
 	}
 	
 	public void loadMap(byte[][] layer, FileHandle[][] mapFile) throws IOException

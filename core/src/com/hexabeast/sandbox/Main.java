@@ -18,6 +18,9 @@ public class Main extends Game {
 	
 	public static boolean noUI = false;
 	
+	//TODO
+	public static boolean multiplayer = true;
+	
 	public static boolean mobile = false;
 	public static float delta;
 	public static float time = 0;
@@ -33,7 +36,7 @@ public class Main extends Game {
 	
 	public static GameScreen game;
 	public static MenuScreen menu;
-	public LoadingScreen loading;
+	public static LoadingScreen loading;
 	public boolean loaded = false;
 	public static SpriteBatch batch;
 	public static SpriteBatch secondBatch;
@@ -55,9 +58,10 @@ public class Main extends Game {
 	public boolean allLoaded = false;
 	
 	@Override
-	public void create () {
-		
+	public void create () 
+	{
 		network= new NetworkManager();
+		if(multiplayer)network.connectLocal();
 		
 		Parameters.i = new Parameters();
 		DeforMeshes.instance = new DeforMeshes(32, 18);

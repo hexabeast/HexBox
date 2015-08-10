@@ -23,29 +23,29 @@ public class PNJ extends Mob{
 	
 	//TEXTURES PLACEMENT
 	
-	int currentBody = 0;
-	int currentLegs = 0;
-	int currentHead = 0;
-	int currentEyes = 0;
-	int currentHair = 0;
-	int currentArm = 0;
+	public int currentBody = 0;
+	public int currentLegs = 0;
+	public int currentHead = 0;
+	public int currentEyes = 0;
+	public int currentHair = 0;
+	public int currentArm = 0;
 	
-	ToolType currentArmor = AllTools.instance.defaultType;
-	ToolType currentLeggins = AllTools.instance.defaultType;
-	ToolType currentHelmet = AllTools.instance.defaultType;
-	ToolType currentGlove = AllTools.instance.defaultType;
-	ToolType currentHook = AllTools.instance.defaultType;
+	public ToolType currentArmor = AllTools.instance.defaultType;
+	public ToolType currentLeggins = AllTools.instance.defaultType;
+	public ToolType currentHelmet = AllTools.instance.defaultType;
+	public ToolType currentGlove = AllTools.instance.defaultType;
+	public ToolType currentHook = AllTools.instance.defaultType;
 	
 	ToolType[] equipment = new ToolType[4];
 	
 	int currentLegAnimation = 0; 
 
-	int bodyId = 0;
-	int legsId = 1;
-	int headId = 2;
-	int eyesId = 3;
-	int hairId = 4;
-	int armId = 5;
+	public 	int bodyId = 0;
+	public int legsId = 1;
+	public int headId = 2;
+	public int eyesId = 3;
+	public int hairId = 4;
+	public int armId = 5;
 	
 	int legnumber = 12;
 	

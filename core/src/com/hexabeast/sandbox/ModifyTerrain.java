@@ -121,15 +121,18 @@ public class ModifyTerrain {
 	
 	public void breakBlockFinal(int decalaX, int decalaY, MapLayer layer)
 	{
-		hurtBlock(decalaX, decalaY, layer);
-		Item nit = GameScreen.items.CreateItem(getCell(layer,decalaX,decalaY).dropId,decalaX*16+8+(float)(Math.random()*5),decalaY*16+8);
-		GameScreen.items.placeItem(nit);
-		SetCell(layer,AllBlocTypes.instance.Empty, AllBlocTypes.instance.full,decalaX,decalaY);
-		MapChecker.instance.CheckCell(layer,decalaX,decalaY);
-		MapChecker.instance.CheckCell(layer,decalaX+1,decalaY);
-		MapChecker.instance.CheckCell(layer,decalaX,decalaY+1);
-		MapChecker.instance.CheckCell(layer,decalaX-1,decalaY);
-		MapChecker.instance.CheckCell(layer,decalaX,decalaY-1);	
+		if(getCell(layer,decalaX, decalaY).Id != 0)
+		{
+			hurtBlock(decalaX, decalaY, layer);
+			Item nit = GameScreen.items.CreateItem(getCell(layer,decalaX,decalaY).dropId,decalaX*16+8+(float)(Math.random()*5),decalaY*16+8);
+			GameScreen.items.placeItem(nit);
+			SetCell(layer,AllBlocTypes.instance.Empty, AllBlocTypes.instance.full,decalaX,decalaY);
+			MapChecker.instance.CheckCell(layer,decalaX,decalaY);
+			MapChecker.instance.CheckCell(layer,decalaX+1,decalaY);
+			MapChecker.instance.CheckCell(layer,decalaX,decalaY+1);
+			MapChecker.instance.CheckCell(layer,decalaX-1,decalaY);
+			MapChecker.instance.CheckCell(layer,decalaX,decalaY-1);	
+		}
 	}
 	
 	
@@ -146,7 +149,16 @@ public class ModifyTerrain {
 	
 	public boolean isThereObstaclePlayer()
 	{
-		if(GameScreen.player.isTouched(decalaX*16+8, decalaY*16+8) && AllBlocTypes.instance.getType(newCell).collide)return true;
+		BlocType b = Map.instance.mainLayer.getBloc(decalaX, decalaY);
+		int c = Map.instance.mainLayer.getState(decalaX, decalaY);
+		Map.instance.mainLayer.setBloc(decalaX, decalaY, AllBlocTypes.instance.Cobble,c,false);
+		//if(GameScreen.player.isTouched(decalaX*16+8, decalaY*16+8) && AllBlocTypes.instance.getType(newCell).collide)return true;
+		if(GameScreen.player.PNJ.hitbox.TestCollisionsAll())
+		{
+			Map.instance.mainLayer.setBloc(decalaX, decalaY, b,c,false);
+			return true;
+		}
+		Map.instance.mainLayer.setBloc(decalaX, decalaY, b,c,false);
 		return false;
 	}
 	
