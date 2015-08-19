@@ -2,15 +2,15 @@ package com.hexabeast.hexboxserver;
 
 public class NPlayerUpdate {
 	
-	public NPlayerUpdate(float x, float y, float vx, float vy, float armRotation,int currentItem)
+	public NPlayerUpdate(float x, float y, float vx, float vy,int currentItem,float mousex, float mousey)
 	{
 		this.x = x;
 		this.y = y;
 		this.vx = vx;
 		this.vy = vy;
-		this.armRotation = armRotation;
 		this.currentItem = currentItem;
-				
+		this.mousex = mousex;
+		this.mousey = mousey;
 	}
 	
 	public NPlayerUpdate(){}
@@ -20,6 +20,7 @@ public class NPlayerUpdate {
 	public float y;
 	public float vx;
 	public float vy;
-	public float armRotation;
 	public int currentItem;
+	public float mousex;
+	public float mousey;
 }

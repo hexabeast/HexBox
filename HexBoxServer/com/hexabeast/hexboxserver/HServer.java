@@ -67,6 +67,18 @@ public class HServer {
 	        	 server.sendToAllExceptUDP(c.getID(),object);
 	          }
 	          
+	          if (object instanceof NInputUpDown)
+	          {
+	        	  ((NInputUpDown)object).id = c.getID();
+	        	 server.sendToAllExceptTCP(c.getID(),object);
+	          }
+	          
+	          if (object instanceof NInputRightLeft)
+	          {
+	        	  ((NInputRightLeft)object).id = c.getID();
+	        	 server.sendToAllExceptTCP(c.getID(),object);
+	          }
+	          
 	          if (object instanceof Nclick)
 	          {
 	        	  ((Nclick)object).id = c.getID();
@@ -130,5 +142,7 @@ public class HServer {
 		kryo.register(String.class);
 		kryo.register(NCompressedLayer.class);
 		kryo.register(Ndead.class);
+		kryo.register(NInputRightLeft.class);
+		kryo.register(NInputUpDown.class);
 	}
 }

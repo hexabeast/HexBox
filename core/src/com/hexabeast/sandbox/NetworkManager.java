@@ -2,8 +2,6 @@ package com.hexabeast.sandbox;
 
 import java.io.IOException;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -37,8 +35,8 @@ public class NetworkManager {
 		modifications = new NetworkRequestList();
 		client = new Client(1048576, 1048576);
 		HServer.initKryoClasses(client.getKryo());
-		playerTimer = new Timer(0.33f);
-		playerUpdateTimer = new Timer(0.1f);
+		playerTimer = new Timer(0.1f);
+		playerUpdateTimer = new Timer(0.015f);
 	}
 	
 	public void addListener()
@@ -127,8 +125,9 @@ public class NetworkManager {
 		{
 			if(playerUpdateTimer.check())
 			{
-				NPlayerUpdate npu = new NPlayerUpdate(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y, GameScreen.player.PNJ.vx, GameScreen.player.PNJ.vy, GameScreen.player.PNJ.larmRotation,GameScreen.player.PNJ.currentItem);
+				NPlayerUpdate npu = new NPlayerUpdate(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y, GameScreen.player.PNJ.vx, GameScreen.player.PNJ.vy,GameScreen.player.PNJ.currentItem, Tools.getAbsoluteMouse().x, Tools.getAbsoluteMouse().y);
 				sendUDP(npu);
+				
 			}
 			if(playerTimer.check())
 			{
@@ -158,23 +157,11 @@ public class NetworkManager {
 				sendTCP(npc);
 				
 				
-				
-				NInputUpdate nin = new NInputUpdate();
-				
-				nin.Q = Inputs.instance.Q;
-				nin.S = Inputs.instance.S;
-				nin.Z = Inputs.instance.Z;
-				nin.D = Inputs.instance.D;
-				
-				nin.Left = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
-				nin.Right = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
-				
-				nin.mousePos = Tools.getAbsoluteMouse();
-				nin.Space = Inputs.instance.spacePressed;
-				nin.A = Inputs.instance.middleOrAPressed;
-				
+				NInputUpdate nin = Inputs.instance.Ninput;
 				sendTCP(nin);
+				
 			}
+			
 		}
 	}
 	

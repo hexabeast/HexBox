@@ -5,4 +5,5 @@ public class Nclick {
 	public boolean right;
 	public boolean left;
 	public boolean jump;
+	public boolean hook;
 }

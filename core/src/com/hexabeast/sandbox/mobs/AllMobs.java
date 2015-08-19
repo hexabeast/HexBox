@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.hexabeast.hexboxserver.NInputRightLeft;
+import com.hexabeast.hexboxserver.NInputUpDown;
 import com.hexabeast.hexboxserver.NInputUpdate;
 import com.hexabeast.hexboxserver.NPlayer;
 import com.hexabeast.hexboxserver.NPlayerUpdate;
@@ -261,8 +263,16 @@ public class AllMobs {
 		if(nnpc != null)
 		{
 			Mob npc = nnpc.mob;
-			npc.x = n.x;
-			npc.y = n.y;
+			//npc.x = n.x;
+			//npc.y = n.y;
+
+			float x = n.mousex-nnpc.mob.x;
+			float y = n.mousey-nnpc.mob.y;
+			
+			if(x<-Map.instance.width*8)x+=Map.instance.width*16;
+			if(x>Map.instance.width*8)x-=Map.instance.width*16;
+			
+			nnpc.n.mousePos = new Vector2(x,y);
 			
 			npc.vx = n.vx;
 			npc.vy = n.vy;
@@ -280,7 +290,13 @@ public class AllMobs {
 		
 		if(nnpc != null)
 		{
-			n.mousePos = new Vector2(n.mousePos.x-nnpc.mob.x, n.mousePos.y-nnpc.mob.y);
+			float x = n.mousePos.x-nnpc.mob.x;
+			float y = n.mousePos.y-nnpc.mob.y;
+			
+			if(x<-Map.instance.width*8)x+=Map.instance.width*16;
+			if(x>Map.instance.width*8)x-=Map.instance.width*16;
+			
+			n.mousePos = new Vector2(x,y);
 			nnpc.n = n;
 		}
 	}
@@ -291,7 +307,41 @@ public class AllMobs {
 		
 		if(nnpc != null)
 		{
-			Nplayers.remove(nnpc);
+			Nplayers.remove(new Integer(n.id));
+		}
+	}
+	
+	public void NetworkRightLeft(NInputRightLeft n)
+	{
+		NetworkMob nnpc = Nplayers.get(new Integer(n.id));
+		
+		if(nnpc != null)
+		{
+			if(n.right)
+			{
+				nnpc.n.D = n.pressed;
+			}
+			else
+			{
+				nnpc.n.Q = n.pressed;
+			}
+		}
+	}
+	
+	public void NetworkUpDown(NInputUpDown n)
+	{
+		NetworkMob nnpc = Nplayers.get(new Integer(n.id));
+		
+		if(nnpc != null)
+		{
+			if(n.up)
+			{
+				nnpc.n.Z = n.pressed;
+			}
+			else
+			{
+				nnpc.n.S = n.pressed;
+			}
 		}
 	}
 	

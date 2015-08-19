@@ -16,7 +16,7 @@ public class NInputUpdate {
 	public boolean D;
 	public boolean Z;
 	
-	public boolean A;
+	//public boolean A;
 	
 	public boolean Left;
 	public boolean Right;
