@@ -55,9 +55,12 @@ public class ModifyTerrain {
 		
 		lastTime = time;
 		handLapse = true;
-		if(!isThereObstacle() || (layer == Map.instance.backLayer))// && !isThereObstacleHouse()) )
+		
+		newCellType = AllBlocTypes.instance.getType(newCell);
+		
+		if(!isThereObstacle(newCellType.collide) || (layer == Map.instance.backLayer))// && !isThereObstacleHouse()) )
 		{
-			newCellType = AllBlocTypes.instance.getType(newCell);
+			
 
 			//IS OBSIDIAN = NO ACTION
 			if(!getCell(layer,decalaX+0,decalaY+0).unbreakable && (!AllBlocTypes.instance.getType(newCell).needBack || getCell(Map.instance.backLayer,decalaX+0,decalaY+0).collide))
@@ -136,9 +139,9 @@ public class ModifyTerrain {
 	}
 	
 	
-	public boolean isThereObstacle()
+	public boolean isThereObstacle(boolean collide)
 	{
-		return (isThereObstaclePlayer() || AllEntities.getEntity(decalaX,decalaY)!=null);//  || isThereObstacleMob()>=0 ||  isThereObstacleHouse());
+		return (isThereObstaclePlayer(collide) || AllEntities.getEntity(decalaX,decalaY)!=null);//  || isThereObstacleMob()>=0 ||  isThereObstacleHouse());
 	}
 	
 	public Furniture isThereObstacleFurniture(int x,int y)
@@ -147,18 +150,22 @@ public class ModifyTerrain {
 		return null;
 	}
 	
-	public boolean isThereObstaclePlayer()
+	public boolean isThereObstaclePlayer(boolean collide)
 	{
-		BlocType b = Map.instance.mainLayer.getBloc(decalaX, decalaY);
-		int c = Map.instance.mainLayer.getState(decalaX, decalaY);
-		Map.instance.mainLayer.setBloc(decalaX, decalaY, AllBlocTypes.instance.Cobble,c,false);
-		//if(GameScreen.player.isTouched(decalaX*16+8, decalaY*16+8) && AllBlocTypes.instance.getType(newCell).collide)return true;
-		if(GameScreen.player.PNJ.hitbox.TestCollisionsAll())
+		if(collide)
 		{
+			BlocType b = Map.instance.mainLayer.getBloc(decalaX, decalaY);
+			int c = Map.instance.mainLayer.getState(decalaX, decalaY);
+			Map.instance.mainLayer.setBloc(decalaX, decalaY, AllBlocTypes.instance.Cobble,c,false);
+			//if(GameScreen.player.isTouched(decalaX*16+8, decalaY*16+8) && AllBlocTypes.instance.getType(newCell).collide)return true;
+			if(GameScreen.player.PNJ.hitbox.TestCollisionsAll())
+			{
+				Map.instance.mainLayer.setBloc(decalaX, decalaY, b,c,false);
+				return true;
+			}
 			Map.instance.mainLayer.setBloc(decalaX, decalaY, b,c,false);
-			return true;
 		}
-		Map.instance.mainLayer.setBloc(decalaX, decalaY, b,c,false);
+		
 		return false;
 	}
 	
@@ -236,8 +243,9 @@ public class ModifyTerrain {
 		//IS OBSIDIAN = NO ACTION
 		if(!getCell(layer,decalaX,decalaY).unbreakable)
 		{
+			
 			boolean pass = true;
-			if(isThereObstacle() && !obstacleProof)
+			if(isThereObstacle(false) && !obstacleProof)
 			{
 				Tree tree = isThereObstacleTree(decalaX,decalaY);
 				if(pass && tree!=null && canCutTrees && isLeft)
@@ -356,6 +364,7 @@ public class ModifyTerrain {
 	
 	public boolean UseInit(int id, int selectorId, MapLayer layer,float time, boolean left)
 	{
+		
 		boolean success = false;
 		
 		isLeft = left;
@@ -435,7 +444,7 @@ public class ModifyTerrain {
 				UseItem(layer,false);
 			}
 			else
-			{
+			{	
 				distToMiddleVec.x = decalaX*16+8-GameScreen.player.PNJ.middle.x;
 				distToMiddleVec.y = decalaY*16+8-GameScreen.player.PNJ.middle.y;
 				distToMiddle = distToMiddleVec.len();

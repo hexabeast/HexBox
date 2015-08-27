@@ -138,21 +138,21 @@ public class NetworkManager {
 				npc.x = n.x;
 				npc.y = n.y;
 				
-				npc.armId = (byte) n.currentArm;
-				npc.legId = (byte) n.currentLegs;
-				npc.headId = (byte) n.currentHead;
-				npc.bodyId = (byte) n.currentBody;
+				npc.armId =  n.currentArm;
+				npc.legId =  n.currentLegs;
+				npc.headId = n.currentHead;
+				npc.bodyId = n.currentBody;
 				npc.currentItem = n.currentItem;
 
-				npc.helmetId = (byte) n.currentHelmet.id;
+				npc.helmetId = n.currentHelmet.id;
 				
-				npc.armorId = (byte) n.currentArmor.id;
+				npc.armorId = n.currentArmor.id;
 				
-				npc.legginsId = (byte) n.currentLeggins.id;
+				npc.legginsId = n.currentLeggins.id;
 				
-				npc.gloveId = (byte) n.currentGlove.id;
+				npc.gloveId = n.currentGlove.id;
 				
-				npc.hookId = (byte) n.currentHook.id;
+				npc.hookId = n.currentHook.id;
 
 				sendTCP(npc);
 				

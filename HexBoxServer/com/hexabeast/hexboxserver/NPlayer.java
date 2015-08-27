@@ -28,15 +28,15 @@ public class NPlayer {
 	public int id = -1;
 	public float x;
 	public float y;
-	public byte armId;
-	public byte legId;
-	public byte bodyId;
-	public byte headId;
-	public byte gloveId;
-	public byte legginsId;
-	public byte armorId;
-	public byte helmetId;
-	public byte hookId;
+	public int armId;
+	public int legId;
+	public int bodyId;
+	public int headId;
+	public int gloveId;
+	public int legginsId;
+	public int armorId;
+	public int helmetId;
+	public int hookId;
 	
 	public int currentItem;
 }
