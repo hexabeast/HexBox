@@ -24,6 +24,9 @@ public class NetworkManager {
 	
 	boolean online = false;
 	
+	String defaultIP = "127.0.0.1";
+	int defaultPort = 25565;
+	
 	boolean mapReady = false;
 	
 	public Timer playerTimer;
@@ -92,7 +95,8 @@ public class NetworkManager {
 	
 	public void connectLocal()
 	{
-		connect("127.0.0.1");
+		//connect("127.0.0.1");
+		connect(defaultIP);
 	}
 	
 	public void connect(String IP)
@@ -102,7 +106,7 @@ public class NetworkManager {
 		try {
 			addListener();
 			
-			client.connect(10000, IP, 43321, 45322);
+			client.connect(10000, IP, defaultPort, defaultPort);
 
 		} catch (IOException e) {
 			e.printStackTrace();

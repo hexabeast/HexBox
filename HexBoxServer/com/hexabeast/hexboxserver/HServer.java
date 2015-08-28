@@ -13,6 +13,8 @@ public class HServer {
 	static HServer instance;
 	public Server server;
 	
+	public static int port;
+	
 	//public ArrayList<Integer> ids;
 	
 	public HServer()
@@ -103,7 +105,7 @@ public class HServer {
 		
 		try 
 		{
-			server.bind(43321, 45322);
+			server.bind(port, port);
 		} 
 		catch (IOException e) 
 		{
