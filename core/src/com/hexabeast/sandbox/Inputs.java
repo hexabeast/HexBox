@@ -1,8 +1,11 @@
 package com.hexabeast.sandbox;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.hexabeast.hexboxserver.NInputRightLeft;
+import com.hexabeast.hexboxserver.NInputUpDown;
 import com.hexabeast.hexboxserver.NInputUpdate;
 import com.hexabeast.hexboxserver.Nclick;
 
@@ -82,7 +85,10 @@ public class Inputs implements InputProcessor{
 			Ninput.Q = Q;
 			Ninput.S = S;
 			Ninput.D = D;
-			Ninput.A = middleOrAPressed;
+			//Ninput.A = middleOrAPressed;
+			Ninput.Left = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
+			Ninput.Right = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
+			
 			Ninput.Space = spacePressed;
 			Ninput.mousePos = Tools.getAbsoluteMouse();
 		}
@@ -225,15 +231,19 @@ public class Inputs implements InputProcessor{
 				tomiddleOrAPressed = true;
 				break;
 			case Keys.D:
+				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(true,true));
 				D = true;
 				break;
 			case Keys.Q:
+				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,true));
 				Q = true;
 				break;
 			case Keys.Z:
+				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,true));
 				Z = true;
 				break;
 			case Keys.W:
+				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,true));
 				Z = true;
 				break;	
 			case Keys.T:
@@ -241,6 +251,7 @@ public class Inputs implements InputProcessor{
 				
 				break;
 			case Keys.S:
+				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(false,true));
 				S = true;
 				break;	
 			case Keys.NUM_0:
@@ -324,21 +335,26 @@ public class Inputs implements InputProcessor{
 				shift = false;
 				break;
 			case Keys.D:
+				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(true,false));
 				D = false;
 				break;
 			case Keys.Q:
+				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,false));
 				Q = false;
 				break;
 			case Keys.Z:
+				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,false));
 				Z = false;
 				break;
 			case Keys.W:
+				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,false));
 				Z = false;
 				break;	
 			case Keys.SPACE:	
 				spacePressed = false;
 				break;
 			case Keys.S:
+				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(false,false));
 				S = false;
 				break;
 			case Keys.O:

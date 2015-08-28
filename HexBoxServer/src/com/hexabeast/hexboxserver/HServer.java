@@ -13,6 +13,8 @@ public class HServer {
 	static HServer instance;
 	public Server server;
 	
+	public static int port;
+	
 	//public ArrayList<Integer> ids;
 	
 	public HServer()
@@ -67,6 +69,18 @@ public class HServer {
 	        	 server.sendToAllExceptUDP(c.getID(),object);
 	          }
 	          
+	          if (object instanceof NInputUpDown)
+	          {
+	        	  ((NInputUpDown)object).id = c.getID();
+	        	 server.sendToAllExceptTCP(c.getID(),object);
+	          }
+	          
+	          if (object instanceof NInputRightLeft)
+	          {
+	        	  ((NInputRightLeft)object).id = c.getID();
+	        	 server.sendToAllExceptTCP(c.getID(),object);
+	          }
+	          
 	          if (object instanceof Nclick)
 	          {
 	        	  ((Nclick)object).id = c.getID();
@@ -91,7 +105,7 @@ public class HServer {
 		
 		try 
 		{
-			server.bind(43321, 45322);
+			server.bind(port, port);
 		} 
 		catch (IOException e) 
 		{
@@ -130,5 +144,7 @@ public class HServer {
 		kryo.register(String.class);
 		kryo.register(NCompressedLayer.class);
 		kryo.register(Ndead.class);
+		kryo.register(NInputRightLeft.class);
+		kryo.register(NInputUpDown.class);
 	}
 }

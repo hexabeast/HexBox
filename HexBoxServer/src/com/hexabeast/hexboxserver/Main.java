@@ -10,10 +10,14 @@ public class Main {
  
 	public static void main (String args[]) 
 	{
-		Scanner scan = new Scanner(System.in);
+		final Scanner scan = new Scanner(System.in);
 		boolean exit = false;
 
-		map = new ServerMap("calmap2");	
+		map = new ServerMap("calmap2");
+		
+		System.out.println("Enter the port (default = 42245)");
+		String s = scan.nextLine();
+		HServer.port = Integer.valueOf(s).intValue();
 		
 		server = new HServer();
 		

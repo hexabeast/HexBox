@@ -3,6 +3,8 @@ package com.hexabeast.sandbox;
 import java.util.ArrayList;
 
 import com.hexabeast.hexboxserver.NBlockModification;
+import com.hexabeast.hexboxserver.NInputRightLeft;
+import com.hexabeast.hexboxserver.NInputUpDown;
 import com.hexabeast.hexboxserver.NInputUpdate;
 import com.hexabeast.hexboxserver.NPlayer;
 import com.hexabeast.hexboxserver.NPlayerUpdate;
@@ -53,6 +55,16 @@ public class NetworkRequestList {
 			else if (object instanceof Ndead && Main.ingame)
 	        {
 	        	GameScreen.entities.mobs.NetworkDead(((Ndead)object));
+	        }
+			
+			else if (object instanceof NInputRightLeft && Main.ingame)
+	        {
+	        	GameScreen.entities.mobs.NetworkRightLeft(((NInputRightLeft)object));
+	        }
+			
+			else if (object instanceof NInputUpDown && Main.ingame)
+	        {
+	        	GameScreen.entities.mobs.NetworkUpDown(((NInputUpDown)object));
 	        }
 		}
 		modifications.clear();

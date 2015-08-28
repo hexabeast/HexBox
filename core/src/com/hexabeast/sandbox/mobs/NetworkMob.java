@@ -7,6 +7,7 @@ import com.hexabeast.sandbox.Main;
 public class NetworkMob {
 	public Mob mob;
 	public NInputUpdate n;
+	public boolean[] directions = new boolean[4];
 	
 	public NetworkMob(Mob m)
 	{
@@ -33,7 +34,7 @@ public class NetworkMob {
 		if(n.Left && !Main.pause)mob.goClickLeftPressed();
 		if(n.Right && !Main.pause)mob.goClickRightPressed();
 		
-		if(n.A)mob.goHook();
+		//if(n.A)mob.goHook();
 
 		mob.setVisorPos(new Vector2(n.mousePos.x + mob.x, n.mousePos.y + mob.y));
 		
