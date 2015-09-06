@@ -785,7 +785,7 @@ public class GameScreen implements Screen
 		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 		{
 			//PUTCELL
-			if(!abort && inventory.hidden)ModifyTerrain.instance.PutCell( player.currentCellID,player.currentCellState, Map.instance.mainLayer,Main.time,true);
+			if(!abort && inventory.hidden && !player.transformed)ModifyTerrain.instance.PutCell( player.currentCellID,player.currentCellState, Map.instance.mainLayer,Main.time,true);
 		}
 		else if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
 		{
@@ -796,7 +796,7 @@ public class GameScreen implements Screen
 			else
 				backPlaced = AllBlocTypes.instance.getType(player.currentCellID).needBack;
 			
-			if(!abort && inventory.hidden && !backPlaced)ModifyTerrain.instance.PutCell(player.currentCellID,player.currentCellState, Map.instance.backLayer,Main.time,false);
+			if(!abort && inventory.hidden && !backPlaced && !player.transformed)ModifyTerrain.instance.PutCell(player.currentCellID,player.currentCellState, Map.instance.backLayer,Main.time,false);
 		}
 	}
 	

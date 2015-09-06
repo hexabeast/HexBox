@@ -32,6 +32,7 @@ public class Inputs implements InputProcessor{
 	public boolean middleOrAPressed;
 	public boolean tomiddleOrAPressed;
 	
+	public boolean CTRL = false;
 	public boolean Q = false;
 	public boolean Z = false;
 	public boolean S = false;
@@ -234,6 +235,9 @@ public class Inputs implements InputProcessor{
 				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(true,true));
 				D = true;
 				break;
+			case Keys.CONTROL_LEFT:
+				CTRL = true;
+				break;
 			case Keys.Q:
 				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,true));
 				Q = true;
@@ -255,44 +259,122 @@ public class Inputs implements InputProcessor{
 				S = true;
 				break;	
 			case Keys.NUM_0:
-				GameScreen.player.currentCellState = 9;
-				GameScreen.player.refreshSelect();
+				if(CTRL)
+				{
+					if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+				}
+				else
+				{
+					GameScreen.player.currentCellState = 9;
+					GameScreen.player.refreshSelect();
+				}
+				
 				break;
 			case Keys.NUM_1:
-				GameScreen.player.currentCellState = 0;
-				GameScreen.player.refreshSelect();
+				if(CTRL)
+				{
+					if(!NetworkManager.instance.online)GameScreen.player.transform(1);
+				}
+				else
+				{
+					GameScreen.player.currentCellState = 0;
+					GameScreen.player.refreshSelect();
+				}
 				break;
 			case Keys.NUM_2:
-				GameScreen.player.currentCellState = 1;
-				GameScreen.player.refreshSelect();
+				if(CTRL)
+				{
+					if(!NetworkManager.instance.online)GameScreen.player.transform(2);
+				}
+				else
+				{
+					GameScreen.player.currentCellState = 1;
+					GameScreen.player.refreshSelect();
+				}
+				
 				break;
 			case Keys.NUM_3:
-				GameScreen.player.currentCellState = 2;
-				GameScreen.player.refreshSelect();
+				if(CTRL)
+				{
+					if(!NetworkManager.instance.online)GameScreen.player.transform(3);
+				}
+				else
+				{
+					GameScreen.player.currentCellState = 2;
+					GameScreen.player.refreshSelect();
+				}
+				
 				break;
 			case Keys.NUM_4:
-				GameScreen.player.currentCellState = 3;
-				GameScreen.player.refreshSelect();
+				if(CTRL)
+				{
+					if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+				}
+				else
+				{
+					GameScreen.player.currentCellState = 3;
+					GameScreen.player.refreshSelect();
+				}
+				
 				break;
 			case Keys.NUM_5:
-				GameScreen.player.currentCellState = 4;
-				GameScreen.player.refreshSelect();
+				if(CTRL)
+				{
+					if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+				}
+				else
+				{
+					GameScreen.player.currentCellState = 4;
+					GameScreen.player.refreshSelect();
+				}
+				
 				break;
 			case Keys.NUM_6:
-				GameScreen.player.currentCellState = 5;
-				GameScreen.player.refreshSelect();
+				if(CTRL)
+				{
+					if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+				}
+				else
+				{
+					GameScreen.player.currentCellState = 5;
+					GameScreen.player.refreshSelect();
+				}
+				
 				break;
 			case Keys.NUM_7:
-				GameScreen.player.currentCellState = 6;
-				GameScreen.player.refreshSelect();
+				if(CTRL)
+				{
+					for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
+				}
+				else
+				{
+					GameScreen.player.currentCellState = 6;
+					GameScreen.player.refreshSelect();
+				}
+				
 				break;
 			case Keys.NUM_8:
-				GameScreen.player.currentCellState = 7;
-				GameScreen.player.refreshSelect();
+				if(CTRL)
+				{
+					GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
+				}
+				else
+				{
+					GameScreen.player.currentCellState = 7;
+					GameScreen.player.refreshSelect();
+				}
+				
 				break;
 			case Keys.NUM_9:
-				GameScreen.player.currentCellState = 8;
-				GameScreen.player.refreshSelect();
+				if(CTRL)
+				{
+					GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
+				}
+				else
+				{
+					GameScreen.player.currentCellState = 8;
+					GameScreen.player.refreshSelect();
+				}
 				break;
 			}
 		}
@@ -333,6 +415,9 @@ public class Inputs implements InputProcessor{
 				break;
 			case Keys.SHIFT_LEFT:
 				shift = false;
+				break;
+			case Keys.CONTROL_LEFT:
+				CTRL = false;
 				break;
 			case Keys.D:
 				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(true,false));
@@ -379,13 +464,13 @@ public class Inputs implements InputProcessor{
 				//GamePlay.mobs.SpawnRedDino(x, y);
 				break;
 			case Keys.NUMPAD_9:
-				if(!NetworkManager.instance.online)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
+				GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
 				break;
 			case Keys.NUMPAD_8:
-				if(!NetworkManager.instance.online)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
+				GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
 				break;
 			case Keys.NUMPAD_7:
-				if(!NetworkManager.instance.online)for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
+				for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
 				break;
 			case Keys.NUMPAD_1:
 				if(!NetworkManager.instance.online)GameScreen.player.transform(1);

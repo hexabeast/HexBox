@@ -50,12 +50,12 @@ public class Shaders {
 			System.out.println(basic.getLog());
 			basic = new ShaderProgram(Gdx.files.internal("shaders/passthrough.vsh"),Gdx.files.internal("shaders/passthrough2.fsh"));
 		}
-		if(!shadow.isCompiled())System.out.println(shadow.getLog());
-		if(!shadow2.isCompiled())System.out.println(shadow2.getLog());
-		if(!red.isCompiled())System.out.println(red.getLog());
-		if(!white.isCompiled())System.out.println(white.getLog());
-		if(!meshader.isCompiled())System.out.println(meshader.getLog());
-		if(!outline.isCompiled())System.out.println(outline.getLog());
+		if(!shadow.isCompiled())System.out.println("shadow : "+shadow.getLog());
+		if(!shadow2.isCompiled())System.out.println("shadow2 : "+shadow2.getLog());
+		if(!red.isCompiled())System.out.println("red : "+red.getLog());
+		if(!white.isCompiled())System.out.println("white : "+white.getLog());
+		if(!meshader.isCompiled())System.out.println("meshader : "+meshader.getLog());
+		if(!outline.isCompiled())System.out.println("outline : "+outline.getLog());
 	}
 	
 	public void setShadowShader()

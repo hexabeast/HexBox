@@ -19,7 +19,7 @@ public class Main extends Game {
 	public static boolean noUI = false;
 	
 	//TODO
-	public static boolean multiplayer = true;
+	public static boolean multiplayer = false;
 	
 	public static boolean mobile = false;
 	public static float delta;

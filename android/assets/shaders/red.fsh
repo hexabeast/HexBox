@@ -7,5 +7,5 @@ void main()
 {
 	vec4 col = texture2D(u_sampler2D, v_texCoord0) * v_color;
 
-	gl_FragColor = vec4(min(col.x+0.1,1),col.y,col.z,col.w);
+	gl_FragColor = vec4(0.8,0,0,col.w);
 }
