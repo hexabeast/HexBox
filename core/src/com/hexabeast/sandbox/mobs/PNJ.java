@@ -387,7 +387,6 @@ public class PNJ extends Mob{
 		}
 		else
 		{
-		
 			float oldlen = Math.abs(vx);
 			float oldvx = vx;
 				
@@ -843,8 +842,8 @@ public class PNJ extends Mob{
 			
 			hook.max = Math.max(hook.max, hook.getLine().len()-8);
 			
-			vx = tempVelocity.x;
-			vy = tempVelocity.y;
+			vx = tempVelocity.x+((hook.x+d2.x)-hookAnchorCoord.x)*5;
+			vy = tempVelocity.y+((hook.y+d2.y)-hookAnchorCoord.y)*5;
 		}
 	}
 	
@@ -885,9 +884,8 @@ public class PNJ extends Mob{
 	public void goStandX()
 	{
 		ax = 0;
-		if (vx!=0 && !hookFlying)
+		if (vx!=0 && (!hookFlying && (!hook.playerAttached || canJump)))
 		{
-			
 			if(!canJump)currentFriction/=6;
 			if(vx>0)
 			{
