@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.hexabeast.sandbox.mobs.PNJ;
 
 public class Grapple extends Entity{
+	
 	public float currentTime = 0;
 	public float lifeTime = 5;
 	
