@@ -356,7 +356,12 @@ public class GameScreen implements Screen
 		if(isVillage())noLimit = false;
 		else noLimit = true;
 		
-		camera.position.set(Tools.Lerp(camera.position,new Vector3((player.PNJ.x+player.PNJ.width/2), (player.PNJ.y+player.PNJ.height/2), (int)10)));
+		Vector3 newpos = Tools.Lerp(camera.position,new Vector3((player.PNJ.x+player.PNJ.width/2), (player.PNJ.y+player.PNJ.height/2), (int)10));
+		//newpos.x = Math.round(newpos.x/2)*2;
+		//newpos.y = Math.round(newpos.y/2)*2;
+		
+		camera.position.set(newpos);
+		
 		
 		if(!noLimit)
 		{
@@ -385,10 +390,10 @@ public class GameScreen implements Screen
 
 	public static void resetCamera()
 	{
-		camvec.set(camera.position);
-		camera.position.set((int)camera.position.x, (int)camera.position.y, (int)camera.position.z);
+		//camvec.set(camera.position);
+		//camera.position.set((Math.round((camera.position.x-camera.viewportWidth/2)/2)+camera.viewportWidth/4)*2, (Math.round(camera.position.y/2-camera.viewportHeight/4)+camera.viewportHeight/4)*2, 10);
 		camera.update();
-		camera.position.set(camvec);
+		//camera.position.set(camvec);
 		Tools.computeAbsoluteMouse();
 	}
 

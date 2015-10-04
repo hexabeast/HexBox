@@ -15,7 +15,7 @@ public class Main {
 
 		map = new ServerMap("calmap2");
 		
-		System.out.println("Enter the port (default = 42245)");
+		System.out.println("Enter the port (default = 25565)");
 		String s = scan.nextLine();
 		HServer.port = Integer.valueOf(s).intValue();
 		
