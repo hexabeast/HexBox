@@ -347,13 +347,13 @@ public class MapGenerator {
 		{
 			try {
 				Map.instance.villageBack = Map.instance.LoadVillage(Map.instance.mapFileVillage2);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 			try {
 				Map.instance.villageMain = Map.instance.LoadVillage(Map.instance.mapFileVillage1);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
@@ -397,7 +397,7 @@ public class MapGenerator {
 	
 
 	
-	public MapLayer Load(FileHandle[][] mapFile, boolean isMain) throws IOException
+	public MapLayer Load(FileHandle[][] mapFile, boolean isMain) throws IOException, IllegalArgumentException
 	{
 		MapLayer layer = new MapLayer(isMain);
 		InputStream is = null;

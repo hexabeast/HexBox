@@ -1,9 +1,9 @@
 package com.hexabeast.sandbox;
 
-import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -168,8 +168,9 @@ public class LoadingScreen implements Screen {
 		System.out.println(3);
 		try {
 			Map.instance.backLayer = MapGenerator.instance.NLoad(NbackLayer.layer, false);
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
+			Main.backToMenu("Error loading map (layer 2)", Color.RED);
 		}
 		
 		System.out.println(4);
@@ -187,8 +188,9 @@ public class LoadingScreen implements Screen {
 		
 		try {
 			Map.instance.mainLayer = MapGenerator.instance.NLoad(NmainLayer.layer, true);
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
+			Main.backToMenu("Error loading map (layer 1)", Color.RED);
 		}
 		
 		checkMap();
@@ -202,34 +204,35 @@ public class LoadingScreen implements Screen {
 
 		try {
 			MapGenerator.instance.LoadTrees(Map.instance.mapFileTrees);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		try {
 			MapGenerator.instance.LoadFurs(Map.instance.mapFileFur);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		try {
 			MapGenerator.instance.LoadMobs(Map.instance.mapFileMob);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		try {
 			Map.instance.mainLayer = MapGenerator.instance.Load(Map.instance.mapFile1, true);
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			Main.backToMenu("Error loading map (layer 1)", Color.RED);
 		}
 		progress = 0.2f;
 		try {
 			Map.instance.backLayer = MapGenerator.instance.Load(Map.instance.mapFile2, false);
-
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			Main.backToMenu("Error loading map (layer 2)", Color.RED);
 		}
 		progress = 0.4f;
 		
@@ -311,7 +314,7 @@ public class LoadingScreen implements Screen {
 		
 		try {
 			Map.instance.SaveLayer(Map.instance.mapFile1, Map.instance.mainLayer,true);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		progresspeed = 0.07f;
@@ -320,7 +323,7 @@ public class LoadingScreen implements Screen {
 		try {
 			Map.instance.SaveLayer(Map.instance.mapFile2, Map.instance.backLayer,true);
 			Map.instance.SaveEntities();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -384,7 +387,7 @@ public class LoadingScreen implements Screen {
 			try {
 				TerMH.map.backLayer = TerMH.map.Load(TerMH.map.mapFile2);
 				//TerMH.map.villageBack = TerMH.map.LoadVillage(TerMH.map.mapFileVillage2);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			state++;
@@ -395,7 +398,7 @@ public class LoadingScreen implements Screen {
 			try {
 				TerMH.map.mainLayer = TerMH.map.Load(TerMH.map.mapFile1);
 				//TerMH.map.villageMain = TerMH.map.LoadVillage(TerMH.map.mapFileVillage1);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			state++;
@@ -405,7 +408,7 @@ public class LoadingScreen implements Screen {
 		{
 			try {
 				TerMH.map.LoadTrees(TerMH.map.mapFileTrees);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			state++;
@@ -508,7 +511,7 @@ public class LoadingScreen implements Screen {
 		{
 			try {
 				TerMH.map.villageMain = TerMH.map.LoadVillage(TerMH.map.mapFileVillage1);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			TerMH.map.mainLayer.Load2();
@@ -520,7 +523,7 @@ public class LoadingScreen implements Screen {
 		{
 			try {
 				TerMH.map.villageBack = TerMH.map.LoadVillage(TerMH.map.mapFileVillage2);
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			TerMH.map.mainLayer.Load1();
