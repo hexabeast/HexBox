@@ -6,6 +6,7 @@ import java.util.Random;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -16,32 +17,37 @@ import com.hexabeast.sandbox.Parameters;
 
 public class Main extends Game {
 	
-	public static boolean noUI = false;
-	
-	//TODO
-	public static boolean multiplayer = true;
-	
-	public static boolean mobile = false;
-	public static float delta;
-	public static float time = 0;
-	public static boolean pause = false;
 	public static boolean devtest = true;
-	
-	public static NetworkManager network;
+	public static boolean mobile = false;
 	
 	public static int windowWidth = 1280;
 	public static int windowHeight = 720;
 	
-	public static float zoom = 1;
+	public static boolean noUI = false;
+	
+	public static boolean backtom;
+	
+	public static boolean multiplayer = false;
+	
+	public static String welcomeMessage = "This is a development version";
+	public static Color welcomeColor = Color.WHITE;
+	
+	public static float delta;
+	public static float time;
+	public static boolean pause;
+	
+	public static NetworkManager network;
+	
+	public static float zoom;
 	
 	public static GameScreen game;
 	public static MenuScreen menu;
 	public static LoadingScreen loading;
-	public boolean loaded = false;
+	public static boolean loaded;
 	public static SpriteBatch batch;
 	public static SpriteBatch secondBatch;
 	public static SaveManager saveMan;
-	public static boolean ingame = false;
+	public static boolean ingame;
 	public static Thread secondThread;
 	
 	public static Matrix4 defaultMatrix;
@@ -52,16 +58,24 @@ public class Main extends Game {
 	
 	public static Mesh mesh;
 
-	InputMultiplexer inputMultiplexer = new InputMultiplexer();
-	Joystick joy;
+	public static InputMultiplexer inputMultiplexer = new InputMultiplexer();
+	static Joystick joy;
 	
 	public boolean allLoaded = false;
 	
-	@Override
-	public void create () 
+	public static void sCreate()
 	{
+		noUI = false;
+		multiplayer = false;
+		ingame = false;
+		time = 0;
+		pause = false;
+		loaded = false;
+		zoom = 1;
+		backtom = false;
+		
 		network= new NetworkManager();
-		if(multiplayer)network.connectLocal();
+		//if(multiplayer)network.connectLocal();
 		
 		Parameters.i = new Parameters();
 		DeforMeshes.instance = new DeforMeshes(32, 18);
@@ -72,8 +86,22 @@ public class Main extends Game {
 		matrixCam = new OrthographicCamera();
 		defaultMatrix = new Matrix4();
 		
-		new HNoise(0).generateGradient(200, 200, 10, 10);
+		//new HNoise(0).generateGradient(200, 200, 10, 10);
 		random = new Random();
+		
+		Inputs.instance = new Inputs();
+		
+		saveMan = new SaveManager();
+		menu = new MenuScreen();
+		
+		SaveManager.instance.LoadParams();
+		updateResolution();
+		Gdx.graphics.setVSync(Parameters.i.vsync);
+	}
+	
+	@Override
+	public void create () 
+	{
 		Shaders.instance = new Shaders();
 		batch = new SpriteBatch();
 		batch.setShader(Shaders.instance.basic);
@@ -89,16 +117,6 @@ public class Main extends Game {
 		AllTools.instance = new AllTools();
 		AllCrafts.instance = new AllCrafts();
 		PauseMenu.instance = new PauseMenu();
-		Inputs.instance = new Inputs();
-		
-		saveMan = new SaveManager();
-		menu = new MenuScreen();
-		
-		SaveManager.instance.LoadParams();
-		updateResolution();
-		Gdx.graphics.setVSync(Parameters.i.vsync);
-		
-		inputMultiplexer.addProcessor(Inputs.instance);
 		
 		if(Main.mobile)
 		{
@@ -107,6 +125,9 @@ public class Main extends Game {
 		}
 		
 		Gdx.input.setInputProcessor(inputMultiplexer);
+		
+		sCreate();
+		inputMultiplexer.addProcessor(Inputs.instance);
 	}
 	
 	public static void updateMatrix()
@@ -173,6 +194,8 @@ public class Main extends Game {
 	@Override
 	public void render () {
 
+		if(backtom)sCreate();
+		
 		delta = Gdx.graphics.getDeltaTime();
 		if(ingame)
 		{
@@ -200,7 +223,7 @@ public class Main extends Game {
 			if(!menu.begin)
 			{
 				setScreen(menu);
-				SoundManager.instance.menuTheme.play();
+				if(!SoundManager.instance.menuTheme.isPlaying())SoundManager.instance.menuTheme.play();
 			}
 			
 		}
@@ -241,5 +264,12 @@ public class Main extends Game {
 		
 		super.render();
 		Inputs.instance.updateLate();
+	}
+	
+	public static void backToMenu(String str, Color c)
+	{
+		welcomeMessage = str;
+		welcomeColor = c;
+		backtom = true;
 	}
 }

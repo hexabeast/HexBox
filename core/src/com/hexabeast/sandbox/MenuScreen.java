@@ -7,7 +7,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MenuScreen implements Screen {
 
@@ -16,10 +21,13 @@ public class MenuScreen implements Screen {
 	public boolean begin = false;
 	public OrthographicCamera camera;
 	
-	public float buttonX = 640;
-	public float buttonY = 500;
-	
 	boolean pressed = false;
+	boolean pressedmulti = false;
+	
+	public Button playButton;
+	public Button multiButton;
+	
+	public DisplayText helpText;
 	
 	public float x1;
 	public float x2;
@@ -30,8 +38,34 @@ public class MenuScreen implements Screen {
 	
 	public boolean alphaMinus = false;
 	
-	float w = TextureManager.instance.playButton.getRegionWidth();
-	float h = TextureManager.instance.playButton.getRegionHeight();
+	TextField txtfld;
+	Stage scene;
+	
+	public MenuScreen()
+	{
+		helpText = new DisplayText(640,190,Main.welcomeMessage,FontManager.instance.font,true);
+		helpText.color = Main.welcomeColor;
+		
+		playButton = new Button(640-TextureManager.instance.playButton.getRegionWidth()/2, 500-TextureManager.instance.playButton.getRegionHeight()/2, TextureManager.instance.playButton);
+		multiButton = new Button(640-TextureManager.instance.multiButton.getRegionWidth()/2, 350-TextureManager.instance.multiButton.getRegionHeight()/2, TextureManager.instance.multiButton);
+		scene = new Stage();
+		
+		TextFieldStyle tfs = new TextFieldStyle();
+		tfs.font = FontManager.instance.font;
+		tfs.fontColor = Color.WHITE;
+		tfs.selection = new TextureRegionDrawable(TextureManager.instance.textBoxSurline);
+		tfs.cursor = new TextureRegionDrawable(TextureManager.instance.textBoxCursor);
+		//tfs.background = new TextureRegionDrawable(TextureManager.instance.ipButton);
+		
+		txtfld = new TextField("", tfs);
+		txtfld.setWidth(TextureManager.instance.ipButton.getRegionWidth()-70);
+		
+		txtfld.setPosition(660-txtfld.getWidth()/2, 250);
+		
+		Main.inputMultiplexer.addProcessor(scene);
+		
+		scene.addActor(txtfld);
+	}
 	
 	@Override
 	public void render(float delta) {
@@ -39,15 +73,37 @@ public class MenuScreen implements Screen {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !pressed)
+        
+        
+        Vector3 cor = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);	
+		camera.unproject(cor);
+        
+        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !pressed && !pressedmulti)
         {
-        	
-        	Vector3 cor = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);	
-    		camera.unproject(cor);
-        	if(cor.x>buttonX-w/2 && cor.x<buttonX+w/2 && cor.y>buttonY-h/2 && cor.y<buttonY+h/2)
+        	if(playButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
         		SoundManager.instance.click.play(1,1.2f, 0);
         		alphaMinus = true;
+        	}
+        	if(multiButton.isTouched(cor.x,cor.y) && !alphaMinus)
+        	{
+        		SoundManager.instance.click.play(1,1.2f, 0);
+        		if(Tools.isIPAdress(txtfld.getText()))
+        		{
+            		
+            		if(NetworkManager.instance.connect(txtfld.getText()))pressedmulti = true;
+            		else
+            		{
+            			pressedmulti = false;
+            			helpText.color = Color.RED;
+            			helpText.text = "Connexion failed";
+            		}
+        		}
+        		else
+        		{
+        			helpText.color = Color.RED;
+        			helpText.text = "Enter a valid IP adress";
+        		}
         	}
         	pressed = true;
         }
@@ -56,11 +112,31 @@ public class MenuScreen implements Screen {
         	pressed = false;
         }
         
+        if(pressedmulti)
+        {
+        	helpText.text = "Connecting...";
+        	helpText.color = Color.WHITE;
+        	if(NetworkManager.instance.online)
+        	{
+        		alphaMinus = true;
+        		helpText.text = "Connected!";
+        	}
+        }
+        
         if(alphaMinus)alpha-=delta*2;
         
         if(alpha<=-0.2f)
         {
+        	Main.inputMultiplexer.removeProcessor(scene);
         	play = true;
+        	if(pressedmulti)
+        	{
+        		Main.multiplayer=true;
+        	}
+        	else
+        	{
+        		Main.multiplayer=false;
+        	}
         }
         
         x1-=delta*160;
@@ -118,14 +194,25 @@ public class MenuScreen implements Screen {
 		{
 			batch.setColor(1,1,1,0);
 		}
-		batch.draw(TextureManager.instance.playButton,buttonX-w/2,buttonY-h/2);
-		batch.setColor(Color.WHITE);
+		playButton.draw(batch);
+		multiButton.draw(batch);
+		
+		TextureRegion ttex = TextureManager.instance.ipButton;
+		
+		helpText.draw(batch);
+		
+		batch.draw(ttex, (txtfld.getX()+txtfld.getWidth()/2)-ttex.getRegionWidth()/2-20, (txtfld.getY()+txtfld.getHeight()/2)-ttex.getRegionHeight()/2);
 		batch.end();
+		
+		 batch.begin();
+	     scene.draw();
+	     batch.end();
+	     batch.setColor(Color.WHITE);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-
+		scene.getViewport().update(width, height);
 	}
 
 	@Override

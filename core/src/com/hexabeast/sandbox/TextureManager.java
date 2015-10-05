@@ -111,6 +111,10 @@ public class TextureManager {
 	public TextureRegion doorFleuristeTexture;
 	
 	public TextureRegion playButton;
+	public TextureRegion multiButton;
+	public TextureRegion ipButton;
+	public TextureRegion textBoxSurline;
+	public TextureRegion textBoxCursor;
 	
 	public TextureRegion casque1;
 	public TextureRegion armor1;
@@ -357,6 +361,10 @@ public class TextureManager {
 		fleuristeTexture = newTexture(Gdx.files.internal("decors/fleuriste.png"));
 		
 		playButton = newTexture(Gdx.files.internal("menu/playButton.png"));
+		multiButton = newTexture(Gdx.files.internal("menu/multiButton.png"));
+		ipButton = newTexture(Gdx.files.internal("menu/ipButton.png"));
+		textBoxSurline = newTexture(Gdx.files.internal("menu/textBoxSurline.png"));
+		textBoxCursor = newTexture(Gdx.files.internal("menu/textBoxCursor.png"));
 		casque1 = newTexture(Gdx.files.internal("armors/casque1.png"));
 		miningHelmet = newTexture(Gdx.files.internal("armors/casquelight.png"));
 		armor1 = newTexture(Gdx.files.internal("armors/armor1.png"));

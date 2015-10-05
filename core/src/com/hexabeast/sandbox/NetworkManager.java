@@ -60,7 +60,7 @@ public class NetworkManager {
 	    	   }
 	    	   else if (object instanceof NCompressedLayer)
 		        {
-					System.out.println("layer");
+					//System.out.println("layer");
 					NCompressedLayer n = (NCompressedLayer)object;
 					if(n.isMain)
 					{
@@ -99,7 +99,7 @@ public class NetworkManager {
 		connect(defaultIP);
 	}
 	
-	public void connect(String IP)
+	public boolean connect(String IP)
 	{
 		//client.start();
 		new Thread(client).start();
@@ -109,8 +109,9 @@ public class NetworkManager {
 			client.connect(10000, IP, defaultPort, defaultPort);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			return false;
 		}
+		return true;
 	}
 	
 	public void sendTCP(Object object)

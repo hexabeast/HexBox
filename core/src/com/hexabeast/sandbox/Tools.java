@@ -85,6 +85,29 @@ public class Tools {
 		//Main.batch.draw(tex, x-w/2, y, w/2, 0, w, vec.len(), 1, 1, vec.angle()-90, 0, 0, tex.getWidth(), (int) vec.len(), false, false);
 	}
 	
+	public static boolean isIPAdress(String str)
+	{
+		String[] numbers = str.split("[.]");
+		
+		System.out.println(str);
+		
+		if(numbers.length!=4)return false;
+		
+		for(int i = 0; i<numbers.length; i++)
+		{
+			try
+			{
+				if(Integer.parseInt(numbers[i])>256)return false;
+			}
+			catch(java.lang.NumberFormatException e)
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	public static void computeAbsoluteMouse()
 	{
 		absMouse.set(getAbsolutePos(Gdx.input.getX(),Gdx.input.getY()));	
