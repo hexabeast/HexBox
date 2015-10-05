@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.StreamUtils;
 import com.esotericsoftware.jsonbeans.Json;
 import com.esotericsoftware.kryonet.Connection;
 
-public class ServerMap {
+public class ServerMap extends VirtualMap{
 	
 	public byte[][][] layers;
 	
@@ -33,7 +33,12 @@ public class ServerMap {
 	
 	Json json;
 	
-	String fileName;	
+	String fileName;
+	
+	public ServerMap()
+	{
+		
+	}
 	
 	public ServerMap(String fileName)
 	{
@@ -96,6 +101,7 @@ public class ServerMap {
 		changedChunks = new boolean[2][chunkNumberWidth][chunkNumberHeight];
 	}
 	
+	@Override
 	public synchronized void setBlock(NBlockModification conf)
 	{
 		int x = conf.x;
@@ -125,7 +131,8 @@ public class ServerMap {
 			layers[layer][x][y] = (byte) id;
 		}
 	}
-		
+	
+	@Override
 	public void setChanged(int x, int y, int layer)
 	{
 		int x2 = (int)((float)x/(float)width*changedChunks[0].length);
@@ -133,6 +140,7 @@ public class ServerMap {
 		changedChunks[layer][x2][y2] = true;
 	}
 	
+	@Override
 	public synchronized void sendCompressedMap(boolean isMain, Connection c)
 	{
 		try {
@@ -141,7 +149,7 @@ public class ServerMap {
 			e.printStackTrace();
 		}
 	}
-	
+	@Override
 	public void sendLayer(boolean isMain, Connection c) throws IOException
 	{
 		int m = 0;
@@ -172,7 +180,7 @@ public class ServerMap {
 		
 		baos2.close();
 	}
-	
+	@Override
 	public void loadMap(byte[][] layer, FileHandle[][] mapFile) throws IOException
 	{	
 		InputStream is = null;
@@ -202,7 +210,7 @@ public class ServerMap {
 			}
 		}
 	}
-	
+	@Override
 	public void saveMap()
 	{
 		for(int i = 0; i<2; i++)
@@ -215,7 +223,7 @@ public class ServerMap {
 		}
 			
 	}
-	
+	@Override
 	public void SaveLayers(int m, boolean saveAll) throws IOException
 	{
 		ByteArrayOutputStream baos2 = new ByteArrayOutputStream();

@@ -111,7 +111,8 @@ public class TextureManager {
 	public TextureRegion doorFleuristeTexture;
 	
 	public TextureRegion playButton;
-	public TextureRegion multiButton;
+	public TextureRegion hostButton;
+	public TextureRegion joinButton;
 	public TextureRegion ipButton;
 	public TextureRegion textBoxSurline;
 	public TextureRegion textBoxCursor;
@@ -361,7 +362,8 @@ public class TextureManager {
 		fleuristeTexture = newTexture(Gdx.files.internal("decors/fleuriste.png"));
 		
 		playButton = newTexture(Gdx.files.internal("menu/playButton.png"));
-		multiButton = newTexture(Gdx.files.internal("menu/multiButton.png"));
+		hostButton = newTexture(Gdx.files.internal("menu/hostButton.png"));
+		joinButton = newTexture(Gdx.files.internal("menu/joinButton.png"));
 		ipButton = newTexture(Gdx.files.internal("menu/ipButton.png"));
 		textBoxSurline = newTexture(Gdx.files.internal("menu/textBoxSurline.png"));
 		textBoxCursor = newTexture(Gdx.files.internal("menu/textBoxCursor.png"));

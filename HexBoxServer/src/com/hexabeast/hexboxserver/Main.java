@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
 	
-	public static ServerMap map;
+	public static VirtualMap map;
 	public static HServer server;
 	static boolean terminated = false;
  
@@ -19,7 +19,7 @@ public class Main {
 		String s = scan.nextLine();
 		HServer.port = Integer.valueOf(s).intValue();
 		
-		server = new HServer();
+		server = new HServer(map);
 		
 		Runtime.getRuntime().addShutdownHook(new Thread() 
 		{

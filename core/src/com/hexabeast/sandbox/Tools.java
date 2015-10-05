@@ -89,15 +89,14 @@ public class Tools {
 	{
 		String[] numbers = str.split("[.]");
 		
-		System.out.println(str);
-		
 		if(numbers.length!=4)return false;
 		
 		for(int i = 0; i<numbers.length; i++)
 		{
 			try
 			{
-				if(Integer.parseInt(numbers[i])>256)return false;
+				int b=Integer.parseInt(numbers[i]);
+				if(b>256 ||b<0)return false;
 			}
 			catch(java.lang.NumberFormatException e)
 			{

@@ -13,12 +13,17 @@ public class HServer {
 	static HServer instance;
 	public Server server;
 	
-	public static int port;
+	public boolean problem = false;
+	
+	public VirtualMap servermap;
+	
+	public static int port= 25565;
 	
 	//public ArrayList<Integer> ids;
 	
-	public HServer()
+	public HServer(VirtualMap servermap)
 	{
+		this.servermap = servermap;
 		//ids = new ArrayList<Integer>();
 		
 		server = new Server(1048576, 1048576);
@@ -36,19 +41,19 @@ public class HServer {
 		             
 		             if(str.equals("GetMainLayer"))
 		             {
-		            	 Main.map.sendCompressedMap(true, c);
+		            	 servermap.sendCompressedMap(true, c);
 		             }
 		             
 		             if(str.equals("GetBackLayer"))
 		             {
-		            	 Main.map.sendCompressedMap(false, c);
+		            	 servermap.sendCompressedMap(false, c);
 		             }
 		          }
 	    	   
 	          if (object instanceof NBlockModification) 
 	          {
 	             NBlockModification nnn = (NBlockModification)object;
-	             Main.map.setBlock(nnn);
+	             servermap.setBlock(nnn);
 	          }
 	          
 	          if (object instanceof NPlayer)
@@ -110,6 +115,7 @@ public class HServer {
 		catch (IOException e) 
 		{
 			System.out.println("Failed to bind server! (Another server already running?)");
+			problem = true;
 		}
 		
 		server.start();

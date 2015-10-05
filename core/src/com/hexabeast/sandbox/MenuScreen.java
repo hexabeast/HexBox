@@ -23,9 +23,11 @@ public class MenuScreen implements Screen {
 	
 	boolean pressed = false;
 	boolean pressedmulti = false;
+	boolean pressedhost = false;
 	
 	public Button playButton;
-	public Button multiButton;
+	public Button hostButton;
+	public Button joinButton;
 	
 	public DisplayText helpText;
 	
@@ -47,7 +49,8 @@ public class MenuScreen implements Screen {
 		helpText.color = Main.welcomeColor;
 		
 		playButton = new Button(640-TextureManager.instance.playButton.getRegionWidth()/2, 500-TextureManager.instance.playButton.getRegionHeight()/2, TextureManager.instance.playButton);
-		multiButton = new Button(640-TextureManager.instance.multiButton.getRegionWidth()/2, 350-TextureManager.instance.multiButton.getRegionHeight()/2, TextureManager.instance.multiButton);
+		hostButton = new Button(640-TextureManager.instance.hostButton.getRegionWidth()-10, 350-TextureManager.instance.hostButton.getRegionHeight()/2, TextureManager.instance.hostButton);
+		joinButton = new Button(640+10, 350-TextureManager.instance.joinButton.getRegionHeight()/2, TextureManager.instance.joinButton);
 		scene = new Stage();
 		
 		TextFieldStyle tfs = new TextFieldStyle();
@@ -78,14 +81,14 @@ public class MenuScreen implements Screen {
         Vector3 cor = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);	
 		camera.unproject(cor);
         
-        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !pressed && !pressedmulti)
+        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !pressed && !pressedmulti && !pressedhost)
         {
         	if(playButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
         		SoundManager.instance.click.play(1,1.2f, 0);
         		alphaMinus = true;
         	}
-        	if(multiButton.isTouched(cor.x,cor.y) && !alphaMinus)
+        	if(joinButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
         		SoundManager.instance.click.play(1,1.2f, 0);
         		if(Tools.isIPAdress(txtfld.getText()))
@@ -105,6 +108,12 @@ public class MenuScreen implements Screen {
         			helpText.text = "Enter a valid IP adress";
         		}
         	}
+        	if(hostButton.isTouched(cor.x,cor.y) && !alphaMinus)
+        	{
+        		SoundManager.instance.click.play(1,1.2f, 0);
+            	pressedhost = true;
+        	}
+        	
         	pressed = true;
         }
         else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
@@ -121,6 +130,12 @@ public class MenuScreen implements Screen {
         		alphaMinus = true;
         		helpText.text = "Connected!";
         	}
+        }
+        
+        if(pressedhost)
+        {
+        	alphaMinus = true;
+        	Main.host = true;
         }
         
         if(alphaMinus)alpha-=delta*2;
@@ -195,7 +210,10 @@ public class MenuScreen implements Screen {
 			batch.setColor(1,1,1,0);
 		}
 		playButton.draw(batch);
-		multiButton.draw(batch);
+		hostButton.draw(batch);
+		joinButton.draw(batch);
+		
+		batch.setColor(Color.WHITE);
 		
 		TextureRegion ttex = TextureManager.instance.ipButton;
 		
@@ -207,7 +225,7 @@ public class MenuScreen implements Screen {
 		 batch.begin();
 	     scene.draw();
 	     batch.end();
-	     batch.setColor(Color.WHITE);
+	     
 	}
 
 	@Override

@@ -17,6 +17,7 @@ public class NetworkManager {
 	public static NetworkManager instance;
 
 	public Client client;
+	public HServer server;
 	
 	public NetworkRequestList modifications;
 	
@@ -93,10 +94,10 @@ public class NetworkManager {
 		});
 	}
 	
-	public void connectLocal()
+	public boolean connectLocal()
 	{
 		//connect("127.0.0.1");
-		connect(defaultIP);
+		return connect(defaultIP);
 	}
 	
 	public boolean connect(String IP)
@@ -112,6 +113,13 @@ public class NetworkManager {
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean host()
+	{
+		server = new HServer(new IntegratedServerMap());
+		
+		return (connectLocal());
 	}
 	
 	public void sendTCP(Object object)

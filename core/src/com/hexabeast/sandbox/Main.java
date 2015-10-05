@@ -28,8 +28,9 @@ public class Main extends Game {
 	public static boolean backtom;
 	
 	public static boolean multiplayer = false;
+	public static boolean host = false;
 	
-	public static String welcomeMessage = "This is a development version";
+	public static String welcomeMessage = "This is a development version - Multiplayer port: 25565";
 	public static Color welcomeColor = Color.WHITE;
 	
 	public static float delta;
@@ -67,6 +68,7 @@ public class Main extends Game {
 	{
 		noUI = false;
 		multiplayer = false;
+		host = false;
 		ingame = false;
 		time = 0;
 		pause = false;
@@ -89,13 +91,12 @@ public class Main extends Game {
 		//new HNoise(0).generateGradient(200, 200, 10, 10);
 		random = new Random();
 		
-		Inputs.instance = new Inputs();
-		
 		saveMan = new SaveManager();
 		menu = new MenuScreen();
 		
 		SaveManager.instance.LoadParams();
 		updateResolution();
+		sResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.graphics.setVSync(Parameters.i.vsync);
 	}
 	
@@ -125,6 +126,8 @@ public class Main extends Game {
 		}
 		
 		Gdx.input.setInputProcessor(inputMultiplexer);
+		
+		Inputs.instance = new Inputs();
 		
 		sCreate();
 		inputMultiplexer.addProcessor(Inputs.instance);
@@ -156,6 +159,11 @@ public class Main extends Game {
 	@Override
 	public void resize (int width, int height) {
 		super.resize(width, height);
+		sResize(width,height);
+	}
+	
+	public static void sResize(int width, int height)
+	{
 		if((float)width/(float)height>18f/9f)updateResolution(width, (int) (width*9f/16f)-1);
 		else if((float)width/(float)height<16f/13f)updateResolution((int) (height*16f/9f)+1, height);
 		windowWidth = Gdx.graphics.getWidth();
@@ -185,6 +193,11 @@ public class Main extends Game {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		if(host)
+		{
+			NetworkManager.instance.server.server.stop();
 		}
 		
 		super.dispose();

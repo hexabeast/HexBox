@@ -64,12 +64,21 @@ public class LoadingScreen implements Screen {
 						if(Main.multiplayer)
 						{
 							LoadNetwork();
+							mapLoaded = true;
 							
 						}
 						else
 						{
 							if(random)LoadStateRandomAll();
 							else if(!random)LoadStateFileAll();
+							
+							if(Main.host)
+							{
+								if(!NetworkManager.instance.host())Main.backToMenu("Failed launching the server (client)", Color.RED);
+								if(NetworkManager.instance.server.problem)Main.backToMenu("Failed launching the server (port)", Color.RED);
+								else Main.multiplayer= true;
+							}
+							mapLoaded = true;
 							
 							Gdx.app.postRunnable(new Runnable()
 							{
@@ -155,6 +164,7 @@ public class LoadingScreen implements Screen {
 			}
 		}
 		System.out.println(2);
+		progress =0.2f;
 		NetworkManager.instance.sendTCP("GetBackLayer");
 		
 		while(!NbackLoaded)
@@ -165,6 +175,7 @@ public class LoadingScreen implements Screen {
 				e.printStackTrace();
 			}
 		}
+		progress =0.3f;
 		System.out.println(3);
 		try {
 			Map.instance.backLayer = MapGenerator.instance.NLoad(NbackLayer.layer, false);
@@ -173,6 +184,7 @@ public class LoadingScreen implements Screen {
 			Main.backToMenu("Error loading map (layer 2)", Color.RED);
 		}
 		
+		progress =0.4f;
 		System.out.println(4);
 		
 		while(!NmainLoaded)
@@ -184,6 +196,7 @@ public class LoadingScreen implements Screen {
 			}
 		}
 		
+		progress =0.5f;
 		System.out.println(5);
 		
 		try {
@@ -194,8 +207,6 @@ public class LoadingScreen implements Screen {
 		}
 		
 		checkMap();
-		
-		mapLoaded = true;
 	}
 	
 	
@@ -256,10 +267,6 @@ public class LoadingScreen implements Screen {
 		}
 		
 		progress = 1f;
-		
-		
-		
-		mapLoaded = true;
 		
 	}
 	
@@ -328,7 +335,6 @@ public class LoadingScreen implements Screen {
 		}
 		
 		progress = 1;
-		mapLoaded = true;
 		
 	}
 	
