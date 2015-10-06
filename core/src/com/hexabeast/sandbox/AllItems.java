@@ -100,6 +100,7 @@ public class AllItems {
 			        if(itemList[rj][rk].get(i).isDead)
 			        {
 			        	Tools.checkItems();
+			        	//TODO FAIL
 			        	itemListAll.remove(itemListAll.indexOf(itemList[rj][rk].get(i)));
 			        	itemList[rj][rk].remove(i);
 			        }

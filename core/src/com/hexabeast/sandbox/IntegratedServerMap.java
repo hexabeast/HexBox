@@ -39,8 +39,10 @@ public class IntegratedServerMap extends VirtualMap{
 		{
 			NetworkManager.instance.server.sendBlock(conf);
 		}
-		if(id!=0)ModifyTerrain.instance.setBlockFinal(x, y, id, layer);
-		else ModifyTerrain.instance.breakBlockFinal(x, y, layer);
+		
+		NetworkManager.instance.modifications.add(conf);
+		//if(id!=0)ModifyTerrain.instance.setBlockFinal(x, y, id, layer);
+		//else ModifyTerrain.instance.breakBlockFinal(x, y, layer);
 
 	}
 	
