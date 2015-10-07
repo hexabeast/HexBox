@@ -48,6 +48,8 @@ public class Item extends Entity {
 		if(yDistance>=0)yOffset = 60;
 		else yOffset = -60;
 		
+		if(AllBlocTypes.instance.getType(id).lightFull)light(id);
+		
 		if(Math.abs(xDistance)<100 && Math.abs(yDistance)<100  && !GameScreen.inventory.isFull(id))
 		{
 			if(Math.abs(xDistance)<15 && Math.abs(yDistance)<38 && !GameScreen.inventory.isTransit && number>0)
@@ -91,6 +93,12 @@ public class Item extends Entity {
 		if(number<=0)isDead = true;
 		
 
+	}
+	
+	public void light(int id)
+	{
+		BlocType b = AllBlocTypes.instance.getType(id);
+		Map.instance.lights.tempLight(getX()+spr.getWidth()/2, getY()+spr.getHeight()/2,b.lightColor[0]*0.9f, b.lightColor[1]*0.9f, b.lightColor[2]*0.9f);
 	}
 	
 	public boolean TestYDownCollisions(MapLayer colayer, float posX, float posY,float width, float height, Vector2 velo, float DO,float tileW,float tileH){
