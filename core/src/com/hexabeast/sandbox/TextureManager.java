@@ -110,6 +110,7 @@ public class TextureManager {
 	public TextureRegion doorArmorForgeTexture;
 	public TextureRegion doorFleuristeTexture;
 	
+	public TextureRegion chatBehind;
 	public TextureRegion playButton;
 	public TextureRegion hostButton;
 	public TextureRegion joinButton;
@@ -361,6 +362,7 @@ public class TextureManager {
 		armorForgeTexture = newTexture(Gdx.files.internal("decors/forge-armures.png"));
 		fleuristeTexture = newTexture(Gdx.files.internal("decors/fleuriste.png"));
 		
+		chatBehind = newTexture(Gdx.files.internal("menu/chatbehind.png"));
 		playButton = newTexture(Gdx.files.internal("menu/playButton.png"));
 		hostButton = newTexture(Gdx.files.internal("menu/hostButton.png"));
 		joinButton = newTexture(Gdx.files.internal("menu/joinButton.png"));

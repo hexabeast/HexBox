@@ -21,8 +21,6 @@ public class NetworkManager {
 	
 	public NetworkRequestList modifications;
 	
-	String name = "John";
-	
 	boolean online = false;
 	
 	String defaultIP = "127.0.0.1";

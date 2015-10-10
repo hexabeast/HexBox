@@ -26,6 +26,7 @@ public class Main extends Game {
 	public static boolean noUI = false;
 	
 	public static boolean backtom;
+	public static String name = "John";
 	
 	public static boolean multiplayer = false;
 	public static boolean host = false;
@@ -98,6 +99,8 @@ public class Main extends Game {
 		updateResolution();
 		sResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.graphics.setVSync(Parameters.i.vsync);
+		
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 	
 	@Override
@@ -124,8 +127,6 @@ public class Main extends Game {
 			joy = new Joystick();
 			inputMultiplexer.addProcessor(joy);
 		}
-		
-		Gdx.input.setInputProcessor(inputMultiplexer);
 		
 		Inputs.instance = new Inputs();
 		
@@ -258,7 +259,9 @@ public class Main extends Game {
 				}
 				MapGenerator.instance = new MapGenerator((int)(Math.random()*5000000));
 				ModifyTerrain.instance = new ModifyTerrain();
+				if(game != null)Main.inputMultiplexer.removeProcessor(game.chat.scene);
 				game = new GameScreen();
+				
 				if(Map.instance.random)loading = new LoadingScreen(true);
 				else loading = new LoadingScreen(false);
 				setScreen(loading);
@@ -272,6 +275,7 @@ public class Main extends Game {
 				SoundManager.instance.playAmbiance();
 				if(!mobile)SaveManager.instance.Load();
 				allLoaded = true;
+				Main.inputMultiplexer.addProcessor(game.chat.scene);
 			}
 		}
 		

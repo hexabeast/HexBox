@@ -152,8 +152,8 @@ public void inputTransform()
 	if(Inputs.instance.leftmousedown && !Main.pause)transformList.get(Parameters.i.currentTransform).goClickLeftInstant();
 	if(Inputs.instance.rightmousedown && !Main.pause)transformList.get(Parameters.i.currentTransform).goClickRightInstant();
 	
-	if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !Main.pause)transformList.get(Parameters.i.currentTransform).goClickLeftPressed();
-	if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && !Main.pause)transformList.get(Parameters.i.currentTransform).goClickRightPressed();
+	if(Inputs.instance.leftpress  && !Main.pause)transformList.get(Parameters.i.currentTransform).goClickLeftPressed();
+	if(Inputs.instance.rightpress && !Main.pause)transformList.get(Parameters.i.currentTransform).goClickRightPressed();
 	
 	if(Inputs.instance.space)transformList.get(Parameters.i.currentTransform).goJump();
 	

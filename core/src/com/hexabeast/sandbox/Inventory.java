@@ -686,21 +686,21 @@ public class Inventory {
 	
 	public void Input()
 	{
-		if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && Tools.isClicked(buttonCraftSprite,Constants.invof) && !rightCraftPressed && Inputs.instance.mousedown)
+		if(Inputs.instance.rightpress && Tools.isClicked(buttonCraftSprite,Constants.invof) && !rightCraftPressed && Inputs.instance.mousedown)
 			{
 			for(int i = 0; i<10; i++)Craft();
 			rightCraftPressed = true;
 			}
-		if(!Gdx.input.isButtonPressed(Input.Buttons.RIGHT))rightCraftPressed = false;
+		if(!Inputs.instance.rightpress)rightCraftPressed = false;
 		
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && Tools.isClicked(buttonCraftSprite,Constants.invof) && !leftCraftPressed && Inputs.instance.mousedown)	
+		if(Inputs.instance.leftpress && Tools.isClicked(buttonCraftSprite,Constants.invof) && !leftCraftPressed && Inputs.instance.mousedown)	
 			{
 			Craft();
 			leftCraftPressed = true;
 			}
-		if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))leftCraftPressed = false;
+		if(!Inputs.instance.leftpress)leftCraftPressed = false;
 		
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) || Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
+		if(Inputs.instance.leftpress || Inputs.instance.rightpress)
 		{	
 			boolean toolate = false;
 			if(isTransit) 
@@ -708,7 +708,7 @@ public class Inventory {
 				refreshTempItemPos(Tools.getAbsoluteMouse());
 				toolate = true;
 				
-				if(!alreadyClick && ((Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !isLeft) || (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && isLeft)) )
+				if(!alreadyClick && ((Inputs.instance.leftpress && !isLeft) || (Inputs.instance.rightpress && isLeft)) )
 				{
 					for(int i = 0; i<invItemsArray.length;i++)
 					{
@@ -758,7 +758,7 @@ public class Inventory {
 						{
 							toolate = true;
 							isLeftClicked = true;
-							if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+							if(Inputs.instance.leftpress)
 							{
 								if(beginTransition(Tools.getAbsoluteMouse(),i,0))
 									{
@@ -784,7 +784,7 @@ public class Inventory {
 							{
 								toolate = true;
 								isLeftClicked = true;
-								if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+								if(Inputs.instance.leftpress)
 								{
 									if(beginTransition(Tools.getAbsoluteMouse(),i,j))
 									{
@@ -806,12 +806,12 @@ public class Inventory {
 			}
 		}
 		
-		if(((!isLeft && !Gdx.input.isButtonPressed(Input.Buttons.LEFT)) || (isLeft && !Gdx.input.isButtonPressed(Input.Buttons.RIGHT))))
+		if(((!isLeft && !Inputs.instance.leftpress) || (isLeft && !Inputs.instance.rightpress)))
 		{
 			alreadyClick = false;
 		}
 		
-		if(isTransit && ((isLeft && !Gdx.input.isButtonPressed(Input.Buttons.LEFT)) || (!isLeft && !Gdx.input.isButtonPressed(Input.Buttons.RIGHT))) )
+		if(isTransit && ((isLeft && !Inputs.instance.leftpress) || (!isLeft && !Inputs.instance.rightpress)) )
 		{
 			for(int i = 0; i<invItemsArray.length;i++)
 			{

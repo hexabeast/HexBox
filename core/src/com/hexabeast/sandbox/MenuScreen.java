@@ -76,12 +76,10 @@ public class MenuScreen implements Screen {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        
-        
         Vector3 cor = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);	
 		camera.unproject(cor);
         
-        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !pressed && !pressedmulti && !pressedhost)
+        if(Inputs.instance.leftpress && !pressed && !pressedmulti && !pressedhost)
         {
         	if(playButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
@@ -116,7 +114,7 @@ public class MenuScreen implements Screen {
         	
         	pressed = true;
         }
-        else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+        else if(!Inputs.instance.leftpress)
         {
         	pressed = false;
         }

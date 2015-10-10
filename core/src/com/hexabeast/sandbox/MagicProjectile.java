@@ -212,7 +212,7 @@ public class MagicProjectile extends Entity{
 			velocity.y-= 700*Main.delta;
 		}
 		
-		if(type == 3 && !Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
+		if(type == 3 && !Inputs.instance.rightpress)
 		{
 			Vector2 mouse = Tools.getAbsoluteMouse();
 			Vector2 mouse2 = new Vector2(mouse.x-x, mouse.y-y).setLength(3000);

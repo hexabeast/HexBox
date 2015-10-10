@@ -13,6 +13,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.hexabeast.sandbox.particles.HParticleEmmiter;
 
 public class GameScreen implements Screen 
@@ -49,6 +53,10 @@ public class GameScreen implements Screen
 	static Vector3 camPos = new Vector3();
 	static boolean UI = false;
 	
+	public boolean chatEnabled = false;
+
+	Chat chat;
+	
 	private void Clear()
 	{
 		Gdx.gl.glClearColor(0,0,0,0f);
@@ -57,6 +65,8 @@ public class GameScreen implements Screen
 	
 	public GameScreen() 
 	{
+		chat = new Chat();
+		
 		items = new AllItems();
 		entities = new AllEntities();
 		rain = new Rain();
@@ -108,6 +118,11 @@ public class GameScreen implements Screen
 	@Override
 	public void resize(int width, int height)
 	{
+		Main.inputMultiplexer.removeProcessor(chat.scene);
+		chat.scene = new Stage();
+		chat.scene.addActor(chat.inputField);
+		Main.inputMultiplexer.addProcessor(chat.scene);
+		
 		if(!Parameters.i.zoomLock)
 		{
 			camera.viewportWidth = width;
@@ -585,11 +600,17 @@ public class GameScreen implements Screen
 				
 				if(Main.pause)PauseMenu.instance.draw(batch);
 				
+				
 			}
 			
 		batch.end();
 		
+		
 		SwapCam();
+		batch.setProjectionMatrix(camera.combined);
+		
+		chat.drawMessages(camera.position.x-camera.viewportWidth/2, camera.position.y - camera.viewportHeight/2);
+		if(chatEnabled)chat.draw();
 		
 		flashes.DrawAll();
 		
@@ -787,12 +808,12 @@ public class GameScreen implements Screen
 			if(joy.isTouching || joy.isClicked(Tools.getAbsoluteMouseUI(Gdx.input.getX(),Gdx.input.getY())))abort = true;
 		}
 		
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+		if(Inputs.instance.leftpress)
 		{
 			//PUTCELL
 			if(!abort && inventory.hidden && !player.transformed)ModifyTerrain.instance.PutCell( player.currentCellID,player.currentCellState, Map.instance.mainLayer,Main.time,true);
 		}
-		else if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT))
+		else if(Inputs.instance.rightpress)
 		{
 			//PUTCELL
 			boolean backPlaced;

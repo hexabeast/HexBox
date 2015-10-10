@@ -10,6 +10,7 @@ public class FontManager {
 	public static FontManager instance;
 	public BitmapFont font;
 	public BitmapFont font1;
+	public BitmapFont fontsmall;
 	public BitmapFont fontSettings;
 	
 	FreeTypeFontGenerator generator;
@@ -38,6 +39,12 @@ public class FontManager {
 		fontSettings.setColor(1f, 1f,1f, 1);
 		fontSettings.setUseIntegerPositions(true);
 		fontSettings.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		fontsmall = new BitmapFont(Gdx.files.internal("fonts/pixelFont.fnt"),Gdx.files.internal("fonts/pixelFont_0.png"), false);
+		fontsmall.setScale(1);
+		fontsmall.setColor(1f, 1f,1f, 1);
+		fontsmall.setUseIntegerPositions(true);
+		fontsmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		font1 = new BitmapFont(Gdx.files.internal("fonts/pixelFon3.fnt"),Gdx.files.internal("fonts/pixelFon3_0.png"), false);
 		initializeFont1();

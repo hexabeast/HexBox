@@ -41,6 +41,9 @@ public class Inputs implements InputProcessor{
 	public boolean space = false;
 	public boolean spacePressed = false;
 	
+	public boolean leftpress = false;
+	public boolean rightpress = false;
+	
 	public NInputUpdate Ninput = new NInputUpdate();
 	
 	@Override
@@ -93,6 +96,9 @@ public class Inputs implements InputProcessor{
 			Ninput.Space = spacePressed;
 			Ninput.mousePos = Tools.getAbsoluteMouse();
 		}
+		
+		leftpress = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
+		rightpress = Gdx.input.isButtonPressed(Input.Buttons.RIGHT);
 		
 		if(tomouseup)
 		{
@@ -205,179 +211,203 @@ public class Inputs implements InputProcessor{
 	}
 	
 	@Override
-	public boolean keyDown(int keycode) {
-		
-		if(Main.ingame && !Main.pause)
+	public boolean keyDown(int keycode) 
+	{
+		if(Main.ingame)
 		{
-			switch(keycode){
-			case Keys.V:
-				if(!NetworkManager.instance.online)Map.instance.lights.switchDayBegin(-0.5f);
-				break;
-			case Keys.B:
-				if(!NetworkManager.instance.online)Map.instance.lights.switchDayBegin(0.5f);
-				break;
-				
-			case Keys.SPACE:
-				space = true;
-				spacePressed = true;
-				break;
-			case Keys.SHIFT_LEFT:
-				shift = true;
-				break;	
-				
-			case Keys.C:
-				GameScreen.inventory.Craft();
-				break;
-			case Keys.A:
-				tomiddleOrAPressed = true;
-				break;
-			case Keys.D:
-				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(true,true));
-				D = true;
-				break;
-			case Keys.CONTROL_LEFT:
-				CTRL = true;
-				break;
-			case Keys.Q:
-				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,true));
-				Q = true;
-				break;
-			case Keys.Z:
-				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,true));
-				Z = true;
-				break;
-			case Keys.W:
-				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,true));
-				Z = true;
-				break;	
-			case Keys.T:
-				placeTorch();
-				
-				break;
-			case Keys.S:
-				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(false,true));
-				S = true;
-				break;	
-			case Keys.NUM_0:
-				if(CTRL)
+			if(Main.game.chatEnabled)
+			{
+				if(keycode == Keys.ENTER && !Main.pause)
 				{
-					if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+					Main.game.chat.addMessage(Main.game.chat.inputField.getText());
+					Main.game.chatEnabled = false;
 				}
-				else
+			}
+			else
+			{
+				if(!Main.pause)
 				{
-					GameScreen.player.currentCellState = 9;
-					GameScreen.player.refreshSelect();
+					switch(keycode){
+					case Keys.V:
+						if(!NetworkManager.instance.online)Map.instance.lights.switchDayBegin(-0.5f);
+						break;
+					case Keys.B:
+						if(!NetworkManager.instance.online)Map.instance.lights.switchDayBegin(0.5f);
+						break;
+						
+					case Keys.SPACE:
+						space = true;
+						spacePressed = true;
+						break;
+					case Keys.SHIFT_LEFT:
+						shift = true;
+						break;	
+						
+					case Keys.C:
+						GameScreen.inventory.Craft();
+						break;
+					case Keys.A:
+						tomiddleOrAPressed = true;
+						break;
+					case Keys.D:
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(true,true));
+						D = true;
+						break;
+					case Keys.CONTROL_LEFT:
+						CTRL = true;
+						break;
+					case Keys.Q:
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,true));
+						Q = true;
+						break;
+					case Keys.Z:
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,true));
+						Z = true;
+						break;
+					case Keys.W:
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,true));
+						Z = true;
+						break;	
+					case Keys.T:
+						placeTorch();
+						break;
+						
+					case Keys.ENTER:
+						Main.game.chatEnabled = true;
+						leftpress = false;
+						rightpress = false;
+						Main.game.chat.inputField.setText("");
+						Main.game.chat.scene.setKeyboardFocus(Main.game.chat.inputField);
+					
+						break;
+					
+					case Keys.S:
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(false,true));
+						S = true;
+						break;	
+					case Keys.NUM_0:
+						if(CTRL)
+						{
+							if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+						}
+						else
+						{
+							GameScreen.player.currentCellState = 9;
+							GameScreen.player.refreshSelect();
+						}
+						
+						break;
+					case Keys.NUM_1:
+						if(CTRL)
+						{
+							if(!NetworkManager.instance.online)GameScreen.player.transform(1);
+						}
+						else
+						{
+							GameScreen.player.currentCellState = 0;
+							GameScreen.player.refreshSelect();
+						}
+						break;
+					case Keys.NUM_2:
+						if(CTRL)
+						{
+							if(!NetworkManager.instance.online)GameScreen.player.transform(2);
+						}
+						else
+						{
+							GameScreen.player.currentCellState = 1;
+							GameScreen.player.refreshSelect();
+						}
+						
+						break;
+					case Keys.NUM_3:
+						if(CTRL)
+						{
+							if(!NetworkManager.instance.online)GameScreen.player.transform(3);
+						}
+						else
+						{
+							GameScreen.player.currentCellState = 2;
+							GameScreen.player.refreshSelect();
+						}
+						
+						break;
+					case Keys.NUM_4:
+						if(CTRL)
+						{
+							if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+						}
+						else
+						{
+							GameScreen.player.currentCellState = 3;
+							GameScreen.player.refreshSelect();
+						}
+						
+						break;
+					case Keys.NUM_5:
+						if(CTRL)
+						{
+							if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+						}
+						else
+						{
+							GameScreen.player.currentCellState = 4;
+							GameScreen.player.refreshSelect();
+						}
+						
+						break;
+					case Keys.NUM_6:
+						if(CTRL)
+						{
+							if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+						}
+						else
+						{
+							GameScreen.player.currentCellState = 5;
+							GameScreen.player.refreshSelect();
+						}
+						
+						break;
+					case Keys.NUM_7:
+						if(CTRL)
+						{
+							for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
+						}
+						else
+						{
+							GameScreen.player.currentCellState = 6;
+							GameScreen.player.refreshSelect();
+						}
+						
+						break;
+					case Keys.NUM_8:
+						if(CTRL)
+						{
+							GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
+						}
+						else
+						{
+							GameScreen.player.currentCellState = 7;
+							GameScreen.player.refreshSelect();
+						}
+						
+						break;
+					case Keys.NUM_9:
+						if(CTRL)
+						{
+							GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
+						}
+						else
+						{
+							GameScreen.player.currentCellState = 8;
+							GameScreen.player.refreshSelect();
+						}
+						break;
+					}
 				}
-				
-				break;
-			case Keys.NUM_1:
-				if(CTRL)
-				{
-					if(!NetworkManager.instance.online)GameScreen.player.transform(1);
-				}
-				else
-				{
-					GameScreen.player.currentCellState = 0;
-					GameScreen.player.refreshSelect();
-				}
-				break;
-			case Keys.NUM_2:
-				if(CTRL)
-				{
-					if(!NetworkManager.instance.online)GameScreen.player.transform(2);
-				}
-				else
-				{
-					GameScreen.player.currentCellState = 1;
-					GameScreen.player.refreshSelect();
-				}
-				
-				break;
-			case Keys.NUM_3:
-				if(CTRL)
-				{
-					if(!NetworkManager.instance.online)GameScreen.player.transform(3);
-				}
-				else
-				{
-					GameScreen.player.currentCellState = 2;
-					GameScreen.player.refreshSelect();
-				}
-				
-				break;
-			case Keys.NUM_4:
-				if(CTRL)
-				{
-					if(!NetworkManager.instance.online)GameScreen.player.transform(0);
-				}
-				else
-				{
-					GameScreen.player.currentCellState = 3;
-					GameScreen.player.refreshSelect();
-				}
-				
-				break;
-			case Keys.NUM_5:
-				if(CTRL)
-				{
-					if(!NetworkManager.instance.online)GameScreen.player.transform(0);
-				}
-				else
-				{
-					GameScreen.player.currentCellState = 4;
-					GameScreen.player.refreshSelect();
-				}
-				
-				break;
-			case Keys.NUM_6:
-				if(CTRL)
-				{
-					if(!NetworkManager.instance.online)GameScreen.player.transform(0);
-				}
-				else
-				{
-					GameScreen.player.currentCellState = 5;
-					GameScreen.player.refreshSelect();
-				}
-				
-				break;
-			case Keys.NUM_7:
-				if(CTRL)
-				{
-					for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
-				}
-				else
-				{
-					GameScreen.player.currentCellState = 6;
-					GameScreen.player.refreshSelect();
-				}
-				
-				break;
-			case Keys.NUM_8:
-				if(CTRL)
-				{
-					GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
-				}
-				else
-				{
-					GameScreen.player.currentCellState = 7;
-					GameScreen.player.refreshSelect();
-				}
-				
-				break;
-			case Keys.NUM_9:
-				if(CTRL)
-				{
-					GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
-				}
-				else
-				{
-					GameScreen.player.currentCellState = 8;
-					GameScreen.player.refreshSelect();
-				}
-				break;
 			}
 		}
+			
 		
 		
 		
@@ -387,115 +417,129 @@ public class Inputs implements InputProcessor{
 
 	@Override
 	public boolean keyUp(int keycode) {
-		if(Main.ingame && keycode == Keys.ESCAPE)Main.pause = !Main.pause;
-		if(Main.ingame && keycode == Keys.P)Main.pause = !Main.pause;
-		if(Main.ingame && !Main.pause)
+		
+		if(Main.ingame)
 		{
-			switch(keycode){
-			
-			case Keys.V:
-				Map.instance.lights.switchDayEnd();
-				break;
-			case Keys.I:
-				GameScreen.inventory.ToggleHide();
-				GameScreen.select.toggleOffset();
-				break;
-			case Keys.L:
-				if(!NetworkManager.instance.online)Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
-				break;
-			case Keys.K:
-				if(!NetworkManager.instance.online)
-				{
-					if(Parameters.i.deltaMultiplier >0.5f) Parameters.i.deltaMultiplier = 0.2f;
-					else Parameters.i.deltaMultiplier = 1f;
-				}
-				break;
-			case Keys.B:
-				Map.instance.lights.switchDayEnd();
-				break;
-			case Keys.SHIFT_LEFT:
-				shift = false;
-				break;
-			case Keys.CONTROL_LEFT:
-				CTRL = false;
-				break;
-			case Keys.D:
-				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(true,false));
-				D = false;
-				break;
-			case Keys.Q:
-				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,false));
-				Q = false;
-				break;
-			case Keys.Z:
-				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,false));
-				Z = false;
-				break;
-			case Keys.W:
-				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,false));
-				Z = false;
-				break;	
-			case Keys.SPACE:	
-				spacePressed = false;
-				break;
-			case Keys.S:
-				if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(false,false));
-				S = false;
-				break;
-			case Keys.O:
-				Parameters.i.FBORender = !Parameters.i.FBORender;
-			case Keys.H:
-				Main.zoom = 1;
-				break;
+			if(Main.game.chatEnabled)
+			{
 				
-			case Keys.ALT_RIGHT:
-				Main.noUI = !Main.noUI;
-				break;
-				
-			case Keys.J:
-				Parameters.i.noShadow = true;
-				Main.zoom = 40;
-				break;
-			case Keys.M:
-				if(!NetworkManager.instance.online)Parameters.i.superman = !Parameters.i.superman;
-				break;
-			case Keys.R:
-				Parameters.i.SwitchQuality();
-				//GamePlay.mobs.SpawnRedDino(x, y);
-				break;
-			case Keys.NUMPAD_9:
-				GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
-				break;
-			case Keys.NUMPAD_8:
-				GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
-				break;
-			case Keys.NUMPAD_7:
-				for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
-				break;
-			case Keys.NUMPAD_1:
-				if(!NetworkManager.instance.online)GameScreen.player.transform(1);
-				break;
-			case Keys.NUMPAD_2:
-				if(!NetworkManager.instance.online)GameScreen.player.transform(2);
-				break;
-			case Keys.NUMPAD_3:
-				if(!NetworkManager.instance.online)GameScreen.player.transform(3);
-				break;
-			case Keys.NUMPAD_0:
-				if(!NetworkManager.instance.online)GameScreen.player.transform(0);
-				break;
-			case Keys.F:
-				Parameters.i.noShadow = !Parameters.i.noShadow;
-				break;
-			case Keys.G:
-				GameScreen.player.Hurt(20,0,GameScreen.player.PNJ.middle.x, GameScreen.player.PNJ.middle.y);
-				break;
-			case Keys.E:
-				GameScreen.inventory.ToggleHide();
-				GameScreen.select.toggleOffset();
-				break;
 			}
+			else
+			{
+				if(keycode == Keys.ESCAPE)Main.pause = !Main.pause;
+				if(keycode == Keys.P)Main.pause = !Main.pause;
+				if(!Main.pause)
+				{
+					switch(keycode){
+					
+					case Keys.V:
+						Map.instance.lights.switchDayEnd();
+						break;
+					case Keys.I:
+						GameScreen.inventory.ToggleHide();
+						GameScreen.select.toggleOffset();
+						break;
+					case Keys.L:
+						if(!NetworkManager.instance.online)Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
+						break;
+					case Keys.K:
+						if(!NetworkManager.instance.online)
+						{
+							if(Parameters.i.deltaMultiplier >0.5f) Parameters.i.deltaMultiplier = 0.2f;
+							else Parameters.i.deltaMultiplier = 1f;
+						}
+						break;
+					case Keys.B:
+						Map.instance.lights.switchDayEnd();
+						break;
+					case Keys.SHIFT_LEFT:
+						shift = false;
+						break;
+					case Keys.CONTROL_LEFT:
+						CTRL = false;
+						break;
+					case Keys.D:
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(true,false));
+						D = false;
+						break;
+					case Keys.Q:
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,false));
+						Q = false;
+						break;
+					case Keys.Z:
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,false));
+						Z = false;
+						break;
+					case Keys.W:
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,false));
+						Z = false;
+						break;	
+					case Keys.SPACE:	
+						spacePressed = false;
+						break;
+					case Keys.S:
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(false,false));
+						S = false;
+						break;
+					case Keys.O:
+						Parameters.i.FBORender = !Parameters.i.FBORender;
+					case Keys.H:
+						Main.zoom = 1;
+						break;
+						
+					case Keys.ALT_RIGHT:
+						Main.noUI = !Main.noUI;
+						break;
+						
+					case Keys.J:
+						Parameters.i.noShadow = true;
+						Main.zoom = 40;
+						break;
+					case Keys.M:
+						if(!NetworkManager.instance.online)Parameters.i.superman = !Parameters.i.superman;
+						break;
+					case Keys.R:
+						Parameters.i.SwitchQuality();
+						//GamePlay.mobs.SpawnRedDino(x, y);
+						break;
+					case Keys.NUMPAD_9:
+						GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
+						break;
+					case Keys.NUMPAD_8:
+						GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
+						break;
+					case Keys.NUMPAD_7:
+						for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
+						break;
+					case Keys.NUMPAD_1:
+						if(!NetworkManager.instance.online)GameScreen.player.transform(1);
+						break;
+					case Keys.NUMPAD_2:
+						if(!NetworkManager.instance.online)GameScreen.player.transform(2);
+						break;
+					case Keys.NUMPAD_3:
+						if(!NetworkManager.instance.online)GameScreen.player.transform(3);
+						break;
+					case Keys.NUMPAD_0:
+						if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+						break;
+					case Keys.F:
+						Parameters.i.noShadow = !Parameters.i.noShadow;
+						break;
+					case Keys.G:
+						GameScreen.player.Hurt(20,0,GameScreen.player.PNJ.middle.x, GameScreen.player.PNJ.middle.y);
+						break;
+					case Keys.E:
+						GameScreen.inventory.ToggleHide();
+						GameScreen.select.toggleOffset();
+						break;
+					}
+				}
+			}
+			
+			
 		}
 		return false;
+		
 	}
 }
