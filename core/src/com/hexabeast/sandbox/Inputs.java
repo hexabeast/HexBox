@@ -228,13 +228,13 @@ public class Inputs implements InputProcessor{
 				if(!Main.pause)
 				{
 					switch(keycode){
-					case Keys.V:
-						if(!NetworkManager.instance.online)Map.instance.lights.switchDayBegin(-0.5f);
+					/*case Keys.V:
+						if(Main.enableCheats)Map.instance.lights.switchDayBegin(-0.5f);
 						break;
 					case Keys.B:
-						if(!NetworkManager.instance.online)Map.instance.lights.switchDayBegin(0.5f);
+						if(Main.enableCheats)Map.instance.lights.switchDayBegin(0.5f);
 						break;
-						
+						*/
 					case Keys.SPACE:
 						space = true;
 						spacePressed = true;
@@ -285,10 +285,10 @@ public class Inputs implements InputProcessor{
 						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(false,true));
 						S = true;
 						break;	
-					case Keys.NUM_0:
+					/*case Keys.NUM_0:
 						if(CTRL)
 						{
-							if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+							if(Main.enableCheats)GameScreen.player.transform(0);
 						}
 						else
 						{
@@ -300,7 +300,7 @@ public class Inputs implements InputProcessor{
 					case Keys.NUM_1:
 						if(CTRL)
 						{
-							if(!NetworkManager.instance.online)GameScreen.player.transform(1);
+							if(Main.enableCheats)GameScreen.player.transform(1);
 						}
 						else
 						{
@@ -311,7 +311,7 @@ public class Inputs implements InputProcessor{
 					case Keys.NUM_2:
 						if(CTRL)
 						{
-							if(!NetworkManager.instance.online)GameScreen.player.transform(2);
+							if(Main.enableCheats)GameScreen.player.transform(2);
 						}
 						else
 						{
@@ -323,7 +323,7 @@ public class Inputs implements InputProcessor{
 					case Keys.NUM_3:
 						if(CTRL)
 						{
-							if(!NetworkManager.instance.online)GameScreen.player.transform(3);
+							if(Main.enableCheats)GameScreen.player.transform(3);
 						}
 						else
 						{
@@ -335,7 +335,7 @@ public class Inputs implements InputProcessor{
 					case Keys.NUM_4:
 						if(CTRL)
 						{
-							if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+							if(Main.enableCheats)GameScreen.player.transform(0);
 						}
 						else
 						{
@@ -347,7 +347,7 @@ public class Inputs implements InputProcessor{
 					case Keys.NUM_5:
 						if(CTRL)
 						{
-							if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+							if(Main.enableCheats)GameScreen.player.transform(0);
 						}
 						else
 						{
@@ -359,7 +359,7 @@ public class Inputs implements InputProcessor{
 					case Keys.NUM_6:
 						if(CTRL)
 						{
-							if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+							if(Main.enableCheats)GameScreen.player.transform(0);
 						}
 						else
 						{
@@ -402,7 +402,7 @@ public class Inputs implements InputProcessor{
 							GameScreen.player.currentCellState = 8;
 							GameScreen.player.refreshSelect();
 						}
-						break;
+						break;*/
 					}
 				}
 			}
@@ -432,18 +432,18 @@ public class Inputs implements InputProcessor{
 				{
 					switch(keycode){
 					
-					case Keys.V:
+					/*case Keys.V:
 						Map.instance.lights.switchDayEnd();
-						break;
+						break;*/
 					case Keys.I:
 						GameScreen.inventory.ToggleHide();
 						GameScreen.select.toggleOffset();
 						break;
-					case Keys.L:
-						if(!NetworkManager.instance.online)Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
+					/*case Keys.L:
+						if(Main.enableCheats)Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
 						break;
 					case Keys.K:
-						if(!NetworkManager.instance.online)
+						if(Main.enableCheats)
 						{
 							if(Parameters.i.deltaMultiplier >0.5f) Parameters.i.deltaMultiplier = 0.2f;
 							else Parameters.i.deltaMultiplier = 1f;
@@ -451,7 +451,7 @@ public class Inputs implements InputProcessor{
 						break;
 					case Keys.B:
 						Map.instance.lights.switchDayEnd();
-						break;
+						break;*/
 					case Keys.SHIFT_LEFT:
 						shift = false;
 						break;
@@ -481,22 +481,23 @@ public class Inputs implements InputProcessor{
 						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(false,false));
 						S = false;
 						break;
-					case Keys.O:
-						Parameters.i.FBORender = !Parameters.i.FBORender;
+					//case Keys.O:
+						//Parameters.i.FBORender = !Parameters.i.FBORender;
 					case Keys.H:
+						Parameters.i.noShadow = false;
 						Main.zoom = 1;
 						break;
 						
-					case Keys.ALT_RIGHT:
-						Main.noUI = !Main.noUI;
-						break;
+					//case Keys.ALT_RIGHT:
+					//	Main.noUI = !Main.noUI;
+						//break;
 						
-					case Keys.J:
+					/*case Keys.J:
 						Parameters.i.noShadow = true;
 						Main.zoom = 40;
-						break;
-					case Keys.M:
-						if(!NetworkManager.instance.online)Parameters.i.superman = !Parameters.i.superman;
+						break;*/
+					/*case Keys.M:
+						if(Main.enableCheats)Parameters.i.superman = !Parameters.i.superman;
 						break;
 					case Keys.R:
 						Parameters.i.SwitchQuality();
@@ -512,20 +513,20 @@ public class Inputs implements InputProcessor{
 						for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
 						break;
 					case Keys.NUMPAD_1:
-						if(!NetworkManager.instance.online)GameScreen.player.transform(1);
+						if(Main.enableCheats)GameScreen.player.transform(1);
 						break;
 					case Keys.NUMPAD_2:
-						if(!NetworkManager.instance.online)GameScreen.player.transform(2);
+						if(Main.enableCheats)GameScreen.player.transform(2);
 						break;
 					case Keys.NUMPAD_3:
-						if(!NetworkManager.instance.online)GameScreen.player.transform(3);
+						if(Main.enableCheats)GameScreen.player.transform(3);
 						break;
 					case Keys.NUMPAD_0:
-						if(!NetworkManager.instance.online)GameScreen.player.transform(0);
+						if(Main.enableCheats)GameScreen.player.transform(0);
 						break;
 					case Keys.F:
 						Parameters.i.noShadow = !Parameters.i.noShadow;
-						break;
+						break;*/
 					case Keys.G:
 						GameScreen.player.Hurt(20,0,GameScreen.player.PNJ.middle.x, GameScreen.player.PNJ.middle.y);
 						break;

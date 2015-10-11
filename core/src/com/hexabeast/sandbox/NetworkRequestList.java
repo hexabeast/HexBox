@@ -2,6 +2,7 @@ package com.hexabeast.sandbox;
 
 import java.util.ArrayList;
 
+import com.hexabeast.hexboxserver.HMessage;
 import com.hexabeast.hexboxserver.NBlockModification;
 import com.hexabeast.hexboxserver.NInputRightLeft;
 import com.hexabeast.hexboxserver.NInputUpDown;
@@ -65,6 +66,11 @@ public class NetworkRequestList {
 			else if (object instanceof NInputUpDown && Main.ingame)
 	        {
 	        	GameScreen.entities.mobs.NetworkUpDown(((NInputUpDown)object));
+	        }
+			
+			else if (object instanceof HMessage && Main.ingame)
+	        {
+				Main.game.chat.addMessageN((HMessage)object);
 	        }
 		}
 		modifications.clear();

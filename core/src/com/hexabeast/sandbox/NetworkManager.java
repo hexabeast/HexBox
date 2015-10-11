@@ -2,6 +2,7 @@ package com.hexabeast.sandbox;
 
 import java.io.IOException;
 
+import com.badlogic.gdx.graphics.Color;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -87,6 +88,7 @@ public class NetworkManager {
            public void disconnected(Connection c)
            {
         	   online = false;
+        	   Main.backToMenu("Disconnected", Color.RED);
            }
            
 		});

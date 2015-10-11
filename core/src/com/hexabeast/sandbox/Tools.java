@@ -85,6 +85,12 @@ public class Tools {
 		//Main.batch.draw(tex, x-w/2, y, w/2, 0, w, vec.len(), 1, 1, vec.angle()-90, 0, 0, tex.getWidth(), (int) vec.len(), false, false);
 	}
 	
+	public static String enabldis(boolean b)
+	{
+		if(!b) return "Disabling ";
+		else return "Enabling ";
+	}
+	
 	public static boolean isIPAdress(String str)
 	{
 		String[] numbers = str.split("[.]");

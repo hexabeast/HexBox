@@ -25,6 +25,7 @@ public class Main extends Game {
 	
 	public static boolean noUI = false;
 	
+	public static boolean enableCheats = true;
 	public static boolean backtom;
 	public static String name = "John";
 	

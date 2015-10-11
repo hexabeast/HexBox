@@ -305,7 +305,7 @@ public class LightManager {
 		{
 			for(int i = 0; i<staticremoveList.size(); i++)
 			{
-				setLightNoSafe(staticremoveList.get(i).x,staticremoveList.get(i).y,staticremoveList.get(i).z,staticremoveList.get(i).w,staticremoveList.get(i).v);
+				if(lightArray[staticremoveList.get(i).x][staticremoveList.get(i).y]!=null)setLightNoSafe(staticremoveList.get(i).x,staticremoveList.get(i).y,staticremoveList.get(i).z,staticremoveList.get(i).w,staticremoveList.get(i).v);
 			}
 			staticremoveList = new ArrayList<Vector5Light>();
 		}

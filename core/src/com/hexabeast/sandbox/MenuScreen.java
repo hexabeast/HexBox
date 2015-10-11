@@ -1,7 +1,6 @@
 package com.hexabeast.sandbox;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -134,6 +133,7 @@ public class MenuScreen implements Screen {
         {
         	alphaMinus = true;
         	Main.host = true;
+        	Main.enableCheats = false;
         }
         
         if(alphaMinus)alpha-=delta*2;
@@ -145,6 +145,7 @@ public class MenuScreen implements Screen {
         	if(pressedmulti)
         	{
         		Main.multiplayer=true;
+        		Main.enableCheats = false;
         	}
         	else
         	{

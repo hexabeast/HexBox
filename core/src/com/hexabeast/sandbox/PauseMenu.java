@@ -289,7 +289,7 @@ public class PauseMenu {
 				else if(details.isTouchedRight()||details.isTouchedLeft())Parameters.i.details = !Parameters.i.details;
 			}
 		}
-		else if(cheat && !NetworkManager.instance.online)
+		else if(cheat && Main.enableCheats)
 		{
 			if(Parameters.i.cheat)
 			{

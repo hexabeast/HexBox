@@ -21,7 +21,7 @@ public class HServer {
 	
 	//public ArrayList<Integer> ids;
 	
-	public HServer(VirtualMap servermap)
+	public HServer(final VirtualMap servermap)
 	{
 		this.servermap = servermap;
 		//ids = new ArrayList<Integer>();
@@ -60,6 +60,12 @@ public class HServer {
 	          {
 	        	 ((NPlayer)object).id = c.getID();
 	        	 server.sendToAllExceptTCP(c.getID(),object);
+	          }
+	          
+	          if (object instanceof HMessage)
+	          {
+	        	 ((HMessage)object).id = c.getID();
+	        	 server.sendToAllTCP(object);
 	          }
 	          
 	          if (object instanceof NPlayerUpdate)
@@ -152,5 +158,6 @@ public class HServer {
 		kryo.register(Ndead.class);
 		kryo.register(NInputRightLeft.class);
 		kryo.register(NInputUpDown.class);
+		kryo.register(HMessage.class);
 	}
 }
