@@ -27,18 +27,18 @@ public class IntegratedServerMap extends VirtualMap{
 	public synchronized void setBlock(NBlockModification conf)
 	{
 		int x = conf.x;
-		int y = conf.y;
-		MapLayer layer = Map.instance.mainLayer;
-		if(!conf.layer)layer = Map.instance.backLayer;
-		int id = conf.id;
+		//int y = conf.y;
+		//MapLayer layer = Map.instance.mainLayer;
+		//if(!conf.layer)layer = Map.instance.backLayer;
+		//int id = conf.id;
 
 		while(x<0)x = Map.instance.width+x;
 		while(x>Map.instance.width-1)x = 0+(x-(Map.instance.width));
 		
-		if(id != layer.getBloc(x, y).Id)
-		{
+		//if(id != layer.getBloc(x, y).Id)
+		//{
 			NetworkManager.instance.server.sendBlock(conf);
-		}
+		//}
 		
 		NetworkManager.instance.modifications.add(conf);
 		//if(id!=0)ModifyTerrain.instance.setBlockFinal(x, y, id, layer);
