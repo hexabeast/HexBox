@@ -88,15 +88,13 @@ public class NetworkManager {
            public void disconnected(Connection c)
            {
         	   online = false;
-        	   Main.backToMenu("Disconnected", Color.RED);
+        	   Main.backToMenu("Disconnected from server", Color.RED);  
            }
-           
 		});
 	}
 	
 	public boolean connectLocal()
 	{
-		//connect("127.0.0.1");
 		return connect(defaultIP);
 	}
 	
@@ -118,8 +116,9 @@ public class NetworkManager {
 	public boolean host()
 	{
 		server = new HServer(new IntegratedServerMap());
-		
+		if(!server.problem)
 		return (connectLocal());
+		else return false;
 	}
 	
 	public void sendTCP(Object object)

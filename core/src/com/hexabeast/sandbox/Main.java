@@ -61,13 +61,14 @@ public class Main extends Game {
 	
 	public static Mesh mesh;
 
-	public static InputMultiplexer inputMultiplexer = new InputMultiplexer();
+	public static InputMultiplexer inputMultiplexer;
 	static Joystick joy;
 	
-	public boolean allLoaded = false;
+	public static boolean allLoaded;
 	
 	public static void sCreate()
 	{
+		allLoaded = false;
 		noUI = false;
 		multiplayer = false;
 		host = false;
@@ -78,6 +79,9 @@ public class Main extends Game {
 		zoom = 1;
 		backtom = false;
 		
+		inputMultiplexer = new InputMultiplexer();
+		
+		if(NetworkManager.instance != null && NetworkManager.instance.server != null)NetworkManager.instance.server.stop();
 		network= new NetworkManager();
 		//if(multiplayer)network.connectLocal();
 		
@@ -100,6 +104,8 @@ public class Main extends Game {
 		updateResolution();
 		sResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.graphics.setVSync(Parameters.i.vsync);
+		
+		inputMultiplexer.addProcessor(Inputs.instance);
 		
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
@@ -132,7 +138,7 @@ public class Main extends Game {
 		Inputs.instance = new Inputs();
 		
 		sCreate();
-		inputMultiplexer.addProcessor(Inputs.instance);
+		
 	}
 	
 	public static void updateMatrix()
@@ -211,6 +217,8 @@ public class Main extends Game {
 
 		if(backtom)sCreate();
 		
+		//if(NetworkManager.instance.server == null)System.out.println("koj");
+		
 		delta = Gdx.graphics.getDeltaTime();
 		if(ingame)
 		{
@@ -286,8 +294,11 @@ public class Main extends Game {
 	
 	public static void backToMenu(String str, Color c)
 	{
-		welcomeMessage = str;
-		welcomeColor = c;
-		backtom = true;
+		if(!backtom)
+		{
+			welcomeMessage = str;
+			welcomeColor = c;
+			backtom = true;
+		}
 	}
 }

@@ -74,8 +74,8 @@ public class LoadingScreen implements Screen {
 							
 							if(Main.host)
 							{
-								if(!NetworkManager.instance.host())Main.backToMenu("Failed launching the server (client)", Color.RED);
-								if(NetworkManager.instance.server.problem)Main.backToMenu("Failed launching the server (port)", Color.RED);
+								if(!NetworkManager.instance.host())Main.backToMenu("Failed launching the server (port already used?)", Color.RED);
+							
 								else Main.multiplayer= true;
 							}
 							mapLoaded = true;

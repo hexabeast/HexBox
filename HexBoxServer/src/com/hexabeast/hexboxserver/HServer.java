@@ -1,6 +1,7 @@
 package com.hexabeast.hexboxserver;
 
 import java.io.IOException;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryo.Kryo;
@@ -15,20 +16,61 @@ public class HServer {
 	
 	public boolean problem = false;
 	
+	public boolean running = false;
+	
 	public VirtualMap servermap;
+	
+	public LinkedBlockingQueue<NBlockModification> bqueue;
 	
 	public static int port= 25565;
 	
 	//public ArrayList<Integer> ids;
 	
+	class RunnableSendMap implements Runnable {
+		Connection c;
+		boolean l;
+        RunnableSendMap(boolean l, Connection c) 
+		{ 
+			this.l = l;
+			this.c = c; 
+        }
+        public void run() {
+        	servermap.sendCompressedMap(l, c);
+        }
+    }
+	
+	class BlockModifs implements Runnable {
+		LinkedBlockingQueue<NBlockModification> b;
+		
+		BlockModifs(LinkedBlockingQueue<NBlockModification> b) 
+		{ 
+			this.b = b;
+        }
+        public void run() 
+        {
+        	while(running)
+        	{
+        		try {
+					servermap.setBlock(bqueue.take());
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+        	}
+        }
+    }
+	
 	public HServer(final VirtualMap servermap)
 	{
 		this.servermap = servermap;
+		
+		bqueue = new LinkedBlockingQueue<NBlockModification>();
 		//ids = new ArrayList<Integer>();
 		
 		server = new Server(1048576, 1048576);
 		
 		initKryoClasses(server.getKryo());
+		
+		
 		
 		server.addListener(new Listener() 
 		{
@@ -39,21 +81,22 @@ public class HServer {
 		          {
 		             String str = (String)object;
 		             
-		             if(str.equals("GetMainLayer"))
+		             if(str.equals("GetMainLayer") || str.equals("GetBackLayer"))
 		             {
-		            	 servermap.sendCompressedMap(true, c);
-		             }
-		             
-		             if(str.equals("GetBackLayer"))
-		             {
-		            	 servermap.sendCompressedMap(false, c);
+		            	 boolean l = str.equals("GetMainLayer");
+		            	 new Thread(new RunnableSendMap(l,c)).start();
+		            	 
 		             }
 		          }
 	    	   
 	          if (object instanceof NBlockModification) 
 	          {
 	             NBlockModification nnn = (NBlockModification)object;
-	             servermap.setBlock(nnn);
+	             try {
+					bqueue.put(nnn);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 	          }
 	          
 	          if (object instanceof NPlayer)
@@ -97,11 +140,20 @@ public class HServer {
 	        	  ((Nclick)object).id = c.getID();
 	        	 server.sendToAllExceptUDP(c.getID(),object);
 	          }
+	          
+	          if (object instanceof ConsoleMessage)
+	          {
+	        	  ((ConsoleMessage)object).id = c.getID();
+	        	 server.sendToAllExceptTCP(c.getID(),object);
+	          }
 	       }
 		   @Override
 	       public void connected(Connection c)
 	       {
 	    	   System.out.println("Player connected!");
+			   ConsoleMessage cn = new ConsoleMessage(ConsoleMessage.CONNECTED, "id = "+String.valueOf(c.getID()));
+			   cn.id = c.getID();
+	    	   server.sendToAllExceptTCP(c.getID(),cn);
 	    	   c.sendTCP("Connected");
            }
 		   @Override
@@ -109,8 +161,11 @@ public class HServer {
 	       {
 			   System.out.println("Player disconnected");
 			   Ndead n = new Ndead();
+			   ConsoleMessage cn = new ConsoleMessage(ConsoleMessage.DISCONNECTED, "id = "+String.valueOf(c.getID()));
 			   n.id = c.getID();
+			   cn.id = c.getID();
 	    	   server.sendToAllExceptTCP(c.getID(),n);
+	    	   server.sendToAllExceptTCP(c.getID(),cn);
 	       }
 		});
 		
@@ -126,7 +181,18 @@ public class HServer {
 		
 		server.start();
 		
-		System.out.println("Server started");
+		if(!problem)
+		{
+			runServer();
+			System.out.println("Server started");
+		}
+		
+	}
+	
+	public void runServer()
+	{
+		running = true;
+		new Thread(new BlockModifs(bqueue)).start();
 	}
 	
 	public void sendBlock(NBlockModification n)
@@ -142,6 +208,7 @@ public class HServer {
 	public void stop()
 	{
 		server.stop();
+		running = false;
 	}
 	
 	public static void initKryoClasses(Kryo kryo)
@@ -159,5 +226,6 @@ public class HServer {
 		kryo.register(NInputRightLeft.class);
 		kryo.register(NInputUpDown.class);
 		kryo.register(HMessage.class);
+		kryo.register(ConsoleMessage.class);
 	}
 }

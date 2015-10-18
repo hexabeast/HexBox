@@ -221,9 +221,9 @@ public class MenuScreen implements Screen {
 		batch.draw(ttex, (txtfld.getX()+txtfld.getWidth()/2)-ttex.getRegionWidth()/2-20, (txtfld.getY()+txtfld.getHeight()/2)-ttex.getRegionHeight()/2);
 		batch.end();
 		
-		 batch.begin();
-	     scene.draw();
-	     batch.end();
+		batch.begin();
+	    scene.draw();
+	    batch.end();
 	     
 	}
 

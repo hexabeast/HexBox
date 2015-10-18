@@ -87,6 +87,15 @@ public class Chat {
 						Main.enableCheats = !Main.enableCheats;
 						s = Tools.enabldis(Main.enableCheats) + "cheats";
 					}
+					else if(words[0].equals("/quit") || words[0].equals("/exit"))
+					{
+						Main.backToMenu(Main.welcomeMessage, Color.WHITE);
+						if(NetworkManager.instance.online)
+						{
+							NetworkManager.instance.client.close();
+							NetworkManager.instance.online = false;
+						} 
+					}
 					
 					if(Main.enableCheats)
 					{
@@ -95,6 +104,7 @@ public class Chat {
 							Parameters.i.superman = !Parameters.i.superman;
 							s = Tools.enabldis(Parameters.i.superman) + "superman mode";
 						}
+						
 						else if(words[0].equals("/drawhitbox"))
 						{
 							Parameters.i.drawhitbox = !Parameters.i.drawhitbox;
@@ -151,6 +161,7 @@ public class Chat {
 							GameScreen.player.transform(0);
 							s = "Untransforming...";
 						}
+						
 					}
 				}
 				else if(words.length == 2)

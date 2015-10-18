@@ -2,6 +2,7 @@ package com.hexabeast.sandbox;
 
 import java.util.ArrayList;
 
+import com.hexabeast.hexboxserver.ConsoleMessage;
 import com.hexabeast.hexboxserver.HMessage;
 import com.hexabeast.hexboxserver.NBlockModification;
 import com.hexabeast.hexboxserver.NInputRightLeft;
@@ -71,6 +72,23 @@ public class NetworkRequestList {
 			else if (object instanceof HMessage && Main.ingame)
 	        {
 				Main.game.chat.addMessageN((HMessage)object);
+	        }
+			else if (object instanceof ConsoleMessage && Main.ingame)
+	        {
+				ConsoleMessage cm = (ConsoleMessage)object;
+				if(cm.type == ConsoleMessage.DISCONNECTED)
+				{
+					HMessage m = new HMessage("Player " + cm.str + " has disconnected","Server");
+					m.id = cm.id;
+					Main.game.chat.addMessageN(m);
+				}
+				else if(cm.type == ConsoleMessage.DISCONNECTED)
+				{
+					HMessage m = new HMessage("Player " + cm.str + " has connected","Server");
+					m.id = cm.id;
+					Main.game.chat.addMessageN(m);
+				}
+				
 	        }
 		}
 		modifications.clear();
