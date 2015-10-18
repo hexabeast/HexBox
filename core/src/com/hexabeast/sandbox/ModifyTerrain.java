@@ -248,7 +248,7 @@ public class ModifyTerrain {
 			if(isThereObstacle(false) && !obstacleProof)
 			{
 				Tree tree = isThereObstacleTree(decalaX,decalaY);
-				if(pass && tree!=null && canCutTrees && isLeft)
+				if(pass && tree!=null && canCutTrees && isLeft && range>=distToMiddle)
 				{
 					tree.BreakTree(efficiency);
 					pass = false;

@@ -48,7 +48,7 @@ public class Item extends Entity {
 		if(yDistance>=0)yOffset = 60;
 		else yOffset = -60;
 		
-		if(AllBlocTypes.instance.getType(id).lightFull)light(id);
+		if(id < 1000 && AllBlocTypes.instance.getType(id).lightFull)light(id);
 		
 		if(Math.abs(xDistance)<100 && Math.abs(yDistance)<100  && !GameScreen.inventory.isFull(id))
 		{
