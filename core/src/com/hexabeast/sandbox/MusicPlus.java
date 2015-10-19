@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music.OnCompletionListener;
 public class MusicPlus{
 	public Music m;
 	public float iniVol = 1;
-	public float tempVol = 1;
 	
 	
 	public MusicPlus(Music mp)
@@ -23,7 +22,7 @@ public class MusicPlus{
 	}
 
 	public void stop() {
-		m.stop();
+		if(m.isPlaying())m.stop();
 	}
 	
 	public void coolStop()
@@ -35,6 +34,7 @@ public class MusicPlus{
 				@Override
 				public void run()
 				{
+					float tempVol = iniVol;
 					while(tempVol>0.05f)
 					{
 						tempVol -= 0.05f;

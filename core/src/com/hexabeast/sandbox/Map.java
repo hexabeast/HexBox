@@ -189,8 +189,8 @@ public class Map {
 		SaveLayer(mapFile1, mainLayer,false);
 		SaveLayer(mapFile2, backLayer,false);
 		
-		SaveVillage(mapFileVillage1,mainLayer);
-		SaveVillage(mapFileVillage2,backLayer);
+		//SaveVillage(mapFileVillage1,mainLayer);
+		//SaveVillage(mapFileVillage2,backLayer);
 		
 		SaveEntities();
 	}

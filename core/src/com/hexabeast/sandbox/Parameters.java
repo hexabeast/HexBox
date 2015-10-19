@@ -47,7 +47,17 @@ public class Parameters {
 	
 	public void disableCheats()
 	{
-		
+		drawhitbox = false;
+		deltaMultiplier = 1;
+		cheatMagic = false;
+		rain = false;
+		godmode = false;
+		ultrarange = false;
+		ultrarate = false;
+		noShadow = false;
+		superman = false;
+		fullBright = false;
+		cheatMagic = false;
 	}
 
 	public void SwitchQuality()

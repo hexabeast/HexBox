@@ -112,6 +112,8 @@ public class Main extends Game {
 		sResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.graphics.setVSync(Parameters.i.vsync);
 		
+		Parameters.i.disableCheats();
+		
 		inputMultiplexer.addProcessor(Inputs.instance);
 		
 		Gdx.input.setInputProcessor(inputMultiplexer);
@@ -268,7 +270,9 @@ public class Main extends Game {
 				MapChecker.instance = new MapChecker();
 				if(!mobile)
 				{
-					if(!devtest)Map.instance = new Map("calmap2",7000,2500);
+					Map.instance = null;
+					System.gc();
+					if(!devtest)Map.instance = new Map("calmap2",5000,2000);
 					else Map.instance = new Map("calmap2",2000,1500);
 				}
 				else
@@ -308,6 +312,16 @@ public class Main extends Game {
 		if(!backtom)
 		{
 			SaveManager.SaveParam();
+			if(ingame)
+			{
+				if(SoundManager.instance.ambiance[SoundManager.instance.playOrder[SoundManager.instance.oldPlay]].isPlaying())SoundManager.instance.ambiance[SoundManager.instance.playOrder[SoundManager.instance.oldPlay]].pause();
+				try {
+					SaveManager.Save();
+					Map.instance.Save();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 			welcomeMessage = str;
 			welcomeColor = c;
 			backtom = true;
