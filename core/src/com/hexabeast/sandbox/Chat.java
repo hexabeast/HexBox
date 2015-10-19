@@ -89,12 +89,8 @@ public class Chat {
 					}
 					else if(words[0].equals("/quit") || words[0].equals("/exit"))
 					{
-						Main.backToMenu(Main.welcomeMessage, Color.WHITE);
-						if(NetworkManager.instance.online)
-						{
-							NetworkManager.instance.client.close();
-							NetworkManager.instance.online = false;
-						} 
+						Main.backToMenu(Main.defaultWelcomeMessage, Color.WHITE);
+						
 					}
 					
 					if(Main.enableCheats)
@@ -214,7 +210,7 @@ public class Chat {
 					{
 						if(words[1].length()>2 && words[1].length()<16)
 						{
-							Main.name = words[1];
+							Parameters.i.name = words[1];
 							s = "Name changed to " + words[1];
 						}
 						else s = "Your name must be between 3 and 15 characters!";
@@ -266,8 +262,8 @@ public class Chat {
 			}
 			else
 			{
-				if(!NetworkManager.instance.online)messages.add(new Message(str,Main.name, new Color(0.7f, 0.7f, 0.7f,1)));
-				else NetworkManager.instance.sendTCP(new HMessage(str, Main.name));
+				if(!NetworkManager.instance.online)messages.add(new Message(str,Parameters.i.name, new Color(0.7f, 0.7f, 0.7f,1)));
+				else NetworkManager.instance.sendTCP(new HMessage(str, Parameters.i.name));
 			}
 		}
 	}
@@ -324,8 +320,6 @@ public class Chat {
 	
 	public void draw()
 	{
-		Main.batch.begin();
 		scene.draw();
-		Main.batch.end();
 	}
 }

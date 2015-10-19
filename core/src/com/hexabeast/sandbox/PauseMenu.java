@@ -94,7 +94,290 @@ public class PauseMenu {
 		pb.draw(batch);
 	}
 	
-	public void draw(SpriteBatch batch)
+	public void drawMenu(SpriteBatch batch, float x, float y)
+	{
+		resume.draw(batch);
+		quit.draw(batch);
+		settings.draw(batch);
+		if(Main.enableCheats)cheats.draw(batch);
+		
+		if(Inputs.instance.mousedown)
+		{
+			if(resume.isTouched(x,y))Main.pause = false;
+			if(quit.isTouched(x,y))Main.backToMenu(Main.defaultWelcomeMessage, Color.WHITE);
+			if(settings.isTouched(x,y))
+			{
+				main = false;
+				setting = true;
+				cheat = false;
+			}
+			if(Main.enableCheats && cheats.isTouched(x,y))
+			{
+				main = false;
+				setting = false;
+				cheat = true;
+			}
+		}
+	}
+	
+	public void drawSettings(SpriteBatch batch, float x, float y, boolean pause)
+	{
+		String resx = String.valueOf(Constants.resolutions[Parameters.i.resolution]);
+		float ratiof = 3f/4f;
+		if(Parameters.i.ratio)ratiof = 9f/16f;
+		
+		String resy = String.valueOf((int)(ratiof*Constants.resolutions[Parameters.i.resolution]));
+		
+		resx = String.valueOf(Gdx.graphics.getWidth());
+		resy = String.valueOf(Gdx.graphics.getHeight());
+		
+		resolution.value = resx+"x"+resy;
+		resolution.draw(batch);
+		
+		fullscreen.value = Tools.booltoyes(Parameters.i.fullscreen);
+		fullscreen.draw(batch);
+		
+		shadowQuality.value = Constants.qualities[Parameters.i.HQ];
+		shadowQuality.draw(batch);
+		
+		lightSpeed.value = String.valueOf(Parameters.i.lightSpeed)+" m/s";
+		lightSpeed.draw(batch);
+		
+		lightDistance.value = Constants.lightDistancesNames[Parameters.i.lightDistance];
+		lightDistance.draw(batch);
+		
+		lightColor.value = Tools.booltoyes(Parameters.i.RGB);
+		lightColor.draw(batch);
+		
+		details.value = Tools.booltoyes(Parameters.i.details);
+		details.draw(batch);
+		
+		vsync.value = Tools.booltoyes(Parameters.i.vsync);
+		vsync.draw(batch);
+		
+		if(Parameters.i.goodmagic)
+		{
+			HQMagic.value = "High";
+		}
+		else
+		{
+			HQMagic.value = "Low";
+		}
+		HQMagic.draw(batch);
+		
+		background.value = Tools.booltoyes(Parameters.i.background);
+		background.draw(batch);
+		
+		FBO.value = Tools.booltoyes(Parameters.i.FBORender);
+		FBO.draw(batch);
+		
+		if(Parameters.i.ratio)ratio.value = "16:9";
+		else ratio.value = "4:3";
+		ratio.draw(batch);
+		
+		zoomlock.value = Tools.booltoyes(Parameters.i.zoomLock);
+		zoomlock.draw(batch);
+		
+		if(pause)back.draw(batch);
+		
+		if(Inputs.instance.mousedown)
+		{
+			if(pause && back.isTouched(x,y))
+			{
+				main = true;
+				setting = false;
+				cheat = false;
+			}
+			
+			else if(zoomlock.isTouchedLeft(x,y) || zoomlock.isTouchedRight(x,y))
+			{
+				Parameters.i.zoomLock = !Parameters.i.zoomLock;
+				if(Main.ingame)GameScreen.manualResize();
+			}
+			
+			else if(ratio.isTouchedLeft(x,y) || ratio.isTouchedRight(x,y))
+			{
+				Parameters.i.ratio = !Parameters.i.ratio;
+				Main.updateResolution();
+			}
+			
+			else if(resolution.isTouchedRight(x,y))
+			{
+				for(int i = 0; i<Constants.resolutions.length; i++)
+				{
+					if(Constants.resolutions[i] > Gdx.graphics.getWidth()+0.1f)
+					{
+						Parameters.i.resolution = i;
+						break;
+					}
+					else if(i == Constants.resolutions.length-1)Parameters.i.resolution = i;
+				}
+				
+				Main.updateResolution();
+			}
+			else if(resolution.isTouchedLeft(x,y))
+			{
+				if(Parameters.i.resolution>0)
+				{
+					for(int i = Constants.resolutions.length-1; i>=0; i--)
+					{
+						if(Constants.resolutions[i] < Gdx.graphics.getWidth()-0.1f)
+						{
+							Parameters.i.resolution = i;
+							break;
+						}
+						else if(i == 0)Parameters.i.resolution = i;
+					}
+					Main.updateResolution();
+				}
+			}
+			
+			
+			else if(fullscreen.isTouchedRight(x,y)||fullscreen.isTouchedLeft(x,y))
+			{
+				Parameters.i.fullscreen = !Parameters.i.fullscreen;
+				Main.updateResolution();
+			}
+			
+			else if(FBO.isTouchedRight(x,y)||FBO.isTouchedLeft(x,y))Parameters.i.FBORender = !Parameters.i.FBORender;
+			
+			else if(HQMagic.isTouchedRight(x,y)||HQMagic.isTouchedLeft(x,y))Parameters.i.goodmagic = !Parameters.i.goodmagic;
+			
+			else if(vsync.isTouchedRight(x,y)||vsync.isTouchedLeft(x,y))
+			{
+				Parameters.i.vsync = !Parameters.i.vsync;
+				Gdx.graphics.setVSync(Parameters.i.vsync);
+			}
+			
+			else if(background.isTouchedRight(x,y)||background.isTouchedLeft(x,y))
+			{
+				Parameters.i.background = !Parameters.i.background;
+			}
+			
+			
+			else if(shadowQuality.isTouchedLeft(x,y)){if(Parameters.i.HQ>1)Parameters.i.HQ--;}
+			else if(shadowQuality.isTouchedRight(x,y)){if(Parameters.i.HQ<Constants.qualities.length-1)Parameters.i.HQ++;}
+			
+			else if(lightDistance.isTouchedLeft(x,y)){if(Parameters.i.lightDistance>0)Parameters.i.lightDistance--;}
+			else if(lightDistance.isTouchedRight(x,y)){if(Parameters.i.lightDistance<Constants.lightDistances.length-1)Parameters.i.lightDistance++;}
+			
+			else if(lightSpeed.isTouchedLeft(x,y))
+				{
+					if(Parameters.i.lightSpeed>=60)
+					{
+						Parameters.i.lightSpeed-=30;
+						if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
+					}
+				}
+				
+			else if(lightSpeed.isTouchedRight(x,y))
+				{
+					if(Parameters.i.lightSpeed<=270)
+					{
+						Parameters.i.lightSpeed+=30;
+						if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
+					}	
+				}
+				
+			else if(lightColor.isTouchedRight(x,y)||lightColor.isTouchedLeft(x,y))Parameters.i.RGB = !Parameters.i.RGB;
+			else if(details.isTouchedRight(x,y)||details.isTouchedLeft(x,y))Parameters.i.details = !Parameters.i.details;
+		}
+	}
+	
+	public void drawCheats(SpriteBatch batch, float x, float y)
+	{
+		batch.setColor(1,0.1f,0.1f,1);
+		
+		if(Parameters.i.daylight<0.5f)time.value = "Night";
+		else time.value = "Day";
+		time.draw(batch);
+		
+		fullbright.value = Tools.booltoyes(Parameters.i.noShadow);
+		fullbright.draw(batch);
+		
+		superman.value = Tools.booltoyes(Parameters.i.superman);
+		superman.draw(batch);
+		
+		ultramagic.value = Tools.booltoyes(Parameters.i.cheatMagic);
+		ultramagic.draw(batch);
+		
+		ultrarate.value = Tools.booltoyes(Parameters.i.ultrarate);
+		ultrarate.draw(batch);
+		
+		gamespeed.value = "x"+String.valueOf((float)Math.round(Parameters.i.deltaMultiplier*100)/100);
+		gamespeed.draw(batch);
+		
+		hitbox.value = Tools.booltoyes(Parameters.i.drawhitbox);
+		hitbox.draw(batch);
+		
+		ultrarange.value = Tools.booltoyes(Parameters.i.ultrarange);
+		ultrarange.draw(batch);
+		
+		godmode.value = Tools.booltoyes(Parameters.i.godmode);
+		godmode.draw(batch);
+		
+		rain.value = Tools.booltoyes(Parameters.i.rain);
+		rain.draw(batch);
+		
+		transform.value = Constants.transformNames[Parameters.i.currentTransform+1];
+		if(GameScreen.player.transformingin || GameScreen.player.transformingout)transform.value = Constants.transformNames[GameScreen.player.nextTransform+1];
+		transform.draw(batch);
+		
+		batch.setColor(Color.WHITE);
+		
+		back.draw(batch);
+		
+		if(Inputs.instance.mousedown)
+		{
+			if(back.isTouched(x,y))
+			{
+				main = true;
+				setting = false;
+				cheat = false;
+			}
+			else if(time.isTouchedRight(x,y)||time.isTouchedLeft(x,y))
+			{
+				if(Parameters.i.daylight<0.5f)Parameters.i.daylight = 1;
+				else Parameters.i.daylight = 0.1f;
+			}
+			else if(fullbright.isTouchedRight(x,y)||fullbright.isTouchedLeft(x,y))Parameters.i.noShadow = !Parameters.i.noShadow;
+			else if(hitbox.isTouchedRight(x,y)||hitbox.isTouchedLeft(x,y))Parameters.i.drawhitbox = !Parameters.i.drawhitbox;
+			else if(superman.isTouchedRight(x,y)||superman.isTouchedLeft(x,y))Parameters.i.superman = !Parameters.i.superman;
+			else if(ultramagic.isTouchedRight(x,y)||ultramagic.isTouchedLeft(x,y))Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
+			else if(ultrarate.isTouchedRight(x,y)||ultrarate.isTouchedLeft(x,y))Parameters.i.ultrarate = !Parameters.i.ultrarate;
+			else if(ultrarange.isTouchedRight(x,y)||ultrarange.isTouchedLeft(x,y))Parameters.i.ultrarange = !Parameters.i.ultrarange;
+			else if(godmode.isTouchedRight(x,y)||godmode.isTouchedLeft(x,y))Parameters.i.godmode = !Parameters.i.godmode;
+			else if(gamespeed.isTouchedLeft(x,y) && Parameters.i.deltaMultiplier>0.01f)
+			{
+				if(Parameters.i.deltaMultiplier<=0.11f)Parameters.i.deltaMultiplier-=0.01f;
+				else if(Parameters.i.deltaMultiplier<=2.5f)Parameters.i.deltaMultiplier-=0.1f;
+				else Parameters.i.deltaMultiplier-=1;
+			}
+			else if(gamespeed.isTouchedRight(x,y) && Parameters.i.deltaMultiplier<4)
+			{
+				if(Parameters.i.deltaMultiplier<0.095f)Parameters.i.deltaMultiplier+=0.01f;
+				else if(Parameters.i.deltaMultiplier<1.95f)Parameters.i.deltaMultiplier+=0.1f;
+				else Parameters.i.deltaMultiplier+=1;
+			}
+			else if(rain.isTouchedLeft(x,y) || rain.isTouchedRight(x,y))Parameters.i.rain = !Parameters.i.rain;
+			
+			else if(transform.isTouchedLeft(x,y))
+			{
+				int tempcf = Parameters.i.currentTransform-1;
+				if(tempcf<0)tempcf = GameScreen.player.transformList.size()-1;
+				GameScreen.player.transform(tempcf);
+			}
+			else if(transform.isTouchedRight(x,y))
+			{
+				int tempcf = Parameters.i.currentTransform+1;
+				if(tempcf>=GameScreen.player.transformList.size())tempcf = 0;
+				GameScreen.player.transform(tempcf);
+			}
+			
+		}
+	}
+	
+	public void draw(SpriteBatch batch, float x, float y)
 	{
 		clear = false;
 		batch.setColor(0,0,0,0.8f);
@@ -103,286 +386,15 @@ public class PauseMenu {
 		
 		if(main)
 		{
-			resume.draw(batch);
-			quit.draw(batch);
-			settings.draw(batch);
-			if(Parameters.i.cheat)cheats.draw(batch);
-			
-			if(Inputs.instance.mouseup)
-			{
-				if(resume.isTouched())Main.pause = false;
-				if(quit.isTouched())Gdx.app.exit();
-				if(settings.isTouched())
-				{
-					main = false;
-					setting = true;
-					cheat = false;
-				}
-				if(Parameters.i.cheat && cheats.isTouched())
-				{
-					main = false;
-					setting = false;
-					cheat = true;
-				}
-			}
+			drawMenu(batch,x,y);
 		}
 		else if(setting)
 		{
-			String resx = String.valueOf(Constants.resolutions[Parameters.i.resolution]);
-			float ratiof = 3f/4f;
-			if(Parameters.i.ratio)ratiof = 9f/16f;
-			
-			String resy = String.valueOf((int)(ratiof*Constants.resolutions[Parameters.i.resolution]));
-			
-			resx = String.valueOf(Gdx.graphics.getWidth());
-			resy = String.valueOf(Gdx.graphics.getHeight());
-			
-			resolution.value = resx+"x"+resy;
-			resolution.draw(batch);
-			
-			fullscreen.value = Tools.booltoyes(Parameters.i.fullscreen);
-			fullscreen.draw(batch);
-			
-			shadowQuality.value = Constants.qualities[Parameters.i.HQ];
-			shadowQuality.draw(batch);
-			
-			lightSpeed.value = String.valueOf(Parameters.i.lightSpeed)+" m/s";
-			lightSpeed.draw(batch);
-			
-			lightDistance.value = Constants.lightDistancesNames[Parameters.i.lightDistance];
-			lightDistance.draw(batch);
-			
-			lightColor.value = Tools.booltoyes(Parameters.i.RGB);
-			lightColor.draw(batch);
-			
-			details.value = Tools.booltoyes(Parameters.i.details);
-			details.draw(batch);
-			
-			vsync.value = Tools.booltoyes(Parameters.i.vsync);
-			vsync.draw(batch);
-			
-			if(Parameters.i.goodmagic)
-			{
-				HQMagic.value = "High";
-			}
-			else
-			{
-				HQMagic.value = "Low";
-			}
-			HQMagic.draw(batch);
-			
-			background.value = Tools.booltoyes(Parameters.i.background);
-			background.draw(batch);
-			
-			FBO.value = Tools.booltoyes(Parameters.i.FBORender);
-			FBO.draw(batch);
-			
-			if(Parameters.i.ratio)ratio.value = "16:9";
-			else ratio.value = "4:3";
-			ratio.draw(batch);
-			
-			zoomlock.value = Tools.booltoyes(Parameters.i.zoomLock);
-			zoomlock.draw(batch);
-			
-			back.draw(batch);
-			
-			if(Inputs.instance.mouseup)
-			{
-				if(back.isTouched())
-				{
-					main = true;
-					setting = false;
-					cheat = false;
-				}
-				
-				else if(zoomlock.isTouchedLeft() || zoomlock.isTouchedRight())
-				{
-					Parameters.i.zoomLock = !Parameters.i.zoomLock;
-					GameScreen.manualResize();
-				}
-				
-				else if(ratio.isTouchedLeft() || ratio.isTouchedRight())
-				{
-					Parameters.i.ratio = !Parameters.i.ratio;
-					Main.updateResolution();
-				}
-				
-				else if(resolution.isTouchedRight())
-				{
-					for(int i = 0; i<Constants.resolutions.length; i++)
-					{
-						if(Constants.resolutions[i] > Gdx.graphics.getWidth()+0.1f)
-						{
-							Parameters.i.resolution = i;
-							break;
-						}
-						else if(i == Constants.resolutions.length-1)Parameters.i.resolution = i;
-					}
-					
-					Main.updateResolution();
-				}
-				else if(resolution.isTouchedLeft())
-				{
-					if(Parameters.i.resolution>0)
-					{
-						for(int i = Constants.resolutions.length-1; i>=0; i--)
-						{
-							if(Constants.resolutions[i] < Gdx.graphics.getWidth()-0.1f)
-							{
-								Parameters.i.resolution = i;
-								break;
-							}
-							else if(i == 0)Parameters.i.resolution = i;
-						}
-						Main.updateResolution();
-					}
-				}
-				
-				
-				else if(fullscreen.isTouchedRight()||fullscreen.isTouchedLeft())
-				{
-					Parameters.i.fullscreen = !Parameters.i.fullscreen;
-					Main.updateResolution();
-				}
-				
-				else if(FBO.isTouchedRight()||FBO.isTouchedLeft())Parameters.i.FBORender = !Parameters.i.FBORender;
-				
-				else if(HQMagic.isTouchedRight()||HQMagic.isTouchedLeft())Parameters.i.goodmagic = !Parameters.i.goodmagic;
-				
-				else if(vsync.isTouchedRight()||vsync.isTouchedLeft())
-				{
-					Parameters.i.vsync = !Parameters.i.vsync;
-					Gdx.graphics.setVSync(Parameters.i.vsync);
-				}
-				
-				else if(background.isTouchedRight()||background.isTouchedLeft())
-				{
-					Parameters.i.background = !Parameters.i.background;
-				}
-				
-				
-				else if(shadowQuality.isTouchedLeft()){if(Parameters.i.HQ>1)Parameters.i.HQ--;}
-				else if(shadowQuality.isTouchedRight()){if(Parameters.i.HQ<Constants.qualities.length-1)Parameters.i.HQ++;}
-				
-				else if(lightDistance.isTouchedLeft()){if(Parameters.i.lightDistance>0)Parameters.i.lightDistance--;}
-				else if(lightDistance.isTouchedRight()){if(Parameters.i.lightDistance<Constants.lightDistances.length-1)Parameters.i.lightDistance++;}
-				
-				else if(lightSpeed.isTouchedLeft())
-					{
-						if(Parameters.i.lightSpeed>=60)
-						{
-							Parameters.i.lightSpeed-=30;
-							if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
-						}
-					}
-					
-				else if(lightSpeed.isTouchedRight())
-					{
-						if(Parameters.i.lightSpeed<=270)
-						{
-							Parameters.i.lightSpeed+=30;
-							if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
-						}	
-					}
-					
-				else if(lightColor.isTouchedRight()||lightColor.isTouchedLeft())Parameters.i.RGB = !Parameters.i.RGB;
-				else if(details.isTouchedRight()||details.isTouchedLeft())Parameters.i.details = !Parameters.i.details;
-			}
+			drawSettings(batch,x,y,true);
 		}
 		else if(cheat && Main.enableCheats)
 		{
-			if(Parameters.i.cheat)
-			{
-				batch.setColor(1,0.1f,0.1f,1);
-				
-				if(Parameters.i.daylight<0.5f)time.value = "Night";
-				else time.value = "Day";
-				time.draw(batch);
-				
-				fullbright.value = Tools.booltoyes(Parameters.i.noShadow);
-				fullbright.draw(batch);
-				
-				superman.value = Tools.booltoyes(Parameters.i.superman);
-				superman.draw(batch);
-				
-				ultramagic.value = Tools.booltoyes(Parameters.i.cheatMagic);
-				ultramagic.draw(batch);
-				
-				ultrarate.value = Tools.booltoyes(Parameters.i.ultrarate);
-				ultrarate.draw(batch);
-				
-				gamespeed.value = "x"+String.valueOf((float)Math.round(Parameters.i.deltaMultiplier*100)/100);
-				gamespeed.draw(batch);
-				
-				hitbox.value = Tools.booltoyes(Parameters.i.drawhitbox);
-				hitbox.draw(batch);
-				
-				ultrarange.value = Tools.booltoyes(Parameters.i.ultrarange);
-				ultrarange.draw(batch);
-				
-				godmode.value = Tools.booltoyes(Parameters.i.godmode);
-				godmode.draw(batch);
-				
-				rain.value = Tools.booltoyes(Parameters.i.rain);
-				rain.draw(batch);
-				
-				transform.value = Constants.transformNames[Parameters.i.currentTransform+1];
-				if(GameScreen.player.transformingin || GameScreen.player.transformingout)transform.value = Constants.transformNames[GameScreen.player.nextTransform+1];
-				transform.draw(batch);
-				
-				batch.setColor(Color.WHITE);
-				
-				back.draw(batch);
-				
-				if(Inputs.instance.mouseup)
-				{
-					if(back.isTouched())
-					{
-						main = true;
-						setting = false;
-						cheat = false;
-					}
-					else if(time.isTouchedRight()||time.isTouchedLeft())
-					{
-						if(Parameters.i.daylight<0.5f)Parameters.i.daylight = 1;
-						else Parameters.i.daylight = 0.1f;
-					}
-					else if(fullbright.isTouchedRight()||fullbright.isTouchedLeft())Parameters.i.noShadow = !Parameters.i.noShadow;
-					else if(hitbox.isTouchedRight()||hitbox.isTouchedLeft())Parameters.i.drawhitbox = !Parameters.i.drawhitbox;
-					else if(superman.isTouchedRight()||superman.isTouchedLeft())Parameters.i.superman = !Parameters.i.superman;
-					else if(ultramagic.isTouchedRight()||ultramagic.isTouchedLeft())Parameters.i.cheatMagic = !Parameters.i.cheatMagic;
-					else if(ultrarate.isTouchedRight()||ultrarate.isTouchedLeft())Parameters.i.ultrarate = !Parameters.i.ultrarate;
-					else if(ultrarange.isTouchedRight()||ultrarange.isTouchedLeft())Parameters.i.ultrarange = !Parameters.i.ultrarange;
-					else if(godmode.isTouchedRight()||godmode.isTouchedLeft())Parameters.i.godmode = !Parameters.i.godmode;
-					else if(gamespeed.isTouchedLeft() && Parameters.i.deltaMultiplier>0.01f)
-					{
-						if(Parameters.i.deltaMultiplier<=0.11f)Parameters.i.deltaMultiplier-=0.01f;
-						else if(Parameters.i.deltaMultiplier<=2.5f)Parameters.i.deltaMultiplier-=0.1f;
-						else Parameters.i.deltaMultiplier-=1;
-					}
-					else if(gamespeed.isTouchedRight() && Parameters.i.deltaMultiplier<4)
-					{
-						if(Parameters.i.deltaMultiplier<0.095f)Parameters.i.deltaMultiplier+=0.01f;
-						else if(Parameters.i.deltaMultiplier<1.95f)Parameters.i.deltaMultiplier+=0.1f;
-						else Parameters.i.deltaMultiplier+=1;
-					}
-					else if(rain.isTouchedLeft() || rain.isTouchedRight())Parameters.i.rain = !Parameters.i.rain;
-					
-					else if(transform.isTouchedLeft())
-					{
-						int tempcf = Parameters.i.currentTransform-1;
-						if(tempcf<0)tempcf = GameScreen.player.transformList.size()-1;
-						GameScreen.player.transform(tempcf);
-					}
-					else if(transform.isTouchedRight())
-					{
-						int tempcf = Parameters.i.currentTransform+1;
-						if(tempcf>=GameScreen.player.transformList.size())tempcf = 0;
-						GameScreen.player.transform(tempcf);
-					}
-					
-				}
-			}
+			drawCheats(batch,x,y);
 		}
 		drawPauseButton(batch);
 	}

@@ -82,7 +82,7 @@ public class NetworkRequestList {
 					m.id = cm.id;
 					Main.game.chat.addMessageN(m);
 				}
-				else if(cm.type == ConsoleMessage.DISCONNECTED)
+				else if(cm.type == ConsoleMessage.CONNECTED)
 				{
 					HMessage m = new HMessage("Player " + cm.str + " has connected","Server");
 					m.id = cm.id;

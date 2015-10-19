@@ -91,6 +91,7 @@ public class MiniLoading {
 	public void miniSave()
 	{
 		isLoading = true;
+		SaveManager.SaveParam();
 		try {
 			SaveManager.Save();
 			Map.instance.Save();

@@ -15,7 +15,7 @@ public class TextureManager {
 	
 	public static TextureManager instance;
 	
-	public int PNJNumber = 1;
+	public int PNJNumber = 3;
 	public int PNJArmorNumber = 20;
 
 	int sX = 3;
@@ -85,6 +85,7 @@ public class TextureManager {
 	public Texture cad7;
 	public Texture cad8;
 	public Texture backGround;
+	public Texture backGroundChar;
 	public Texture roue1;
 	public Texture roue2;
 	public Texture back;
@@ -114,6 +115,8 @@ public class TextureManager {
 	public TextureRegion playButton;
 	public TextureRegion hostButton;
 	public TextureRegion joinButton;
+	public TextureRegion settingsButton;
+	public TextureRegion charEditButton;
 	public TextureRegion ipButton;
 	public TextureRegion textBoxSurline;
 	public TextureRegion textBoxCursor;
@@ -123,16 +126,6 @@ public class TextureManager {
 	public TextureRegion arms1;
 	public TextureRegion leggins1;
 	public TextureRegion[] legginsArray1;
-	
-	public TextureRegion Aeyes;
-	public TextureRegion Ahairs;
-	public TextureRegion Ahead;
-	public TextureRegion Aleg;
-	public TextureRegion Abody;
-	public TextureRegion[] Alegs;
-	
-	
-	
 	
 	public TextureRegion[] PNJeye = new TextureRegion[PNJNumber];
 	public TextureRegion[] PNJhairs = new TextureRegion[PNJNumber];
@@ -330,6 +323,7 @@ public class TextureManager {
 		cad6 = new Texture("loading/cad6.png");
 		cad7 = new Texture("loading/cad7.png");
 		backGround = new Texture("loading/bgloading.png");
+		backGroundChar = new Texture("loading/charloading.png");
 		roue1 = new Texture("loading/roue1.png");
 		roue2 = new Texture("loading/roue2.png");
 		
@@ -366,6 +360,8 @@ public class TextureManager {
 		playButton = newTexture(Gdx.files.internal("menu/playButton.png"));
 		hostButton = newTexture(Gdx.files.internal("menu/hostButton.png"));
 		joinButton = newTexture(Gdx.files.internal("menu/joinButton.png"));
+		settingsButton = newTexture(Gdx.files.internal("menu/settingsButton.png"));
+		charEditButton = newTexture(Gdx.files.internal("menu/charEditButton.png"));
 		ipButton = newTexture(Gdx.files.internal("menu/ipButton.png"));
 		textBoxSurline = newTexture(Gdx.files.internal("menu/textBoxSurline.png"));
 		textBoxCursor = newTexture(Gdx.files.internal("menu/textBoxCursor.png"));
@@ -374,12 +370,6 @@ public class TextureManager {
 		armor1 = newTexture(Gdx.files.internal("armors/armor1.png"));
 		arms1 = newTexture(Gdx.files.internal("armors/arms1.png"));
 		leggins1 = newTexture(Gdx.files.internal("armors/leggins1.png"));
-		
-		Aeyes = newTexture(Gdx.files.internal("players/1/eyes.png"));
-		Ahead = newTexture(Gdx.files.internal("players/1/head.png"));
-		Ahairs = newTexture(Gdx.files.internal("players/1/hairs.png"));
-		Aleg = newTexture(Gdx.files.internal("players/1/legs.png"));
-		Abody = newTexture(Gdx.files.internal("players/1/body.png"));
 		
 		for(int i = 0; i<PNJNumber; i++)
 		{
@@ -449,10 +439,6 @@ public class TextureManager {
 			reg.setRegion(reg.getRegionX()+packedTextures.get(i).getRegionX(), reg.getRegionY()+packedTextures.get(i).getRegionY(), packedTextures.get(i).getRegionWidth(), packedTextures.get(i).getRegionHeight());
 			packedTextures.get(i).setRegion(reg);
 		}
-		
-		
-		//REGIONS
-		Alegs = Aleg.split(Aleg.getRegionWidth()/12, Aleg.getRegionHeight())[0];
 		
 		for(int i = 0; i<PNJNumber; i++)
 		{

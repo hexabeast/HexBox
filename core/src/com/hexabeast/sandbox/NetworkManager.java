@@ -154,6 +154,8 @@ public class NetworkManager {
 				npc.legId =  n.currentLegs;
 				npc.headId = n.currentHead;
 				npc.bodyId = n.currentBody;
+				npc.eyesId = n.currentEyes;
+				npc.hairId = n.currentHair;
 				npc.currentItem = n.currentItem;
 
 				npc.helmetId = n.currentHelmet.id;

@@ -17,6 +17,8 @@ import com.hexabeast.sandbox.Parameters;
 
 public class Main extends Game {
 	
+	public static Main instance;
+	
 	public static boolean devtest = true;
 	public static boolean mobile = false;
 	
@@ -27,11 +29,11 @@ public class Main extends Game {
 	
 	public static boolean enableCheats = true;
 	public static boolean backtom;
-	public static String name = "John";
 	
 	public static boolean multiplayer = false;
 	public static boolean host = false;
 	
+	public static String defaultWelcomeMessage = "This is a development version - Multiplayer port: 25565";
 	public static String welcomeMessage = "This is a development version - Multiplayer port: 25565";
 	public static Color welcomeColor = Color.WHITE;
 	
@@ -44,6 +46,8 @@ public class Main extends Game {
 	public static float zoom;
 	
 	public static GameScreen game;
+	public static CharEditorScreen charedit;
+	public static SettingsScreen settings;
 	public static MenuScreen menu;
 	public static LoadingScreen loading;
 	public static boolean loaded;
@@ -100,6 +104,9 @@ public class Main extends Game {
 		saveMan = new SaveManager();
 		menu = new MenuScreen();
 		
+		charedit = new CharEditorScreen();
+		settings = new SettingsScreen();
+		
 		SaveManager.instance.LoadParams();
 		updateResolution();
 		sResize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -113,6 +120,7 @@ public class Main extends Game {
 	@Override
 	public void create () 
 	{
+		instance = this;
 		Shaders.instance = new Shaders();
 		batch = new SpriteBatch();
 		batch.setShader(Shaders.instance.basic);
@@ -193,6 +201,8 @@ public class Main extends Game {
 	@Override
 	public void dispose () 
 	{
+		SaveManager.SaveParam();
+
 		if(loaded && allLoaded)
 		{
 			try {
@@ -294,11 +304,18 @@ public class Main extends Game {
 	
 	public static void backToMenu(String str, Color c)
 	{
+		
 		if(!backtom)
 		{
+			SaveManager.SaveParam();
 			welcomeMessage = str;
 			welcomeColor = c;
 			backtom = true;
 		}
+		if(NetworkManager.instance.online)
+		{
+			NetworkManager.instance.client.close();
+			NetworkManager.instance.online = false;
+		} 
 	}
 }

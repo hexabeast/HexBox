@@ -77,7 +77,10 @@ public class SaveManager {
 		//SAVE PLAYER
 		String savedata = json.toJson(sav);
 		file1.writeString(savedata, false);
-		
+	}
+	
+	public static void SaveParam()
+	{
 		String param = json.toJson(Parameters.i);
 		file3.writeString(param, false);
 	}

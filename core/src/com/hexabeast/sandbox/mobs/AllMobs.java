@@ -222,7 +222,7 @@ public class AllMobs {
 		
 		if(nnpc == null)
 		{
-			nnpc = new NetworkMob(new PNJ());
+			nnpc = new NetworkMob(new PNJ(n.headId,n.bodyId,n.armId,n.legId,n.eyesId,n.hairId));
 			Nplayers.put(new Integer(n.id), nnpc);
 		}
 		
@@ -232,11 +232,12 @@ public class AllMobs {
 		
 		if(npc instanceof PNJ)
 		{
-			
 			((PNJ)npc).currentArm = n.armId;
 			((PNJ)npc).currentLegs = n.legId;
 			((PNJ)npc).currentHead = n.headId;
 			((PNJ)npc).currentBody = n.bodyId;
+			((PNJ)npc).currentEyes = n.eyesId;
+			((PNJ)npc).currentHair = n.hairId;
 			((PNJ)npc).currentItem = n.currentItem;
 		}
 		

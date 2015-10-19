@@ -2,7 +2,7 @@ package com.hexabeast.hexboxserver;
 
 public class NPlayer {
 	
-	public NPlayer(float x, float y, byte armId, byte legId, byte bodyId, byte headId, byte gloveId, byte legginsId, byte armorId, byte helmetId, int currentItem, byte hookId)
+	public NPlayer(float x, float y, byte armId, byte legId, byte bodyId, byte headId, byte eyesId, byte hairId, byte gloveId, byte legginsId, byte armorId, byte helmetId, int currentItem, byte hookId)
 	{
 		this.x = x;
 		this.y = y;
@@ -16,7 +16,8 @@ public class NPlayer {
 		this.helmetId = helmetId;
 		this.currentItem = currentItem;
 		this.hookId = hookId;
-				
+		this.eyesId = eyesId;
+		this.hairId = hairId;
 	}
 	
 	
@@ -32,6 +33,8 @@ public class NPlayer {
 	public int legId;
 	public int bodyId;
 	public int headId;
+	public int eyesId;
+	public int hairId;
 	public int gloveId;
 	public int legginsId;
 	public int armorId;

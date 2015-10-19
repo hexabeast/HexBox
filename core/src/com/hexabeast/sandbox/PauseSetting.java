@@ -50,10 +50,32 @@ public class PauseSetting {
 		else return false;
 	}
 	
+	public boolean isTouchedLeft(float mx, float my)
+	{
+		if(x+440<mx && x+440+wArrow>mx && y<my && y+hArrow>my)
+		{
+			SoundManager.instance.click.play(1,(float) (1.1f+Math.random()/20), 0);
+			return true;
+		}
+			
+		else return false;
+	}
+	
 	public boolean isTouchedRight()
 	{
 		Vector2 m = Tools.getAbsoluteMouse();
 		if(x+890+wArrow<m.x && x+890+wArrow*2>m.x && y<m.y && y+hArrow>m.y)
+		{
+			SoundManager.instance.click.play(1,(float) (1.1f+Math.random()/20), 0);
+			return true;
+		}
+			
+		else return false;
+	}
+	
+	public boolean isTouchedRight(float mx, float my)
+	{
+		if(x+890+wArrow<mx && x+890+wArrow*2>mx && y<my && y+hArrow>my)
 		{
 			SoundManager.instance.click.play(1,(float) (1.1f+Math.random()/20), 0);
 			return true;

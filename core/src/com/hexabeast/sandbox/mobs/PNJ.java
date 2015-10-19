@@ -144,8 +144,20 @@ public class PNJ extends Mob{
 
 	public PNJ()
 	{
+		this(0, 0, 0, 0, 0, 0);
+	}
+	
+	public PNJ(int head, int body, int arms, int legs, int eyes, int hair)
+	{
 		hook = new Grapple(this,0,0,0,0,0,null,null);
 		hook.playerAttached = false;
+		
+		currentBody = body;
+		currentLegs = legs;
+		currentHead = head;
+		currentEyes = eyes;
+		currentHair = hair;
+		currentArm = arms;
 		
 		for(int i = 0; i<4; i++)equipment[i] = AllTools.instance.defaultType;
 		

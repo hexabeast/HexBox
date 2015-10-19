@@ -594,7 +594,7 @@ public class GameScreen implements Screen
 					batch.setColor(coltemp);
 				}
 				
-				if(Main.pause)PauseMenu.instance.draw(batch);
+				if(Main.pause)PauseMenu.instance.draw(batch,Tools.getAbsoluteMouse().x,Tools.getAbsoluteMouse().y);
 				
 				
 			}

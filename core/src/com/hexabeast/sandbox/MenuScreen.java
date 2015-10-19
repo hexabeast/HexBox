@@ -20,13 +20,15 @@ public class MenuScreen implements Screen {
 	public boolean begin = false;
 	public OrthographicCamera camera;
 	
-	boolean pressed = false;
 	boolean pressedmulti = false;
 	boolean pressedhost = false;
 	
 	public Button playButton;
 	public Button hostButton;
 	public Button joinButton;
+	public Button settingsButton;
+	public Button charEditButton;
+	public Button exitButton;
 	
 	public DisplayText helpText;
 	
@@ -50,6 +52,10 @@ public class MenuScreen implements Screen {
 		playButton = new Button(640-TextureManager.instance.playButton.getRegionWidth()/2, 500-TextureManager.instance.playButton.getRegionHeight()/2, TextureManager.instance.playButton);
 		hostButton = new Button(640-TextureManager.instance.hostButton.getRegionWidth()-10, 350-TextureManager.instance.hostButton.getRegionHeight()/2, TextureManager.instance.hostButton);
 		joinButton = new Button(640+10, 350-TextureManager.instance.joinButton.getRegionHeight()/2, TextureManager.instance.joinButton);
+		charEditButton = new Button(640+200, 500-TextureManager.instance.charEditButton.getRegionHeight()/2, TextureManager.instance.charEditButton);
+		settingsButton = new Button(640-TextureManager.instance.settingsButton.getRegionWidth()-200, 500-TextureManager.instance.settingsButton.getRegionHeight()/2, TextureManager.instance.settingsButton);
+		exitButton = new Button(50, 30, TextureManager.instance.pauseexit);
+		
 		scene = new Stage();
 		
 		TextFieldStyle tfs = new TextFieldStyle();
@@ -64,8 +70,6 @@ public class MenuScreen implements Screen {
 		
 		txtfld.setPosition(660-txtfld.getWidth()/2, 250);
 		
-		Main.inputMultiplexer.addProcessor(scene);
-		
 		scene.addActor(txtfld);
 	}
 	
@@ -78,14 +82,30 @@ public class MenuScreen implements Screen {
         Vector3 cor = new Vector3(Gdx.input.getX(),Gdx.input.getY(), 0);	
 		camera.unproject(cor);
         
-        if(Inputs.instance.leftpress && !pressed && !pressedmulti && !pressedhost)
+        if(Inputs.instance.mousedown && !pressedmulti && !pressedhost)
         {
-        	if(playButton.isTouched(cor.x,cor.y) && !alphaMinus)
+        	if(exitButton.isTouched(cor.x,cor.y) && !alphaMinus)
+        	{
+        		Gdx.app.exit();
+        	}
+        	else if(charEditButton.isTouched(cor.x,cor.y) && !alphaMinus)
+        	{
+        		Main.charedit = new CharEditorScreen();
+        		SoundManager.instance.click.play(1,1.2f, 0);
+        		Main.instance.setScreen(Main.charedit);
+        	}
+        	else if(settingsButton.isTouched(cor.x,cor.y) && !alphaMinus)
+        	{
+        		Main.settings = new SettingsScreen();
+        		SoundManager.instance.click.play(1,1.2f, 0);
+        		Main.instance.setScreen(Main.settings);
+        	}
+        	else if(playButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
         		SoundManager.instance.click.play(1,1.2f, 0);
         		alphaMinus = true;
         	}
-        	if(joinButton.isTouched(cor.x,cor.y) && !alphaMinus)
+        	else if(joinButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
         		SoundManager.instance.click.play(1,1.2f, 0);
         		if(Tools.isIPAdress(txtfld.getText()))
@@ -105,17 +125,11 @@ public class MenuScreen implements Screen {
         			helpText.text = "Enter a valid IP adress";
         		}
         	}
-        	if(hostButton.isTouched(cor.x,cor.y) && !alphaMinus)
+        	else if(hostButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
         		SoundManager.instance.click.play(1,1.2f, 0);
             	pressedhost = true;
         	}
-        	
-        	pressed = true;
-        }
-        else if(!Inputs.instance.leftpress)
-        {
-        	pressed = false;
         }
         
         if(pressedmulti)
@@ -140,7 +154,6 @@ public class MenuScreen implements Screen {
         
         if(alpha<=-0.2f)
         {
-        	Main.inputMultiplexer.removeProcessor(scene);
         	play = true;
         	if(pressedmulti)
         	{
@@ -211,6 +224,9 @@ public class MenuScreen implements Screen {
 		playButton.draw(batch);
 		hostButton.draw(batch);
 		joinButton.draw(batch);
+		settingsButton.draw(batch);
+		charEditButton.draw(batch);
+		exitButton.draw(batch);
 		
 		batch.setColor(Color.WHITE);
 		
@@ -221,10 +237,7 @@ public class MenuScreen implements Screen {
 		batch.draw(ttex, (txtfld.getX()+txtfld.getWidth()/2)-ttex.getRegionWidth()/2-20, (txtfld.getY()+txtfld.getHeight()/2)-ttex.getRegionHeight()/2);
 		batch.end();
 		
-		batch.begin();
 	    scene.draw();
-	    batch.end();
-	     
 	}
 
 	@Override
@@ -239,10 +252,12 @@ public class MenuScreen implements Screen {
 		camera.position.set(640,360,0);
 		camera.update();
 		begin = true;
+		Main.inputMultiplexer.addProcessor(scene);
 	}
 
 	@Override
 	public void hide() {
+		Main.inputMultiplexer.removeProcessor(scene);
 	}
 
 	@Override

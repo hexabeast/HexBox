@@ -13,7 +13,6 @@ public class Parameters {
 	public int lightSpeed = 120;
 	public int resolution = 2;
 	public boolean fullscreen = false;
-	public boolean cheat = true;
 	public boolean superman = false;
 	public boolean ultrarate = false;
 	public boolean multithread = false;//TODO
@@ -32,6 +31,14 @@ public class Parameters {
 	public boolean FBORender = false;
 	public boolean zoomLock = false;
 	public boolean ratio = true;
+	public String name = "John";
+	
+	public int head = 0;
+	public int body = 0;
+	public int arms = 0;
+	public int legs = 0;
+	public int eyes = 0;
+	public int hair = 0;
 	
 	Parameters()
 	{

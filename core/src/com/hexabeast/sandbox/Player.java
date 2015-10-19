@@ -48,7 +48,7 @@ public class Player{
 	
 	public Player()
 	{
-		PNJ = new PNJ();
+		PNJ = new PNJ(Parameters.i.head, Parameters.i.body, Parameters.i.arms, Parameters.i.legs, Parameters.i.eyes, Parameters.i.hair);
 		PNJ.manual = true;
 		PNJ.isMain = true;
 		PNJ.speedx = 250;
