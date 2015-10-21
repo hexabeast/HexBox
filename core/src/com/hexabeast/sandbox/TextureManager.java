@@ -121,6 +121,12 @@ public class TextureManager {
 	public TextureRegion textBoxSurline;
 	public TextureRegion textBoxCursor;
 	
+	public TextureRegion sGraphicsButton;
+	public TextureRegion sAudioButton;
+	public TextureRegion sKeyboardButton;
+	public TextureRegion sDisplayButton;
+	public TextureRegion sButtonHolder;
+	
 	public TextureRegion casque1;
 	public TextureRegion armor1;
 	public TextureRegion arms1;
@@ -355,6 +361,12 @@ public class TextureManager {
 		forgeTexture = newTexture(Gdx.files.internal("decors/forge-armes.png"));
 		armorForgeTexture = newTexture(Gdx.files.internal("decors/forge-armures.png"));
 		fleuristeTexture = newTexture(Gdx.files.internal("decors/fleuriste.png"));
+		
+		sGraphicsButton = newTexture(Gdx.files.internal("menu/sGraphicsButton.png"));
+		sAudioButton = newTexture(Gdx.files.internal("menu/sAudioButton.png"));
+		sKeyboardButton = newTexture(Gdx.files.internal("menu/sKeyboardButton.png"));
+		sDisplayButton = newTexture(Gdx.files.internal("menu/sDisplayButton.png"));
+		sButtonHolder = newTexture(Gdx.files.internal("menu/sButtonHolder.png"));
 		
 		chatBehind = newTexture(Gdx.files.internal("menu/chatbehind.png"));
 		playButton = newTexture(Gdx.files.internal("menu/playButton.png"));

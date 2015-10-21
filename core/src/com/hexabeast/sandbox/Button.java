@@ -39,7 +39,7 @@ public class Button {
 		Vector2 m = Tools.getAbsoluteMouse();
 		if(x<m.x && x+w>m.x && y<m.y && y+h>m.y)
 		{
-			SoundManager.instance.click.play(1,(float) (1.1f+Math.random()/20), 0);
+			SoundManager.instance.playSound(SoundManager.instance.click,1,(float) (1.1f+Math.random()/20));
 			return true;
 		}
 			
@@ -50,7 +50,7 @@ public class Button {
 	{
 		if(x<mx && x+w>mx && y<my && y+h>my)
 		{
-			SoundManager.instance.click.play(1,(float) (1.1f+Math.random()/20), 0);
+			SoundManager.instance.playSound(SoundManager.instance.click,1,(float) (1.1f+Math.random()/20));
 			return true;
 		}
 			

@@ -43,7 +43,7 @@ public class PauseSetting {
 		Vector2 m = Tools.getAbsoluteMouse();
 		if(x+440<m.x && x+440+wArrow>m.x && y<m.y && y+hArrow>m.y)
 		{
-			SoundManager.instance.click.play(1,(float) (1.1f+Math.random()/20), 0);
+			SoundManager.instance.playSound(SoundManager.instance.click,1,(float) (1.1f+Math.random()/20));
 			return true;
 		}
 			
@@ -54,7 +54,7 @@ public class PauseSetting {
 	{
 		if(x+440<mx && x+440+wArrow>mx && y<my && y+hArrow>my)
 		{
-			SoundManager.instance.click.play(1,(float) (1.1f+Math.random()/20), 0);
+			SoundManager.instance.playSound(SoundManager.instance.click,1,(float) (1.1f+Math.random()/20));
 			return true;
 		}
 			
@@ -66,7 +66,7 @@ public class PauseSetting {
 		Vector2 m = Tools.getAbsoluteMouse();
 		if(x+890+wArrow<m.x && x+890+wArrow*2>m.x && y<m.y && y+hArrow>m.y)
 		{
-			SoundManager.instance.click.play(1,(float) (1.1f+Math.random()/20), 0);
+			SoundManager.instance.playSound(SoundManager.instance.click,1,(float) (1.1f+Math.random()/20));
 			return true;
 		}
 			
@@ -77,7 +77,7 @@ public class PauseSetting {
 	{
 		if(x+890+wArrow<mx && x+890+wArrow*2>mx && y<my && y+hArrow>my)
 		{
-			SoundManager.instance.click.play(1,(float) (1.1f+Math.random()/20), 0);
+			SoundManager.instance.playSound(SoundManager.instance.click,1,(float) (1.1f+Math.random()/20));
 			return true;
 		}
 			

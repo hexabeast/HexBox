@@ -54,7 +54,7 @@ public class Item extends Entity {
 		{
 			if(Math.abs(xDistance)<15 && Math.abs(yDistance)<38 && !GameScreen.inventory.isTransit && number>0)
 			{
-				SoundManager.instance.PickUp.play();
+				SoundManager.instance.playSound(SoundManager.instance.PickUp,1,1);
 				GameScreen.inventory.PutItem(id);
 			    Tools.checkItems();
 			    number--;

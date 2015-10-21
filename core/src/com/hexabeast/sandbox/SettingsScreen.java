@@ -25,7 +25,7 @@ public class SettingsScreen  implements Screen
 	@Override
 	public void show() 
 	{
-		
+		PauseMenu.instance.rebootMenu();
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class SettingsScreen  implements Screen
 	@Override
 	public void hide() 
 	{
-		
+		PauseMenu.instance.rebootMenu();
 	}
 
 	@Override

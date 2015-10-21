@@ -28,6 +28,12 @@ public class PauseMenu {
 	public PauseSetting zoomlock;
 	public PauseSetting ratio;
 	
+	public PauseSetting volume;
+	public PauseSetting volumeMusic;
+	public PauseSetting volumeFX;
+	
+	public PauseSetting keyboard;
+	
 	public PauseSetting time;
 	public PauseSetting fullbright;
 	public PauseSetting superman;
@@ -47,6 +53,17 @@ public class PauseMenu {
 	public boolean setting = false;
 	public boolean main = false;
 	public boolean cheat = false;
+	int settingtab = 0;
+	
+	public Button tabGraphics;
+	public Button tabDisplay;
+	public Button tabAudio;
+	public Button tabKeyboard;
+	
+	public static final int TAB_GRAPHICS = 1;
+	public static final int TAB_DISPLAY = 0;
+	public static final int TAB_AUDIO = 2;
+	public static final int TAB_KEYBOARD = 3;
 	
 	PauseMenu()
 	{
@@ -60,20 +77,49 @@ public class PauseMenu {
 		back = new PauseMenuButton(TextureManager.instance.pauseback,-1080,-560);
 		cheats = new PauseMenuButton(TextureManager.instance.pausecheat, 0,-200);
 		
-		resolution = new PauseSetting(0,500,"Resolution :","Changes the resolution of the window");
-		ratio = new PauseSetting(0,400,"Ratio :","Changes the ratio of the window");
-		fullscreen = new PauseSetting(0,300,"FullScreen :","Enables / disables fullscreen mode");
-		shadowQuality = new PauseSetting(0,200,"Shadows Quality :","Shader is often faster than Medium Quality for a better rendering quality");
-		lightSpeed = new PauseSetting(0,100,"Light Speed :","Higher number = faster lights but worse performances");
-		lightColor = new PauseSetting(0,00,"Colored Lights :","Colored lights require more CPU but looks better than white lights");
-		lightDistance = new PauseSetting(0,-100,"Light Prevision :","Reduces light glitches on the sides of the screen, but makes the game slower");
-		details = new PauseSetting(0,-200,"Details :","Ambient occlusion, better grass and better transitions between blocks");
-		vsync = new PauseSetting(0,-300,"VSync :","Enables/Disables VSync");
-		HQMagic = new PauseSetting(0,-400,"Spells quality :","Changes the quality of magic things");
-		background = new PauseSetting(0,-500,"Background :","Enables/Disables background");
-		FBO = new PauseSetting(0,-600,"More Shaders :","Slows down the game, enables magic space deformations and better colors");
-		zoomlock = new PauseSetting(0,600,"Zoom Lock :","Locks the zoom to HD default");
+		//TABS
+		tabGraphics = new Button(-320,600,TextureManager.instance.sGraphicsButton);
+		tabGraphics.w*=2;
+		tabGraphics.h*=2;
 		
+		tabDisplay = new Button(-720,600,TextureManager.instance.sDisplayButton);
+		tabDisplay.w*=2;
+		tabDisplay.h*=2;
+		
+		tabAudio = new Button(80,600,TextureManager.instance.sAudioButton);
+		tabAudio.w*=2;
+		tabAudio.h*=2;
+		
+		tabKeyboard = new Button(480,600,TextureManager.instance.sKeyboardButton);
+		tabKeyboard.w*=2;
+		tabKeyboard.h*=2;
+		
+		//DISPLAY
+		zoomlock = new PauseSetting(0,-200,"Zoom Lock :","Locks the zoom to HD default");
+		resolution = new PauseSetting(0,200,"Resolution :","Changes the resolution of the window");
+		ratio = new PauseSetting(0,-100,"Ratio :","Changes the ratio of the window");
+		fullscreen = new PauseSetting(0,100,"FullScreen :","Enables / disables fullscreen mode");
+		vsync = new PauseSetting(0,0,"VSync :","Enables/Disables VSync");
+		
+		//GRAPHICS
+		shadowQuality = new PauseSetting(0,300,"Shadows Quality :","Shader is often faster than Medium Quality for a better rendering quality");
+		lightSpeed = new PauseSetting(0,200,"Light Speed :","Higher number = faster lights but worse performances");
+		lightColor = new PauseSetting(0,100,"Colored Lights :","Colored lights require more CPU but looks better than white lights");
+		lightDistance = new PauseSetting(0,-400,"Light Prevision :","Reduces light glitches on the sides of the screen, but makes the game slower");
+		details = new PauseSetting(0,00,"Details :","Ambient occlusion, better grass and better transitions between blocks");
+		HQMagic = new PauseSetting(0,-100,"Spells quality :","Changes the quality of magic things");
+		background = new PauseSetting(0,-200,"Background :","Enables/Disables background");
+		FBO = new PauseSetting(0,-300,"More Shaders :","Slows down the game, enables magic space deformations and better colors");
+		
+		//AUDIO
+		volume = new PauseSetting(0,200,"Master Volume :","Set the general volume of the game");
+		volumeMusic = new PauseSetting(0,100,"Music Volume :","Set the volume of the music");
+		volumeFX = new PauseSetting(0,000,"SFX Volume :","Set the volume of the effects");
+		
+		//KEYBOARD
+		keyboard = new PauseSetting(0,200,"Keyboard Layout :","Set keyboard layout (QWERTY or AZERTY only)");
+		
+		//CHEATS
 		time = new PauseSetting(0,500,"Time :","Cheat, Changes the time between night and day");
 		fullbright = new PauseSetting(0,400,"Fullbright :","Cheat, Disables all shadows, and increases performances");
 		superman = new PauseSetting(0,300,"Superman :","Cheat, increases significantly speed and jump height");
@@ -131,54 +177,208 @@ public class PauseMenu {
 		resx = String.valueOf(Gdx.graphics.getWidth());
 		resy = String.valueOf(Gdx.graphics.getHeight());
 		
-		resolution.value = resx+"x"+resy;
-		resolution.draw(batch);
+		batch.draw(TextureManager.instance.sButtonHolder, -TextureManager.instance.sButtonHolder.getRegionWidth()*2, 470,TextureManager.instance.sButtonHolder.getRegionWidth()*4,TextureManager.instance.sButtonHolder.getRegionHeight()*4);
 		
-		fullscreen.value = Tools.booltoyes(Parameters.i.fullscreen);
-		fullscreen.draw(batch);
-		
-		shadowQuality.value = Constants.qualities[Parameters.i.HQ];
-		shadowQuality.draw(batch);
-		
-		lightSpeed.value = String.valueOf(Parameters.i.lightSpeed)+" m/s";
-		lightSpeed.draw(batch);
-		
-		lightDistance.value = Constants.lightDistancesNames[Parameters.i.lightDistance];
-		lightDistance.draw(batch);
-		
-		lightColor.value = Tools.booltoyes(Parameters.i.RGB);
-		lightColor.draw(batch);
-		
-		details.value = Tools.booltoyes(Parameters.i.details);
-		details.draw(batch);
-		
-		vsync.value = Tools.booltoyes(Parameters.i.vsync);
-		vsync.draw(batch);
-		
-		if(Parameters.i.goodmagic)
+		if(settingtab == TAB_DISPLAY)
 		{
-			HQMagic.value = "High";
+			resolution.value = resx+"x"+resy;
+			resolution.draw(batch);
+			
+			fullscreen.value = Tools.booltoyes(Parameters.i.fullscreen);
+			fullscreen.draw(batch);
+			
+			vsync.value = Tools.booltoyes(Parameters.i.vsync);
+			vsync.draw(batch);
+			
+			zoomlock.value = Tools.booltoyes(Parameters.i.zoomLock);
+			zoomlock.draw(batch);
+			
+			if(Parameters.i.ratio)ratio.value = "16:9";
+			else ratio.value = "4:3";
+			ratio.draw(batch);
+			
+			if(Inputs.instance.mousedown)
+			{
+				if(zoomlock.isTouchedLeft(x,y) || zoomlock.isTouchedRight(x,y))
+				{
+					Parameters.i.zoomLock = !Parameters.i.zoomLock;
+					if(Main.ingame)GameScreen.manualResize();
+				}
+				
+				else if(ratio.isTouchedLeft(x,y) || ratio.isTouchedRight(x,y))
+				{
+					Parameters.i.ratio = !Parameters.i.ratio;
+					Main.updateResolution();
+				}
+				
+				else if(resolution.isTouchedRight(x,y))
+				{
+					for(int i = 0; i<Constants.resolutions.length; i++)
+					{
+						if(Constants.resolutions[i] > Gdx.graphics.getWidth()+0.1f)
+						{
+							Parameters.i.resolution = i;
+							break;
+						}
+						else if(i == Constants.resolutions.length-1)Parameters.i.resolution = i;
+					}
+					
+					Main.updateResolution();
+				}
+				else if(resolution.isTouchedLeft(x,y))
+				{
+					if(Parameters.i.resolution>0)
+					{
+						for(int i = Constants.resolutions.length-1; i>=0; i--)
+						{
+							if(Constants.resolutions[i] < Gdx.graphics.getWidth()-0.1f)
+							{
+								Parameters.i.resolution = i;
+								break;
+							}
+							else if(i == 0)Parameters.i.resolution = i;
+						}
+						Main.updateResolution();
+					}
+				}
+				
+				
+				else if(fullscreen.isTouchedRight(x,y)||fullscreen.isTouchedLeft(x,y))
+				{
+					Parameters.i.fullscreen = !Parameters.i.fullscreen;
+					Main.updateResolution();
+				}
+				
+				else if(vsync.isTouchedRight(x,y)||vsync.isTouchedLeft(x,y))
+				{
+					Parameters.i.vsync = !Parameters.i.vsync;
+					Gdx.graphics.setVSync(Parameters.i.vsync);
+				}
+			}
 		}
-		else
+		else if(settingtab == TAB_GRAPHICS)
 		{
-			HQMagic.value = "Low";
+			shadowQuality.value = Constants.qualities[Parameters.i.HQ];
+			shadowQuality.draw(batch);
+			
+			lightSpeed.value = String.valueOf(Parameters.i.lightSpeed)+" m/s";
+			lightSpeed.draw(batch);
+			
+			lightDistance.value = Constants.lightDistancesNames[Parameters.i.lightDistance];
+			lightDistance.draw(batch);
+			
+			lightColor.value = Tools.booltoyes(Parameters.i.RGB);
+			lightColor.draw(batch);
+			
+			details.value = Tools.booltoyes(Parameters.i.details);
+			details.draw(batch);
+			
+			if(Parameters.i.goodmagic)
+			{
+				HQMagic.value = "High";
+			}
+			else
+			{
+				HQMagic.value = "Low";
+			}
+			HQMagic.draw(batch);
+			
+			background.value = Tools.booltoyes(Parameters.i.background);
+			background.draw(batch);
+			
+			FBO.value = Tools.booltoyes(Parameters.i.FBORender);
+			FBO.draw(batch);
+			
+			if(Inputs.instance.mousedown)
+			{
+				if(FBO.isTouchedRight(x,y)||FBO.isTouchedLeft(x,y))Parameters.i.FBORender = !Parameters.i.FBORender;
+				
+				else if(HQMagic.isTouchedRight(x,y)||HQMagic.isTouchedLeft(x,y))Parameters.i.goodmagic = !Parameters.i.goodmagic;
+				
+				
+				
+				else if(background.isTouchedRight(x,y)||background.isTouchedLeft(x,y))
+				{
+					Parameters.i.background = !Parameters.i.background;
+				}
+				
+				
+				else if(shadowQuality.isTouchedLeft(x,y)){if(Parameters.i.HQ>1)Parameters.i.HQ--;}
+				else if(shadowQuality.isTouchedRight(x,y)){if(Parameters.i.HQ<Constants.qualities.length-1)Parameters.i.HQ++;}
+				
+				else if(lightDistance.isTouchedLeft(x,y)){if(Parameters.i.lightDistance>0)Parameters.i.lightDistance--;}
+				else if(lightDistance.isTouchedRight(x,y)){if(Parameters.i.lightDistance<Constants.lightDistances.length-1)Parameters.i.lightDistance++;}
+				
+				else if(lightSpeed.isTouchedLeft(x,y))
+					{
+						if(Parameters.i.lightSpeed>=60)
+						{
+							Parameters.i.lightSpeed-=30;
+							if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
+						}
+					}
+					
+				else if(lightSpeed.isTouchedRight(x,y))
+					{
+						if(Parameters.i.lightSpeed<=270)
+						{
+							Parameters.i.lightSpeed+=30;
+							if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
+						}	
+					}
+					
+				else if(lightColor.isTouchedRight(x,y)||lightColor.isTouchedLeft(x,y))Parameters.i.RGB = !Parameters.i.RGB;
+				else if(details.isTouchedRight(x,y)||details.isTouchedLeft(x,y))Parameters.i.details = !Parameters.i.details;
+			}
 		}
-		HQMagic.draw(batch);
 		
-		background.value = Tools.booltoyes(Parameters.i.background);
-		background.draw(batch);
+		else if(settingtab == TAB_AUDIO)
+		{
+			volume.value = String.valueOf(Parameters.i.volume*10);
+			volumeMusic.value = String.valueOf(Parameters.i.volumeMusic*10);
+			volumeFX.value = String.valueOf(Parameters.i.volumeFX*10);
+			
+			volume.draw(batch);
+			volumeMusic.draw(batch);
+			volumeFX.draw(batch);
+			
+			if(Inputs.instance.mousedown)
+			{
+				if(volume.isTouchedLeft(x,y)){if(Parameters.i.volume>0)Parameters.i.volume--;}
+				else if(volume.isTouchedRight(x,y)){if(Parameters.i.volume<10)Parameters.i.volume++;}
+				
+				else if(volumeMusic.isTouchedLeft(x,y)){if(Parameters.i.volumeMusic>0)Parameters.i.volumeMusic--;}
+				else if(volumeMusic.isTouchedRight(x,y)){if(Parameters.i.volumeMusic<10)Parameters.i.volumeMusic++;}
+				
+				else if(volumeFX.isTouchedLeft(x,y)){if(Parameters.i.volumeFX>0)Parameters.i.volumeFX--;}
+				else if(volumeFX.isTouchedRight(x,y)){if(Parameters.i.volumeFX<10)Parameters.i.volumeFX++;}
+				
+				SoundManager.instance.updateVolume();
+			}
+		}
 		
-		FBO.value = Tools.booltoyes(Parameters.i.FBORender);
-		FBO.draw(batch);
-		
-		if(Parameters.i.ratio)ratio.value = "16:9";
-		else ratio.value = "4:3";
-		ratio.draw(batch);
-		
-		zoomlock.value = Tools.booltoyes(Parameters.i.zoomLock);
-		zoomlock.draw(batch);
+		else if(settingtab == TAB_KEYBOARD)
+		{
+			if(Parameters.i.keyboard == HKeys.AZERTY)keyboard.value = "AZERTY";
+			else if(Parameters.i.keyboard == HKeys.QWERTY)keyboard.value = "QWERTY";
+			
+			keyboard.draw(batch);
+			
+			if(Inputs.instance.mousedown)
+			{
+				if(keyboard.isTouchedLeft(x,y) || keyboard.isTouchedRight(x,y)){Parameters.i.keyboard++;}
+				if(Parameters.i.keyboard>=HKeys.keyboardNumber)Parameters.i.keyboard=0;
+				
+				HKeys.setKeyboard(Parameters.i.keyboard);
+			}
+		}
 		
 		if(pause)back.draw(batch);
+		
+		tabGraphics.draw(batch);
+		tabDisplay.draw(batch);
+		tabAudio.draw(batch);
+		tabKeyboard.draw(batch);
 		
 		if(Inputs.instance.mousedown)
 		{
@@ -188,99 +388,22 @@ public class PauseMenu {
 				setting = false;
 				cheat = false;
 			}
-			
-			else if(zoomlock.isTouchedLeft(x,y) || zoomlock.isTouchedRight(x,y))
+			else if(tabGraphics.isTouched(x,y))
 			{
-				Parameters.i.zoomLock = !Parameters.i.zoomLock;
-				if(Main.ingame)GameScreen.manualResize();
+				settingtab = TAB_GRAPHICS;
 			}
-			
-			else if(ratio.isTouchedLeft(x,y) || ratio.isTouchedRight(x,y))
+			else if(tabDisplay.isTouched(x,y))
 			{
-				Parameters.i.ratio = !Parameters.i.ratio;
-				Main.updateResolution();
+				settingtab = TAB_DISPLAY;
 			}
-			
-			else if(resolution.isTouchedRight(x,y))
+			else if(tabAudio.isTouched(x,y))
 			{
-				for(int i = 0; i<Constants.resolutions.length; i++)
-				{
-					if(Constants.resolutions[i] > Gdx.graphics.getWidth()+0.1f)
-					{
-						Parameters.i.resolution = i;
-						break;
-					}
-					else if(i == Constants.resolutions.length-1)Parameters.i.resolution = i;
-				}
-				
-				Main.updateResolution();
+				settingtab = TAB_AUDIO;
 			}
-			else if(resolution.isTouchedLeft(x,y))
+			else if(tabKeyboard.isTouched(x,y))
 			{
-				if(Parameters.i.resolution>0)
-				{
-					for(int i = Constants.resolutions.length-1; i>=0; i--)
-					{
-						if(Constants.resolutions[i] < Gdx.graphics.getWidth()-0.1f)
-						{
-							Parameters.i.resolution = i;
-							break;
-						}
-						else if(i == 0)Parameters.i.resolution = i;
-					}
-					Main.updateResolution();
-				}
+				settingtab = TAB_KEYBOARD;
 			}
-			
-			
-			else if(fullscreen.isTouchedRight(x,y)||fullscreen.isTouchedLeft(x,y))
-			{
-				Parameters.i.fullscreen = !Parameters.i.fullscreen;
-				Main.updateResolution();
-			}
-			
-			else if(FBO.isTouchedRight(x,y)||FBO.isTouchedLeft(x,y))Parameters.i.FBORender = !Parameters.i.FBORender;
-			
-			else if(HQMagic.isTouchedRight(x,y)||HQMagic.isTouchedLeft(x,y))Parameters.i.goodmagic = !Parameters.i.goodmagic;
-			
-			else if(vsync.isTouchedRight(x,y)||vsync.isTouchedLeft(x,y))
-			{
-				Parameters.i.vsync = !Parameters.i.vsync;
-				Gdx.graphics.setVSync(Parameters.i.vsync);
-			}
-			
-			else if(background.isTouchedRight(x,y)||background.isTouchedLeft(x,y))
-			{
-				Parameters.i.background = !Parameters.i.background;
-			}
-			
-			
-			else if(shadowQuality.isTouchedLeft(x,y)){if(Parameters.i.HQ>1)Parameters.i.HQ--;}
-			else if(shadowQuality.isTouchedRight(x,y)){if(Parameters.i.HQ<Constants.qualities.length-1)Parameters.i.HQ++;}
-			
-			else if(lightDistance.isTouchedLeft(x,y)){if(Parameters.i.lightDistance>0)Parameters.i.lightDistance--;}
-			else if(lightDistance.isTouchedRight(x,y)){if(Parameters.i.lightDistance<Constants.lightDistances.length-1)Parameters.i.lightDistance++;}
-			
-			else if(lightSpeed.isTouchedLeft(x,y))
-				{
-					if(Parameters.i.lightSpeed>=60)
-					{
-						Parameters.i.lightSpeed-=30;
-						if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
-					}
-				}
-				
-			else if(lightSpeed.isTouchedRight(x,y))
-				{
-					if(Parameters.i.lightSpeed<=270)
-					{
-						Parameters.i.lightSpeed+=30;
-						if(Parameters.i.lightSpeed%30!=0)Parameters.i.lightSpeed=120;
-					}	
-				}
-				
-			else if(lightColor.isTouchedRight(x,y)||lightColor.isTouchedLeft(x,y))Parameters.i.RGB = !Parameters.i.RGB;
-			else if(details.isTouchedRight(x,y)||details.isTouchedLeft(x,y))Parameters.i.details = !Parameters.i.details;
 		}
 	}
 	
@@ -404,5 +527,7 @@ public class PauseMenu {
 		clear = true;
 		setting = false;
 		main = true;
+		cheat = false;
+		settingtab = 0;
 	}
 }

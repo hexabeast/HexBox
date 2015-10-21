@@ -91,23 +91,23 @@ public class MenuScreen implements Screen {
         	else if(charEditButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
         		Main.charedit = new CharEditorScreen();
-        		SoundManager.instance.click.play(1,1.2f, 0);
+        		SoundManager.instance.playSound(SoundManager.instance.click,1,1.2f);
         		Main.instance.setScreen(Main.charedit);
         	}
         	else if(settingsButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
         		Main.settings = new SettingsScreen();
-        		SoundManager.instance.click.play(1,1.2f, 0);
+        		SoundManager.instance.playSound(SoundManager.instance.click,1,1.2f);
         		Main.instance.setScreen(Main.settings);
         	}
         	else if(playButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
-        		SoundManager.instance.click.play(1,1.2f, 0);
+        		SoundManager.instance.playSound(SoundManager.instance.click,1,1.2f);
         		alphaMinus = true;
         	}
         	else if(joinButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
-        		SoundManager.instance.click.play(1,1.2f, 0);
+        		SoundManager.instance.playSound(SoundManager.instance.click,1,1.2f);
         		if(Tools.isIPAdress(txtfld.getText()))
         		{
             		
@@ -127,7 +127,7 @@ public class MenuScreen implements Screen {
         	}
         	else if(hostButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
-        		SoundManager.instance.click.play(1,1.2f, 0);
+        		SoundManager.instance.playSound(SoundManager.instance.click,1,1.2f);
             	pressedhost = true;
         	}
         }

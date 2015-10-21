@@ -117,6 +117,9 @@ public class Main extends Game {
 		inputMultiplexer.addProcessor(Inputs.instance);
 		
 		Gdx.input.setInputProcessor(inputMultiplexer);
+		
+		SoundManager.instance.updateVolume();
+		HKeys.setKeyboard(Parameters.i.keyboard);
 	}
 	
 	@Override
@@ -244,7 +247,7 @@ public class Main extends Game {
 		if(GameScreen.camera != null)Tools.computeAbsoluteMouse();
 		
 		if(pause && !NetworkManager.instance.online)delta = Float.MIN_VALUE;
-		if(!PauseMenu.instance.clear && !pause)PauseMenu.instance.rebootMenu();
+		if(!PauseMenu.instance.clear && !pause && ingame)PauseMenu.instance.rebootMenu();
 		if(delta>0.03f)delta = 0.03f;
 		
 		time+=delta;

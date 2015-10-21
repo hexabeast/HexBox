@@ -40,6 +40,12 @@ public class Parameters {
 	public int eyes = 0;
 	public int hair = 0;
 	
+	public int volume = 10;
+	public int volumeMusic = 10;
+	public int volumeFX = 10;
+	
+	public int keyboard = HKeys.QWERTY;
+	
 	Parameters()
 	{
 		

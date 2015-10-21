@@ -46,6 +46,11 @@ public class Inputs implements InputProcessor{
 	
 	public NInputUpdate Ninput = new NInputUpdate();
 	
+	public Inputs()
+	{
+
+	}
+	
 	@Override
 	public boolean keyTyped(char character) {return false;}
 	@Override
@@ -213,6 +218,8 @@ public class Inputs implements InputProcessor{
 	@Override
 	public boolean keyDown(int keycode) 
 	{
+		boolean CHEAT = false;
+		
 		if(Main.ingame)
 		{
 			if(Main.game.chatEnabled)
@@ -227,6 +234,25 @@ public class Inputs implements InputProcessor{
 			{
 				if(!Main.pause)
 				{
+					if(keycode == HKeys.Q)
+					{
+						tomiddleOrAPressed = true;
+					}
+					else if(keycode == HKeys.A)
+					{
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,true));
+						Q = true;
+					}
+					else if(keycode == HKeys.W)
+					{
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,true));
+						Z = true;
+					}
+					else if(keycode == HKeys.Z)
+					{
+						
+					}
+					
 					switch(keycode){
 					/*case Keys.V:
 						if(Main.enableCheats)Map.instance.lights.switchDayBegin(-0.5f);
@@ -246,27 +272,12 @@ public class Inputs implements InputProcessor{
 					case Keys.C:
 						GameScreen.inventory.Craft();
 						break;
-					case Keys.A:
-						tomiddleOrAPressed = true;
+					case Keys.CONTROL_LEFT:
+						CTRL = true;
 						break;
 					case Keys.D:
 						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(true,true));
 						D = true;
-						break;
-					case Keys.CONTROL_LEFT:
-						CTRL = true;
-						break;
-					case Keys.Q:
-						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,true));
-						Q = true;
-						break;
-					case Keys.Z:
-						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,true));
-						Z = true;
-						break;
-					case Keys.W:
-						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,true));
-						Z = true;
 						break;	
 					case Keys.T:
 						placeTorch();
@@ -285,8 +296,8 @@ public class Inputs implements InputProcessor{
 						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(false,true));
 						S = true;
 						break;	
-					/*case Keys.NUM_0:
-						if(CTRL)
+					case Keys.NUM_0:
+						if(CTRL && CHEAT)
 						{
 							if(Main.enableCheats)GameScreen.player.transform(0);
 						}
@@ -298,7 +309,7 @@ public class Inputs implements InputProcessor{
 						
 						break;
 					case Keys.NUM_1:
-						if(CTRL)
+						if(CTRL && CHEAT)
 						{
 							if(Main.enableCheats)GameScreen.player.transform(1);
 						}
@@ -309,7 +320,7 @@ public class Inputs implements InputProcessor{
 						}
 						break;
 					case Keys.NUM_2:
-						if(CTRL)
+						if(CTRL && CHEAT)
 						{
 							if(Main.enableCheats)GameScreen.player.transform(2);
 						}
@@ -321,7 +332,7 @@ public class Inputs implements InputProcessor{
 						
 						break;
 					case Keys.NUM_3:
-						if(CTRL)
+						if(CTRL && CHEAT)
 						{
 							if(Main.enableCheats)GameScreen.player.transform(3);
 						}
@@ -333,7 +344,7 @@ public class Inputs implements InputProcessor{
 						
 						break;
 					case Keys.NUM_4:
-						if(CTRL)
+						if(CTRL && CHEAT)
 						{
 							if(Main.enableCheats)GameScreen.player.transform(0);
 						}
@@ -345,7 +356,7 @@ public class Inputs implements InputProcessor{
 						
 						break;
 					case Keys.NUM_5:
-						if(CTRL)
+						if(CTRL && CHEAT)
 						{
 							if(Main.enableCheats)GameScreen.player.transform(0);
 						}
@@ -357,7 +368,7 @@ public class Inputs implements InputProcessor{
 						
 						break;
 					case Keys.NUM_6:
-						if(CTRL)
+						if(CTRL && CHEAT)
 						{
 							if(Main.enableCheats)GameScreen.player.transform(0);
 						}
@@ -369,7 +380,7 @@ public class Inputs implements InputProcessor{
 						
 						break;
 					case Keys.NUM_7:
-						if(CTRL)
+						if(CTRL && CHEAT)
 						{
 							for(int i = 0; i<1; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 2);
 						}
@@ -381,7 +392,7 @@ public class Inputs implements InputProcessor{
 						
 						break;
 					case Keys.NUM_8:
-						if(CTRL)
+						if(CTRL && CHEAT)
 						{
 							GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 1);
 						}
@@ -393,7 +404,7 @@ public class Inputs implements InputProcessor{
 						
 						break;
 					case Keys.NUM_9:
-						if(CTRL)
+						if(CTRL && CHEAT)
 						{
 							GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.x, GameScreen.player.PNJ.y+50, 3);
 						}
@@ -402,7 +413,7 @@ public class Inputs implements InputProcessor{
 							GameScreen.player.currentCellState = 8;
 							GameScreen.player.refreshSelect();
 						}
-						break;*/
+						break;
 					}
 				}
 			}
@@ -430,6 +441,22 @@ public class Inputs implements InputProcessor{
 				if(keycode == Keys.P)Main.pause = !Main.pause;
 				if(!Main.pause)
 				{
+					
+					if(keycode == HKeys.A)
+					{
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,false));
+						Q = false;
+					}
+					else if(keycode == HKeys.W)
+					{
+						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,false));
+						Z = false;
+					}
+					else if(keycode == HKeys.Z)
+					{
+						
+					}
+					
 					switch(keycode){
 					
 					/*case Keys.V:
@@ -462,18 +489,6 @@ public class Inputs implements InputProcessor{
 						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(true,false));
 						D = false;
 						break;
-					case Keys.Q:
-						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputRightLeft(false,false));
-						Q = false;
-						break;
-					case Keys.Z:
-						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,false));
-						Z = false;
-						break;
-					case Keys.W:
-						if(NetworkManager.instance.online)NetworkManager.instance.sendTCP(new NInputUpDown(true,false));
-						Z = false;
-						break;	
 					case Keys.SPACE:	
 						spacePressed = false;
 						break;

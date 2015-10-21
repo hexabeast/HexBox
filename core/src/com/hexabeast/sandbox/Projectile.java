@@ -210,7 +210,7 @@ public class Projectile extends Entity{
 				if(!GameScreen.inventory.isFull(type))
 				{
 					GameScreen.inventory.PutItem(type);
-				    SoundManager.instance.PickUp.play();
+					SoundManager.instance.playSound(SoundManager.instance.PickUp,1,1);
 				    Tools.checkItems();
 				    isDead = true;
 				}
