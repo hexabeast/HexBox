@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.hexabeast.sandbox.mobs.PNJ;
 
 public class CharEditorScreen implements Screen {
 	
@@ -145,9 +146,9 @@ public class CharEditorScreen implements Screen {
         float shoulderX = 10;
     	float shoulderY = 14;
     	
-    	int BodyOffsetY = 14;
-    	int HelmetOffsetY = 34;
-    	int LegsOffsetY = -6;
+    	int BodyOffsetY = PNJ.BodyOffsetY;
+    	int HelmetOffsetY = PNJ.HelmetOffsetY;
+    	int LegsOffsetY = PNJ.LegsOffsetY;
     	float offsetArmLeft = 8;
     	
     	float shoulderOriginX = 10;

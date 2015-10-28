@@ -49,9 +49,9 @@ public class PNJ extends Mob{
 	
 	int legnumber = 12;
 	
-	int BodyOffsetY = 14;
-	int HelmetOffsetY = 34;
-	int LegsOffsetY = -6;
+	public static int BodyOffsetY = 14;
+	public static int HelmetOffsetY = 26;
+	public static int LegsOffsetY = -6;
 	
 	int pieceSize = 52;
 	
