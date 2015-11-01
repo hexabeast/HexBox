@@ -223,7 +223,7 @@ public class Chat {
 						try
 						{
 							int b=Integer.parseInt(words[2]);
-							if(b>1000 ||b<1)s = "Enter a value between 1 and 1000";
+							if(b>10000 ||b<1)s = "Enter a value between 1 and 10000";
 							else
 							{
 								int c = -1;
@@ -242,7 +242,7 @@ public class Chat {
 									c = 3;
 									s = "Spawning "+words[2]+" insect...";
 								}
-								if(c != 1)
+								if(c != -1)
 								{
 									for(int i = 0; i<b; i++)GameScreen.entities.mobs.placeMob(GameScreen.player.PNJ.middle.x, GameScreen.player.PNJ.y+50, c);
 								}
