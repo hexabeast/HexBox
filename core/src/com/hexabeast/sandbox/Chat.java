@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.hexabeast.hexboxserver.HMessage;
+import com.hexabeast.sandbox.libgdfix.TextField2;
 
 public class Chat {
-	TextField inputField;
+	TextField2 inputField;
 	Stage scene;
 	
 	ArrayList<Message> messages = new ArrayList<Message>();
@@ -34,7 +34,7 @@ public class Chat {
 		tfs.cursor = new TextureRegionDrawable(TextureManager.instance.textBoxCursor);
 		//tfs.background = new TextureRegionDrawable(TextureManager.instance.ipButton);
 		
-		inputField = new TextField("", tfs);
+		inputField = new TextField2("", tfs);
 		inputField.setWidth(400);
 		
 		inputField.setPosition(10,60);
