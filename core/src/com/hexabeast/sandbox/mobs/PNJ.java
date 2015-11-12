@@ -803,7 +803,7 @@ public class PNJ extends Mob{
 	
 	public void hookPhysics()
 	{
-		if(hook.playerAttached && hook.isPlanted && hook.getLine().len()>hook.max)
+		if(hook.playerAttached && hook.isPlanted && hook.getLen()>hook.max)
 		{
 			hookFlying = true;
 		}
@@ -816,14 +816,14 @@ public class PNJ extends Mob{
 		{
 			float oldlaunchx = oldX-x+hookAnchorCoord.x;
 			float oldlaunchy = oldY-y+hookAnchorCoord.y;
-			float nx = hookAnchorCoord.x-hook.x;
-			float ny = hookAnchorCoord.y-hook.y;
+			float nx = hookAnchorCoord.x-hook.gx();
+			float ny = hookAnchorCoord.y-hook.gy();
 			
 			Vector2 d2 = new Vector2(nx,ny);
-			d2.setLength(hook.max);
+			d2.setLength(hook.max-hook.getUselessLen());
 			
-			float nx2 = (hook.x+d2.x)-oldlaunchx;
-			float ny2 = (hook.y+d2.y)-oldlaunchy;
+			float nx2 = (hook.gx()+d2.x)-oldlaunchx;
+			float ny2 = (hook.gy()+d2.y)-oldlaunchy;
 			Vector2 d3 = new Vector2(nx2,ny2);
 			
 			d3.nor();
@@ -835,7 +835,7 @@ public class PNJ extends Mob{
 			
 			tempVelocity = d3;
 			
-			x += (hook.x+d2.x)-hookAnchorCoord.x;
+			x += (hook.gx()+d2.x)-hookAnchorCoord.x;
 			hitbox.update(x,y);
 			if(hitbox.TestCollisionsAll())
 			{
@@ -843,7 +843,7 @@ public class PNJ extends Mob{
 				tempVelocity.x = 0;
 			}
 			
-			y += (hook.y+d2.y)-hookAnchorCoord.y;
+			y += (hook.gy()+d2.y)-hookAnchorCoord.y;
 			hitbox.update(x,y);
 			if(hitbox.TestCollisionsAll())
 			{
@@ -852,10 +852,10 @@ public class PNJ extends Mob{
 			}
 			hitbox.update(x,y);
 			
-			hook.max = Math.max(hook.max, hook.getLine().len()-8);
+			hook.max = Math.max(hook.max, hook.getLen()-8);
 			
-			vx = tempVelocity.x+((hook.x+d2.x)-hookAnchorCoord.x)*5;
-			vy = tempVelocity.y+((hook.y+d2.y)-hookAnchorCoord.y)*5;
+			vx = tempVelocity.x+((hook.gx()+d2.x)-hookAnchorCoord.x)*5;
+			vy = tempVelocity.y+((hook.gy()+d2.y)-hookAnchorCoord.y)*5;
 		}
 	}
 	
