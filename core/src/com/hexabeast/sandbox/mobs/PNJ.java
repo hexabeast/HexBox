@@ -535,7 +535,7 @@ public class PNJ extends Mob{
 		middle.y = y+height/2;
 		
 		hookAnchorCoord.x = middle.x;
-		hookAnchorCoord.y = middle.y+6;
+		hookAnchorCoord.y = middle.y+3;
 		
 		cannonCoord.x = shoulderPos.x+launcherOffset.x;
 		cannonCoord.y = shoulderPos.y+launcherOffset.y;
@@ -855,7 +855,7 @@ public class PNJ extends Mob{
 			hook.max = Math.max(hook.max, hook.getLen()-8);
 			
 			vx = tempVelocity.x+((hook.gx()+d2.x)-hookAnchorCoord.x)*5;
-			vy = tempVelocity.y+((hook.gy()+d2.y)-hookAnchorCoord.y)*5;
+			vy = tempVelocity.y+((hook.gy()+d2.y)-hookAnchorCoord.y)*10;
 		}
 	}
 	

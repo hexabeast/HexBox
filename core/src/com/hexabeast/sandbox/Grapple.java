@@ -20,6 +20,9 @@ public class Grapple extends Entity{
 	public boolean isPlanted = false;
 	public boolean playerAttached = false;
 	public boolean playerAttachedOnce = false;
+	
+	public float maxSpeed = 800;
+	public float currentSpeed = 0;
 
 	public float verymin = 8;
 	public float verymax = 1500;
@@ -163,27 +166,29 @@ public class Grapple extends Entity{
 			float currentAngle = breakLastAngle;
 			breakLastAngle = tempLiaison.angle();
 			int l = (int) tempLiaison.len();
-			int i = 0;
+			float i = 0;
 			
 			boolean added = false;
 			
-			while(i<l-2)
+			//RAYCAST
+			while(i<l-1)
 			{
 				float tx = GameScreen.player.PNJ.hookAnchorCoord.x+(tempLiaison.x*i)/l;
 				float ty = GameScreen.player.PNJ.hookAnchorCoord.y+(tempLiaison.y*i)/l;
 				
+				//COLLIDE = BREAKPOINT
 				if(Map.instance.mainLayer.getBloc( (int)(tx/16), (int)(ty/16)).collide)
 				{
 					float fangle = breakLastAngle-currentAngle;
 					while(fangle>180)fangle-=360;
 					while(fangle<-180)fangle+=360;
-					System.out.println(breakpoints.size());
+					//TODO fangle useless
 					breakpoints.add(new HookBreakPoint(tx,ty,fangle>0));
 					added = true;
 					break;
 				}
 				
-				i+=2;
+				i+=0.5f;
 			}
 			
 			//REMOVE BREAKPOINTS
@@ -195,8 +200,7 @@ public class Grapple extends Entity{
 				
 				Vector2 tempLiaisonBreak = new Vector2(breakpoints.get(breakpoints.size()-2).x-breakpoints.get(breakpoints.size()-1).x, breakpoints.get(breakpoints.size()-2).y-breakpoints.get(breakpoints.size()-1).y);
 				float angle = tempLiaisonBreak.angle(tempLiaison);
-				boolean hugeAngle = angle>5;
-				if(breakpoints.get(breakpoints.size()-1).clockwise)hugeAngle = angle<-5;
+				
 				
 				//CHECK COLLISIONS
 				i = 0;
@@ -206,19 +210,7 @@ public class Grapple extends Entity{
 					float tx = GameScreen.player.PNJ.hookAnchorCoord.x+(tempLiaisonFar.x*i)/l2;
 					float ty = GameScreen.player.PNJ.hookAnchorCoord.y+(tempLiaisonFar.y*i)/l2;
 					
-					if(hugeAngle)
-					{
-						if(    Map.instance.mainLayer.getBloc( (int)((tx+2)/16), (int)(ty/16)).collide
-							&& Map.instance.mainLayer.getBloc( (int)((tx-2)/16), (int)(ty/16)).collide
-							&& Map.instance.mainLayer.getBloc( (int)(tx/16), (int)((ty+2)/16)).collide
-							&& Map.instance.mainLayer.getBloc( (int)(tx/16), (int)((ty-2)/16)).collide)
-						{
-							pass = false;
-							break;
-						}
-						
-					}
-					else if(Map.instance.mainLayer.getBloc( (int)(tx/16), (int)(ty/16)).collide)
+					if(Map.instance.mainLayer.getBloc( (int)(tx/16), (int)(ty/16)).collide)
 					{
 						pass = false;
 						break;
@@ -227,12 +219,21 @@ public class Grapple extends Entity{
 					i+=2;
 				}
 			
-				if(pass)
+				if(pass || true)
 				{
+					//SEGMENT TEST FOR ORIENTATION
+					Vector2 orthogonalVec = new Vector2(tempLiaison);
+					orthogonalVec.rotate(90);
+					orthogonalVec.setLength(8);
 					
+					boolean ccwCollide = Map.instance.mainLayer.getBloc( (int)((breakpoints.get(breakpoints.size()-1).x+orthogonalVec.x)/16), (int)((breakpoints.get(breakpoints.size()-1).y+orthogonalVec.y)/16)).collide;
+					boolean cwCollide = Map.instance.mainLayer.getBloc( (int)((breakpoints.get(breakpoints.size()-1).x-orthogonalVec.x)/16), (int)((breakpoints.get(breakpoints.size()-1).y-orthogonalVec.y)/16)).collide;
 					
 					//System.out.println(tempLiaisonBreak.angle(tempLiaison)<0);
-					if(angle>0 != breakpoints.get(breakpoints.size()-1).clockwise)
+					//if(angle>0 != breakpoints.get(breakpoints.size()-1).clockwise)
+					
+					//REMOVING
+					if((!cwCollide && angle>=0 )|| (!ccwCollide && angle<=0))
 					{
 						breakpoints.remove(breakpoints.size()-1);
 					}
@@ -254,15 +255,28 @@ public class Grapple extends Entity{
 		
 		if(((owner.rightPress && AllTools.instance.getType(GameScreen.player.currentCellID).grapple) || owner.upPressed)&& isPlanted && playerAttached)
 		{
-			if(max>verymin)max-=600*Main.delta;
+			if(max>verymin)max-=(3f/4f)*currentSpeed*Main.delta;
 			else max = verymin;
+			currentSpeed+=maxSpeed*Main.delta*3;
+			if(currentSpeed>maxSpeed)currentSpeed=maxSpeed;
 		}
 		
-		if((owner.downPressed)&& isPlanted && playerAttached)
+		
+		//HOOK LENGTH
+		else if((owner.downPressed)&& isPlanted && playerAttached)
 		{
-			if(max<verymax-10)max+=800*Main.delta;
+			if(max<verymax-10)max+=(new Vector2(GameScreen.player.PNJ.vx,GameScreen.player.PNJ.vy).len()+100)*Main.delta;
 			else max = verymax-10;
 		}
+		else
+		{
+			currentSpeed-=maxSpeed*Main.delta*5;
+			if(currentSpeed<maxSpeed/3)currentSpeed=maxSpeed/3;
+		}
+		
+		float tlen = getLen();
+		if(max>tlen+20)max=tlen+20;
+		
 		///if(Inputs.instance.leftmousedown && AllTools.instance.getType(GameScreen.player.currentCellID).grapple && !justspawned && playerAttached)todetach=true;
 		//if(Inputs.instance.middleOrAPressed && !justspawned && playerAttached)todetach=true;
 	
@@ -277,9 +291,9 @@ public class Grapple extends Entity{
 		{
 			for(int i = 0; i<breakpoints.size()-1; i++)
 			{
-				Tools.drawLine(ropeTex, breakpoints.get(i).x, breakpoints.get(i).y, breakpoints.get(i+1).x, breakpoints.get(i+1).y);
+				Tools.drawLine(ropeTex, breakpoints.get(i+1).x, breakpoints.get(i+1).y, breakpoints.get(i).x, breakpoints.get(i).y, 2);
 			}
-			Tools.drawLine(ropeTex, breakpoints.get(breakpoints.size()-1).x, breakpoints.get(breakpoints.size()-1).y, corde.x+x, corde.y+y);
+			Tools.drawLine(ropeTex, corde.x+x, corde.y+y,breakpoints.get(breakpoints.size()-1).x, breakpoints.get(breakpoints.size()-1).y);
 		}
 		
 		grapfront.setAngle(rot);

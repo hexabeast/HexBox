@@ -71,18 +71,23 @@ public class Tools {
 		Main.batch.setColor(col2);
 	}
 	
-	public static void drawLine(Texture tex,float x, float y, float x2, float y2)
+	public static void drawLine(Texture tex,float x, float y, float x2, float y2,int bonus)
 	{
 		Vector2 vec = new Vector2(x2-x,y2-y);
 		
-		 Sprite sprite = new Sprite(tex, 0, 0, tex.getWidth(), (int) vec.len());
+		 Sprite sprite = new Sprite(tex, 0, 0, tex.getWidth(), (int) vec.len()+bonus);
 		 sprite.setColor(Main.batch.getColor());
 	     sprite.setOrigin(0, tex.getWidth()/2);
-	     sprite.setPosition(x, y);
+	     sprite.setPosition(x, y-tex.getWidth()/2);
 	     sprite.setRotation( vec.angle()-90);
 	     sprite.draw(Main.batch);
 		
 		//Main.batch.draw(tex, x-w/2, y, w/2, 0, w, vec.len(), 1, 1, vec.angle()-90, 0, 0, tex.getWidth(), (int) vec.len(), false, false);
+	}
+	
+	public static void drawLine(Texture tex,float x, float y, float x2, float y2)
+	{
+		drawLine(tex,x,y,x2,y2,0);
 	}
 	
 	public static String enabldis(boolean b)
