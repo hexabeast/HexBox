@@ -70,7 +70,7 @@ public class Grapple extends Entity{
 		
 		rot = velocity.angle();
 		
-		breakpoints.add(new HookBreakPoint(x,y,true));
+		breakpoints.add(new HookBreakPoint(x,y));
 		
 		this.x = x;
 		this.y = y;
@@ -179,11 +179,7 @@ public class Grapple extends Entity{
 				//COLLIDE = BREAKPOINT
 				if(Map.instance.mainLayer.getBloc( (int)(tx/16), (int)(ty/16)).collide)
 				{
-					float fangle = breakLastAngle-currentAngle;
-					while(fangle>180)fangle-=360;
-					while(fangle<-180)fangle+=360;
-					//TODO fangle useless
-					breakpoints.add(new HookBreakPoint(tx,ty,fangle>0));
+					breakpoints.add(new HookBreakPoint(tx,ty));
 					added = true;
 					break;
 				}
@@ -200,24 +196,6 @@ public class Grapple extends Entity{
 				
 				Vector2 tempLiaisonBreak = new Vector2(breakpoints.get(breakpoints.size()-2).x-breakpoints.get(breakpoints.size()-1).x, breakpoints.get(breakpoints.size()-2).y-breakpoints.get(breakpoints.size()-1).y);
 				float angle = tempLiaisonBreak.angle(tempLiaison);
-				
-				
-				//CHECK COLLISIONS
-				i = 0;
-				//l = (int) tempLiaisonFar.len();
-				while(i<l+1)
-				{
-					float tx = GameScreen.player.PNJ.hookAnchorCoord.x+(tempLiaisonFar.x*i)/l2;
-					float ty = GameScreen.player.PNJ.hookAnchorCoord.y+(tempLiaisonFar.y*i)/l2;
-					
-					if(Map.instance.mainLayer.getBloc( (int)(tx/16), (int)(ty/16)).collide)
-					{
-						pass = false;
-						break;
-					}
-					
-					i+=2;
-				}
 			
 				if(pass || true)
 				{
@@ -228,9 +206,6 @@ public class Grapple extends Entity{
 					
 					boolean ccwCollide = Map.instance.mainLayer.getBloc( (int)((breakpoints.get(breakpoints.size()-1).x+orthogonalVec.x)/16), (int)((breakpoints.get(breakpoints.size()-1).y+orthogonalVec.y)/16)).collide;
 					boolean cwCollide = Map.instance.mainLayer.getBloc( (int)((breakpoints.get(breakpoints.size()-1).x-orthogonalVec.x)/16), (int)((breakpoints.get(breakpoints.size()-1).y-orthogonalVec.y)/16)).collide;
-					
-					//System.out.println(tempLiaisonBreak.angle(tempLiaison)<0);
-					//if(angle>0 != breakpoints.get(breakpoints.size()-1).clockwise)
 					
 					//REMOVING
 					if((!cwCollide && angle>=0 )|| (!ccwCollide && angle<=0))

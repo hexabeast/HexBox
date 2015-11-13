@@ -535,7 +535,7 @@ public class PNJ extends Mob{
 		middle.y = y+height/2;
 		
 		hookAnchorCoord.x = middle.x;
-		hookAnchorCoord.y = middle.y+3;
+		hookAnchorCoord.y = middle.y+6;
 		
 		cannonCoord.x = shoulderPos.x+launcherOffset.x;
 		cannonCoord.y = shoulderPos.y+launcherOffset.y;
