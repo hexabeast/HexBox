@@ -493,10 +493,11 @@ public class GameScreen implements Screen
 				entities.trees.DrawAll(batch);
 				entities.furnitures.DrawAll(batch);
 				
+				entities.projectiles.DrawGrapples(batch);
 				player.Update();
 				entities.projectiles.DrawProjectiles(batch);
 				
-				entities.projectiles.DrawGrapples(batch);
+				
 				if(!Main.noUI)player.draw(batch);
 				
 				entities.mobs.DrawAll(batch);

@@ -77,8 +77,8 @@ public class Tools {
 		
 		 Sprite sprite = new Sprite(tex, 0, 0, tex.getWidth(), (int) vec.len()+bonus);
 		 sprite.setColor(Main.batch.getColor());
-	     sprite.setOrigin(0, tex.getWidth()/2);
-	     sprite.setPosition(x, y-tex.getWidth()/2);
+	     sprite.setOrigin(tex.getWidth()/2, 0);
+	     sprite.setPosition(x-tex.getWidth()/2, y);
 	     sprite.setRotation( vec.angle()-90);
 	     sprite.draw(Main.batch);
 		

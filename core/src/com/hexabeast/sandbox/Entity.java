@@ -39,12 +39,12 @@ public class Entity {
 	
 	public void tpOtherSide()
 	{
-		if(getX()<1000 && GameScreen.player.PNJ.x>(Map.instance.width)*8)
+		if(getX()<2000 && GameScreen.player.PNJ.x>(Map.instance.width)*8)
 		{
 			float xii = (Map.instance.width)*16+(getX());
 			setX(xii);
 		}
-		if(getX()>=(Map.instance.width)*16-1000 && GameScreen.player.PNJ.x<(Map.instance.width)*8)
+		if(getX()>=(Map.instance.width)*16-2000 && GameScreen.player.PNJ.x<(Map.instance.width)*8)
 		{
 			float xii = 0+(getX()-(Map.instance.width)*16);
 			setX(xii);

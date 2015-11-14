@@ -505,20 +505,20 @@ public class MapLayer {
 		BlocType bloc = Map.instance.mainLayer.getBloc(i,j);
 		if(bloc.Id != 0 && !bloc.lightFull && !bloc.transparent && !Map.instance.backLayer.getBloc(i,j).transparent)
 		{
-			BlocType left = Map.instance.mainLayer.getBloc(i-1,j);
-			BlocType right = Map.instance.mainLayer.getBloc(i+1,j);
-			BlocType up = Map.instance.mainLayer.getBloc(i,j+1);
-			BlocType down = Map.instance.mainLayer.getBloc(i,j-1);
+			boolean lefttransparent = Map.instance.mainLayer.getBloc(i-1,j).transparent || Map.instance.mainLayer.getBloc(i-1,j).lightFull;
+			boolean righttransparent = Map.instance.mainLayer.getBloc(i+1,j).transparent || Map.instance.mainLayer.getBloc(i+1,j).lightFull;
+			boolean uptransparent = Map.instance.mainLayer.getBloc(i,j+1).transparent || Map.instance.mainLayer.getBloc(i,j+1).lightFull;
+			boolean downtransparent = Map.instance.mainLayer.getBloc(i,j-1).transparent || Map.instance.mainLayer.getBloc(i,j-1).lightFull;
 			
 			if(j<Map.instance.limit)
 			{
-				if(left.transparent)
+				if(lefttransparent)
 				{
-					if(right.transparent)
+					if(righttransparent)
 					{
-						if(up.transparent)
+						if(uptransparent)
 						{
-							if(down.transparent)
+							if(downtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionlrud, i*16-8, j*16-8,TextureManager.instance.occlusionlrud.getRegionWidth()*2,TextureManager.instance.occlusionlrud.getRegionHeight()*2);
 							}
@@ -529,7 +529,7 @@ public class MapLayer {
 						}
 						else
 						{
-							if(down.transparent)
+							if(downtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionlrd, i*16-8, j*16-8,TextureManager.instance.occlusionlrd.getRegionWidth()*2,TextureManager.instance.occlusionlrd.getRegionHeight()*2);
 							}
@@ -541,9 +541,9 @@ public class MapLayer {
 					}
 					else
 					{
-						if(up.transparent)
+						if(uptransparent)
 						{
-							if(down.transparent)
+							if(downtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionlud, i*16-8, j*16-8,TextureManager.instance.occlusionlud.getRegionWidth()*2,TextureManager.instance.occlusionlud.getRegionHeight()*2);
 							}
@@ -554,7 +554,7 @@ public class MapLayer {
 						}
 						else
 						{
-							if(down.transparent)
+							if(downtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionld, i*16-8, j*16-8,TextureManager.instance.occlusionld.getRegionWidth()*2,TextureManager.instance.occlusionld.getRegionHeight()*2);
 							}
@@ -567,11 +567,11 @@ public class MapLayer {
 				}
 				else
 				{
-					if(right.transparent)
+					if(righttransparent)
 					{
-						if(up.transparent)
+						if(uptransparent)
 						{
-							if(down.transparent)
+							if(downtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionrud, i*16, j*16-8,TextureManager.instance.occlusionrud.getRegionWidth()*2,TextureManager.instance.occlusionrud.getRegionHeight()*2);
 							}
@@ -582,7 +582,7 @@ public class MapLayer {
 						}
 						else
 						{
-							if(down.transparent)
+							if(downtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionrd, i*16, j*16-8,TextureManager.instance.occlusionrd.getRegionWidth()*2,TextureManager.instance.occlusionrd.getRegionHeight()*2);
 							}
@@ -594,9 +594,9 @@ public class MapLayer {
 					}
 					else
 					{
-						if(up.transparent)
+						if(uptransparent)
 						{
-							if(down.transparent)
+							if(downtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionud, i*16, j*16-8,TextureManager.instance.occlusionu.getRegionWidth()*2,TextureManager.instance.occlusionud.getRegionHeight()*2);
 							}
@@ -607,7 +607,7 @@ public class MapLayer {
 						}
 						else
 						{
-							if(down.transparent)
+							if(downtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusiond, i*16, j*16-8,TextureManager.instance.occlusiond.getRegionWidth()*2,TextureManager.instance.occlusiond.getRegionHeight()*2);
 							}
@@ -621,17 +621,17 @@ public class MapLayer {
 			}
 			else
 			{
-				BlocType leftB = Map.instance.backLayer.getBloc(i-1,j);
-				BlocType rightB = Map.instance.backLayer.getBloc(i+1,j);
-				BlocType upB = Map.instance.backLayer.getBloc(i,j+1);
-				BlocType downB = Map.instance.backLayer.getBloc(i,j-1);
-				if(left.transparent && !leftB.transparent)
+				boolean leftBtransparent = Map.instance.backLayer.getBloc(i-1,j).transparent || Map.instance.backLayer.getBloc(i-1,j).lightFull;
+				boolean rightBtransparent = Map.instance.backLayer.getBloc(i+1,j).transparent || Map.instance.backLayer.getBloc(i+1,j).lightFull;
+				boolean upBtransparent = Map.instance.backLayer.getBloc(i,j+1).transparent || Map.instance.backLayer.getBloc(i,j+1).lightFull;
+				boolean downBtransparent = Map.instance.backLayer.getBloc(i,j-1).transparent || Map.instance.backLayer.getBloc(i,j-1).lightFull;
+				if(lefttransparent && !leftBtransparent)
 				{
-					if(right.transparent && !rightB.transparent)
+					if(righttransparent && !rightBtransparent)
 					{
-						if(up.transparent && !upB.transparent)
+						if(uptransparent && !upBtransparent)
 						{
-							if(down.transparent && !downB.transparent)
+							if(downtransparent && !downBtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionlrud, i*16-8, j*16-8,TextureManager.instance.occlusionlrud.getRegionWidth()*2,TextureManager.instance.occlusionlrud.getRegionHeight()*2);
 							}
@@ -642,7 +642,7 @@ public class MapLayer {
 						}
 						else
 						{
-							if(down.transparent && !downB.transparent)
+							if(downtransparent && !downBtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionlrd, i*16-8, j*16-8,TextureManager.instance.occlusionlrd.getRegionWidth()*2,TextureManager.instance.occlusionlrd.getRegionHeight()*2);
 							}
@@ -654,9 +654,9 @@ public class MapLayer {
 					}
 					else
 					{
-						if(up.transparent && !upB.transparent)
+						if(uptransparent && !upBtransparent)
 						{
-							if(down.transparent && !downB.transparent)
+							if(downtransparent && !downBtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionlud, i*16-8, j*16-8,TextureManager.instance.occlusionlud.getRegionWidth()*2,TextureManager.instance.occlusionlud.getRegionHeight()*2);
 							}
@@ -667,7 +667,7 @@ public class MapLayer {
 						}
 						else
 						{
-							if(down.transparent && !downB.transparent)
+							if(downtransparent && !downBtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionld, i*16-8, j*16-8,TextureManager.instance.occlusionld.getRegionWidth()*2,TextureManager.instance.occlusionld.getRegionHeight()*2);
 							}
@@ -680,11 +680,11 @@ public class MapLayer {
 				}
 				else
 				{
-					if(right.transparent && !rightB.transparent)
+					if(righttransparent && !rightBtransparent)
 					{
-						if(up.transparent && !upB.transparent)
+						if(uptransparent && !upBtransparent)
 						{
-							if(down.transparent && !downB.transparent)
+							if(downtransparent && !downBtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionrud, i*16, j*16-8,TextureManager.instance.occlusionrud.getRegionWidth()*2,TextureManager.instance.occlusionrud.getRegionHeight()*2);
 							}
@@ -695,7 +695,7 @@ public class MapLayer {
 						}
 						else
 						{
-							if(down.transparent && !downB.transparent)
+							if(downtransparent && !downBtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionrd, i*16, j*16-8,TextureManager.instance.occlusionrd.getRegionWidth()*2,TextureManager.instance.occlusionrd.getRegionHeight()*2);
 							}
@@ -707,9 +707,9 @@ public class MapLayer {
 					}
 					else
 					{
-						if(up.transparent && !upB.transparent)
+						if(uptransparent && !upBtransparent)
 						{
-							if(down.transparent && !downB.transparent)
+							if(downtransparent && !downBtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusionud, i*16, j*16-8,TextureManager.instance.occlusionu.getRegionWidth()*2,TextureManager.instance.occlusionud.getRegionHeight()*2);
 							}
@@ -720,7 +720,7 @@ public class MapLayer {
 						}
 						else
 						{
-							if(down.transparent && !downB.transparent)
+							if(downtransparent && !downBtransparent)
 							{
 								batch.draw(TextureManager.instance.occlusiond, i*16, j*16-8,TextureManager.instance.occlusiond.getRegionWidth()*2,TextureManager.instance.occlusiond.getRegionHeight()*2);
 							}
