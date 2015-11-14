@@ -238,7 +238,7 @@ public class Grapple extends Entity{
 						float ty = linky+(tempLiaison.y*i)/l;
 						
 						//COLLIDE = BREAKPOINT
-						if(Map.instance.mainLayer.getBloc( (int)(tx/16), (int)(ty/16)).collide)
+						if(Map.instance.mainLayer.getBloc( Tools.floor(tx/16), Tools.floor(ty/16)).collide)
 						{
 							if(j<breakpoints.size()-1)
 							{
@@ -277,8 +277,8 @@ public class Grapple extends Entity{
 					orthogonalVec.rotate(90);
 					orthogonalVec.setLength(6);
 					
-					boolean ccwCollide = Map.instance.mainLayer.getBloc( (int)((breakpoints.get(j).x+orthogonalVec.x)/16), (int)((breakpoints.get(j).y+orthogonalVec.y)/16)).collide;
-					boolean cwCollide = Map.instance.mainLayer.getBloc( (int)((breakpoints.get(j).x-orthogonalVec.x)/16), (int)((breakpoints.get(j).y-orthogonalVec.y)/16)).collide;
+					boolean ccwCollide = Map.instance.mainLayer.getBloc( Tools.floor((breakpoints.get(j).x+orthogonalVec.x)/16),Tools.floor((breakpoints.get(j).y+orthogonalVec.y)/16)).collide;
+					boolean cwCollide = Map.instance.mainLayer.getBloc( Tools.floor((breakpoints.get(j).x-orthogonalVec.x)/16), Tools.floor((breakpoints.get(j).y-orthogonalVec.y)/16)).collide;
 					
 					//REMOVING
 					if((!cwCollide && angle>=0 )|| (!ccwCollide && angle<=0))
