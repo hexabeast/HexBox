@@ -33,7 +33,7 @@ public class Grapple extends Entity{
 
 	public float gravity = 400;
 	
-	public float vmultiplier = 4;
+	public float vmultiplier = 16;
 	public boolean todetach = false;
 	
 	public Vector2 liaison = new Vector2();
@@ -88,20 +88,7 @@ public class Grapple extends Entity{
 			linkPlayer.y = GameScreen.player.PNJ.hookAnchorCoord.y;
 		}
 		else
-		{
-			
-			//TELEPORTOTHERSIDE:
-			if(linkPlayer.x<2000 && GameScreen.player.PNJ.x>(Map.instance.width)*8)
-			{
-				float xii = (Map.instance.width)*16+(linkPlayer.x);
-				linkPlayer.x = (xii);
-			}
-			if(linkPlayer.x>=(Map.instance.width)*16-2000 && GameScreen.player.PNJ.x<(Map.instance.width)*8)
-			{
-				float xii = 0+(linkPlayer.x-(Map.instance.width)*16);
-				linkPlayer.x = (xii);
-			}
-			
+		{	
 			//IF DETACHED RETRACTATION
 			if(breakpoints.size()>0)
 			{
@@ -114,18 +101,36 @@ public class Grapple extends Entity{
 		}
 	}
 	
-	
 	@Override
-	public void draw(SpriteBatch batch)
+	public void tpOtherSide()
+	{
+		if(getX()<2000 && GameScreen.player.PNJ.x>(Map.instance.width)*8)
+		{
+			setX((Map.instance.width)*16+(getX()));
+			
+			linkPlayer.x = (Map.instance.width)*16+(linkPlayer.x);
+		}
+		if(getX()>=(Map.instance.width)*16-2000 && GameScreen.player.PNJ.x<(Map.instance.width)*8)
+		{
+			setX((getX()-(Map.instance.width)*16));
+			
+			linkPlayer.x = 0+(linkPlayer.x-(Map.instance.width)*16);
+		}
+	}
+	
+	
+	
+	public void update(SpriteBatch batch)
 	{
 		super.draw(batch);
 		
+		updateLink(0);
+		
+		//TPOTHERSIDE BREAKPOINTS
 		for(int j = 0; j<breakpoints.size(); j++)
 		{
 			breakpoints.get(j).tpOtherSide();
 		}
-		
-		updateLink(1);
 		
 		liaison.x = linkPlayer.x-x;
 		liaison.y = linkPlayer.y-y;
@@ -141,7 +146,7 @@ public class Grapple extends Entity{
 			isDead = true;
 		}
 		
-		int tests = (int) Math.max(1, Main.delta*500);
+		int tests = (int) Math.max(1, Main.delta*500*(velocity.len()/800f));
 		
 		//MOVING
 		for(int k = 0; k<tests; k++)
@@ -204,7 +209,7 @@ public class Grapple extends Entity{
 			
 				velocity.y-= gravity*Main.delta/tests;
 			
-				velocity.clamp(0, 1500);
+				velocity.clamp(0, 5000);
 				max = liaison.len()+32;
 			}
 		}
@@ -326,7 +331,7 @@ public class Grapple extends Entity{
 		
 		if(playerAttached)playerAttachedOnce = true;
 		
-		
+		//DETACH
 		if(todetach)playerAttached = false;
 		
 		if(((owner.rightPress && AllTools.instance.getType(GameScreen.player.currentCellID).grapple) || owner.upPressed)&& isPlanted && playerAttached)
@@ -355,7 +360,16 @@ public class Grapple extends Entity{
 		
 		///if(Inputs.instance.leftmousedown && AllTools.instance.getType(GameScreen.player.currentCellID).grapple && !justspawned && playerAttached)todetach=true;
 		//if(Inputs.instance.middleOrAPressed && !justspawned && playerAttached)todetach=true;
+		
+		justspawned = false;
+	}
 	
+	@Override
+	public void draw(SpriteBatch batch)
+	{
+
+		updateLink(1);
+		
 		if(!Parameters.i.fullBright)
 		{
 			Vector3 color = Tools.getShadowColor(Tools.floor (x/16),Tools.floor (y/16));
@@ -376,8 +390,6 @@ public class Grapple extends Entity{
 		
 		batch.draw(tex, x-tex.getRegionWidth()+4+grapfront.x*0.8f, y-tex.getRegionHeight()/2+grapfront.y*0.8f, tex.getRegionWidth()-4, tex.getRegionHeight()/2, tex.getRegionWidth(), tex.getRegionHeight(), 1, 1, rot);
 		if(!Parameters.i.fullBright)batch.setColor(Color.WHITE);
-		
-		justspawned = false;
 	}
 	
 	public Vector2 getLine()

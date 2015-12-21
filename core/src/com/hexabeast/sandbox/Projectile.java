@@ -131,7 +131,7 @@ public class Projectile extends Entity{
 		
 		if(!isPlanted)
 		{
-			int tests = (int) Math.max(1, Main.delta*400);
+			int tests = (int) Math.max(1, Main.delta*400*velocity.len()/800f);
 			
 			for(int k = 0; k<tests; k++)
 			{
@@ -139,12 +139,14 @@ public class Projectile extends Entity{
 				y+=velocity.y*Main.delta/tests;
 			
 				velocity.y-= gravity*Main.delta/tests;
-			
+				
+				velocity.clamp(0, 5000);
+				/*
 				velocity.x = Math.min(velocity.x, 1000);
 				velocity.x = Math.max(velocity.x, -1000);
 				velocity.y = Math.min(velocity.y, 1000);
 				velocity.y = Math.max(velocity.y, -1000);
-				
+				*/
 				
 				int tx = Tools.floor((x)/16);
 				int ty = Tools.floor((y)/16);

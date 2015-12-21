@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import com.hexabeast.sandbox.mobs.Mob;
 import com.hexabeast.sandbox.mobs.PNJ;
 
 public class AllProjectiles {
@@ -63,12 +64,22 @@ public class AllProjectiles {
 	
 	public void AddMagicProjectile(float x, float y, float vx, float vy, int type, float damage, Entity owner)
 	{
+		/*if(owner instanceof Mob)
+		{
+			vx+=((Mob)owner).vx;
+			vy+=((Mob)owner).vy;
+		}*/
 		MagicProjectile m = new MagicProjectile(x,y,vx,vy,type, damage,!Parameters.i.goodmagic, owner);
 		projList.add(m);
 	}
 	
 	public void AddProjectile(float x, float y, float vx, float vy, int type, Entity owner, float damage)
 	{
+		/*if(owner instanceof Mob)
+		{
+			vx+=((Mob)owner).vx;
+			vy+=((Mob)owner).vy;
+		}*/
 		projList2.add(new Projectile(x,y,vx,vy,type, owner, damage));
 	}
 	
@@ -115,11 +126,11 @@ public class AllProjectiles {
 		}
 	}
 	
-	public void DrawGrapples(SpriteBatch batch)
+	public void UpdateGrapples(SpriteBatch batch)
 	{
 		for (int i = 0; i < projList3.size(); i++)
 		{
-			projList3.get(i).draw(batch);
+			projList3.get(i).update(batch);
 		}
 		for (int i = projList3.size()-1; i >=0; i--)
 		{
@@ -127,6 +138,14 @@ public class AllProjectiles {
 			{
 				projList3.remove(i);
 			}
+		}
+	}
+	
+	public void DrawGrapples(SpriteBatch batch)
+	{
+		for (int i = 0; i < projList3.size(); i++)
+		{
+			projList3.get(i).draw(batch);
 		}
 	}
 

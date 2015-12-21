@@ -41,13 +41,11 @@ public class Entity {
 	{
 		if(getX()<2000 && GameScreen.player.PNJ.x>(Map.instance.width)*8)
 		{
-			float xii = (Map.instance.width)*16+(getX());
-			setX(xii);
+			setX((Map.instance.width)*16+(getX()));
 		}
 		if(getX()>=(Map.instance.width)*16-2000 && GameScreen.player.PNJ.x<(Map.instance.width)*8)
 		{
-			float xii = 0+(getX()-(Map.instance.width)*16);
-			setX(xii);
+			setX((getX()-(Map.instance.width)*16));
 		}
 	}
 }
