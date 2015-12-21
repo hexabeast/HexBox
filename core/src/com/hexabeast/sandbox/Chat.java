@@ -72,6 +72,11 @@ public class Chat {
 		return new Color(col[0],col[1], col[2], 1);
 	}
 	
+	public void addConsoleMessage(String str)
+	{
+		messages.add(new Message(str,"Console", new Color(1f, 0.3f, 0.3f,1)));
+	}
+	
 	public void addMessage(String str)
 	{
 		if(!str.equals(""))

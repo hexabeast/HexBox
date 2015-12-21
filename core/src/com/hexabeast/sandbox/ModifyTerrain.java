@@ -332,8 +332,9 @@ public class ModifyTerrain {
 				{
 					if(isLeft && !GameScreen.player.PNJ.hook.playerAttached)
 					{
-						if(AllTools.instance.getType(id).grapple)
-						GameScreen.entities.projectiles.AddGrapple(GameScreen.player.PNJ,GameScreen.player.PNJ.hookAnchorCoord.x, GameScreen.player.PNJ.hookAnchorCoord.y, GameScreen.player.PNJ.hookToVisorCoord.x, GameScreen.player.PNJ.hookToVisorCoord.y, AllTools.instance.getType(id).grappleDistance, AllTools.instance.getType(id).grappleTex, AllTools.instance.getType(id).grappleTexRope);
+						Main.game.chat.addConsoleMessage("To use a hook, put it in the 'hook' slot of your inventory, and press middle mouse or Q");
+						/*if(AllTools.instance.getType(id).grapple)
+						GameScreen.entities.projectiles.AddGrapple(GameScreen.player.PNJ,GameScreen.player.PNJ.hookAnchorCoord.x, GameScreen.player.PNJ.hookAnchorCoord.y, GameScreen.player.PNJ.hookToVisorCoord.x, GameScreen.player.PNJ.hookToVisorCoord.y, AllTools.instance.getType(id).grappleDistance, AllTools.instance.getType(id).grappleTex, AllTools.instance.getType(id).grappleTexRope);*/
 					}
 					else
 					{
