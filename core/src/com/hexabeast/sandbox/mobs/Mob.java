@@ -75,6 +75,8 @@ public class Mob extends Entity
 	public boolean manual = false;
 	public boolean isMain = false;
 	
+	public Mob owner = this;
+	
 	
 	
 	public void superDraw(SpriteBatch batch)
@@ -115,7 +117,7 @@ public class Mob extends Entity
 				lastdamaged = Main.time;
 			}
 			
-			health-=d;
+			owner.health-=d;
 			if(health<=0)isDead = true;
 			lastred = Main.time;
 			attacked = true;

@@ -358,7 +358,7 @@ public class AllTools {
 		ToolTypes[NormalHookId-1000].grapple = true;
 		ToolTypes[NormalHookId-1000].rarity = Constants.rarity3;
 		ToolTypes[NormalHookId-1000].invisible = true;
-		ToolTypes[NormalHookId-1000].grappleDistance = 3000;
+		ToolTypes[NormalHookId-1000].grappleDistance = 3000000;
 		ToolTypes[NormalHookId-1000].grappleTex = TextureManager.instance.grapple;
 		ToolTypes[NormalHookId-1000].grappleTexRope = TextureManager.instance.rope;
 		

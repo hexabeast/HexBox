@@ -59,7 +59,7 @@ public class AllFurnitures {
 			{
 				int rk = k;
 				if(rk<0)rk = furnitureList[0].length+rk;
-				else if(rk>=furnitureList[0].length)rk = rk-furnitureList.length;
+				else if(rk>=furnitureList[0].length)rk = rk-furnitureList[0].length;
 				
 				for (int i = furnitureList[rj][rk].size()-1; i >=0; i--)
 				{
@@ -106,7 +106,7 @@ public class AllFurnitures {
 			{
 				int rk = k;
 				if(rk<0)rk = furnitureList[0].length+rk;
-				else if(rk>=furnitureList[0].length)rk = rk-furnitureList.length;
+				else if(rk>=furnitureList[0].length)rk = rk-furnitureList[0].length;
 				
 				for (int i = furnitureList[rj][rk].size()-1; i >=0; i--)
 				{

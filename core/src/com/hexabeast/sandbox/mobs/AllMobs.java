@@ -112,7 +112,7 @@ public class AllMobs {
 			{
 				int rk = k;
 				if(rk<0)rk = mobList[0].length+rk;
-				else if(rk>=mobList[0].length)rk = rk-mobList.length;
+				else if(rk>=mobList[0].length)rk = rk-mobList[0].length;
 				
 				for (int i = mobList[rj][rk].size()-1; i >= 0; i--)
 			        if(mobList[rj][rk].get(i).isDead)
@@ -153,7 +153,7 @@ public class AllMobs {
 			{
 				int rk = k;
 				if(rk<0)rk = mobList[0].length+rk;
-				else if(rk>=mobList[0].length)rk = rk-mobList.length;
+				else if(rk>=mobList[0].length)rk = rk-mobList[0].length;
 				
 				for (int i = 0; i < mobList[rj][rk].size(); i++)
 				{
@@ -195,7 +195,7 @@ public class AllMobs {
 			{
 				int rk = k;
 				if(rk<0)rk = mobList[0].length+rk;
-				else if(rk>=mobList[0].length)rk = rk-mobList.length;
+				else if(rk>=mobList[0].length)rk = rk-mobList[0].length;
 				
 				for (int i = mobList[rj][rk].size()-1; i >= 0; i--)
 				{

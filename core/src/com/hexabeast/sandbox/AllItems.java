@@ -89,7 +89,7 @@ public class AllItems {
 			{
 				int rk = k;
 				if(rk<0)rk = itemList[0].length+rk;
-				else if(rk>=itemList[0].length)rk = rk-itemList.length;
+				else if(rk>=itemList[0].length)rk = rk-itemList[0].length;
 				
 				for (int i = 0; i < itemList[rj][rk].size(); i++)
 				{
@@ -118,7 +118,7 @@ public class AllItems {
 			{
 				int rk = k;
 				if(rk<0)rk = itemList[0].length+rk;
-				else if(rk>=itemList[0].length)rk = rk-itemList.length;
+				else if(rk>=itemList[0].length)rk = rk-itemList[0].length;
 				
 				for (int i = itemList[rj][rk].size()-1; i >= 0; i--)
 				{

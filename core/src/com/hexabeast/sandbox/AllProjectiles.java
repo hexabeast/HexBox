@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool.PooledEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.hexabeast.sandbox.mobs.Mob;
 import com.hexabeast.sandbox.mobs.PNJ;
 
 public class AllProjectiles {

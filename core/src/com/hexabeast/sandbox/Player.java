@@ -60,6 +60,7 @@ public class Player{
 		transformWolf.speedx*=1.8f;
 		transformWolf.power = 20;
 		transformWolf.health = 100;
+		transformWolf.owner = PNJ;
 		transformList.add(transformWolf);
 		
 		transformBigInsecte = new BigInsecte();
@@ -68,6 +69,7 @@ public class Player{
 		transformBigInsecte.speedy = 400;
 		transformBigInsecte.power = 20;
 		transformBigInsecte.health = 100;
+		transformBigInsecte.owner = PNJ;
 		transformList.add(transformBigInsecte);
 		
 		transformHornet = new Hornet();
@@ -76,6 +78,7 @@ public class Player{
 		transformHornet.speedy = 1300;
 		transformHornet.power = 20;
 		transformHornet.health = 100;
+		transformHornet.owner = PNJ;
 		transformList.add(transformHornet);
 
 		initialPos = new Vector2(Map.instance.width/2, Map.instance.randomHeight-40);
@@ -246,7 +249,7 @@ public void Update()
 	}
 	
 	
-	if(transformList.get(Parameters.i.currentTransform).health<=0 || transformList.get(Parameters.i.currentTransform).isDead)isDead = true;
+	if(PNJ.health <=0)isDead = true;
 	
 	if(transformed || isDead)PNJ.hook.playerAttached = false;
 	
@@ -263,7 +266,6 @@ public void Update()
 		PNJ.y = transformList.get(Parameters.i.currentTransform).y-PNJ.hitbox.min+transformList.get(Parameters.i.currentTransform).hitbox.min;
 		PNJ.vx = transformList.get(Parameters.i.currentTransform).vx;
 		PNJ.vy = transformList.get(Parameters.i.currentTransform).vy;
-		PNJ.health = transformList.get(Parameters.i.currentTransform).health;
 	}
 	
 	if(transformingin)

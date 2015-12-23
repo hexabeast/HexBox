@@ -386,11 +386,11 @@ public class GameScreen implements Screen
 		
 		if(!noLimit)
 		{
-			if(camera.position.y<(Map.instance.randomHeight+31)*16 + demiCamy)camera.position.y = (Map.instance.randomHeight+30)*16 + demiCamy;
+			if(camera.position.y<(Map.instance.randomHeight+30)*16 + demiCamy)camera.position.y = (Map.instance.randomHeight+30)*16 + demiCamy;
 			
 			if(camera.position.x>Map.villageWidth*16 - demiCamx-2-32)camera.position.x = Map.villageWidth*16 - demiCamx-2-32;
 		}
-		else if(!Main.devtest)
+		else
 		{
 			if(camera.position.y>Map.instance.randomHeight*16 - demiCamy && !isVillage())camera.position.y = Map.instance.randomHeight*16 - demiCamy;
 		}

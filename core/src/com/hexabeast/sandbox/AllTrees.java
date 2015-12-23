@@ -76,7 +76,7 @@ public class AllTrees {
 			{
 				int rk = k;
 				if(rk<0)rk = treeList[0].length+rk;
-				else if(rk>=treeList[0].length)rk = rk-treeList.length;
+				else if(rk>=treeList[0].length)rk = rk-treeList[0].length;
 				
 				for (int i = 0; i < treeList[rj][rk].size(); i++)
 			        if(treeList[rj][rk].get(i).isDead)
