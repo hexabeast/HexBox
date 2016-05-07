@@ -104,7 +104,10 @@ public class Flashes {
 			if(regen)
 			{
 				GameScreen.player.PNJ.health = GameScreen.player.PNJ.maxHealth;
-				GameScreen.player.PNJ.detach = true;
+				for(int i = 0; i<GameScreen.player.transformList.size(); i++)
+				{
+					GameScreen.player.transformList.get(i).detach = true;
+				}
 				GameScreen.player.PNJ.isDead = false;
 				regen = false;
 			}

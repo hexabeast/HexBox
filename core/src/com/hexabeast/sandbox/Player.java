@@ -290,7 +290,9 @@ public void Update()
 				}
 				
 			}
+			currentForm.detach = true;
 			Parameters.i.currentTransform = nextTransform;
+			
 		}
 	}
 	else if(transformingout)

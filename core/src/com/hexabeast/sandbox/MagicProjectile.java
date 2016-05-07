@@ -117,7 +117,7 @@ public class MagicProjectile extends Entity{
 			{
 				for(int i = 0; i<rects.size(); i++)
 				{
-					if(rects.get(i).contains(x-(GameScreen.player.PNJ.x+GameScreen.player.transoffx), y-(GameScreen.player.PNJ.y+GameScreen.player.transoffy)))
+					if(rects.get(i).contains(x-(GameScreen.player.currentForm.x), y-(GameScreen.player.currentForm.y)))
 					{
 						touched = true;
 						break;

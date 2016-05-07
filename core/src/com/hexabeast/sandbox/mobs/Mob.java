@@ -118,7 +118,11 @@ public class Mob extends Entity
 			}
 			
 			owner.health-=d;
-			if(health<=0)isDead = true;
+			
+			if(health<=0)
+			{
+				isDead = true;
+			}
 			lastred = Main.time;
 			attacked = true;
 			

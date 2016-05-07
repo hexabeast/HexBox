@@ -165,7 +165,7 @@ public class Projectile extends Entity{
 					
 					for(int i = 0; i<rects.size(); i++)
 					{
-						if(rects.get(i).contains(x-(GameScreen.player.currentForm.x+GameScreen.player.transoffx), y-(GameScreen.player.currentForm.y+GameScreen.player.transoffy)))
+						if(rects.get(i).contains(x-GameScreen.player.currentForm.x,y-GameScreen.player.currentForm.y))//-(GameScreen.player.currentForm.x+GameScreen.player.transoffx), y-(GameScreen.player.currentForm.y+GameScreen.player.transoffy)))
 						{
 							touched = true;
 							break;
@@ -174,7 +174,7 @@ public class Projectile extends Entity{
 					if(touched)
 					{
 						GameScreen.player.Hurt(damage, 0, x, y);
-						attach(GameScreen.player.PNJ);
+						attach(GameScreen.player.currentForm);
 					}
 				}
 				

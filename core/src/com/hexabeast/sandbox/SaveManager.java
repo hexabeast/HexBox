@@ -123,6 +123,7 @@ public class SaveManager {
 		Parameters param = json.fromJson(Parameters.class, loadParams);
 		if(param!= null)
 		{
+			param.currentTransform = 0;
 			Parameters.i = param;
 		}
 	}
