@@ -10,11 +10,9 @@ The code wasn't meant to be shared, so it is uncommented and probably not easy t
 -----------------------------------------------
 
 HexaTextureTools contains a python script that creates appropriate textures from simple 8*8 tiles
-android, core and desktop are part of the Gradle libgdx project, assets are in android and code is in core.
+android, core and desktop are part of the Gradle libgdx project (even if android is disabled), assets are in android and code is in core.
 
 HexBoxServer contains the multiplayer-related server code, it needs kryonet (in java build path/libraries in eclipse), which is included as a jar file.
-
-You should also add kryonet (in "Libraries" in Eclipse) and the HexBoxServer folder (in "Projects" in Eclipse) to the java build path of the core project in order to use the multiplayer part.
 
 The rest of the dependencies (libgdx...) should be handled by Gradle when importing the project.
 
