@@ -2,17 +2,15 @@ from PIL import Image
 
 recom = True
 while recom:
-   
-    while True:
-        nom = input("Nom du fichier ? ")
-        imagePixBase = Image.open(nom).load()
-        imageEnd = Image.new('RGBA', (int(len(imageBase)/2),int(len(imageBase[0])/2)))
-        imagePixEnd = imageEnd.load()
-        for i in range(1,len(imageEnd)):
-            for j in range(1,len(imageEnd[0])):
-                imagePixEnd[i][j] = imagePixBase[i*2][j*2]
-                
-        im.save(nom)
+     nom = input("Nom du fichier ? ")
+     imagePixBase = Image.open(nom).load()
+     imageEnd = Image.new('RGBA', (int(len(imageBase)/2),int(len(imageBase[0])/2)))
+     imagePixEnd = imageEnd.load()
+     for i in range(1,len(imageEnd)):
+         for j in range(1,len(imageEnd[0])):
+             imagePixEnd[i][j] = imagePixBase[i*2][j*2]
+
+     im.save(nom)
         """       
         pixelsTileB.append(tileBase[i].load())
         tile.append(Image.new('RGBA', (10,10)))
