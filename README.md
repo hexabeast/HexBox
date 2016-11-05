@@ -7,6 +7,8 @@ You can download a compiled .jar of it at http://hexabeast.com/TrucLatest.jar
 I decided to make it open-source because I don't work a lot on it anymore. People that wanted to help me are now free to do it.
 The code wasn't meant to be shared, so it is uncommented and probably not easy to understand.
 
+I just ask for one thing : If you use parts of my code, or if you work on the whole project, please share it open-source too, don't keep it for yourself.
+
 -----------------------------------------------
 
 HexaTextureTools contains a python script that creates appropriate textures from simple 8*8 tiles
