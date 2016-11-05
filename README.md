@@ -18,6 +18,22 @@ You should also add kryonet (in "Libraries" in Eclipse) and the HexBoxServer fol
 
 The rest of the dependencies (libgdx...) should be handled by Gradle when importing the project.
 
+To import this project in Eclipse:
+
+-Step 1 : install Gradle for Eclipse in order to setup the project properly
+
+-Step 2 : Import the whole project in Eclipse with Gradle
+
+-Step 3 : Create an empty java project in the HexBox workspace (named "server" or anything else), add the content of the HexBoxServer directory inside this project
+
+-Step 4 : add the jars (gdx/kryonet) from inside the server project in its java build path if you have errors
+
+-Step 5 : add the server project and the kryonet jar to core's java build path
+
+-Step 6 : If you have no errors, right click the desktop project, Run as Java Application, select DesktopLauncher.
+
+-Step 7 : I hope it works :P
+
 Please tell if something is broken, it is highly probable since I nearly haven't touched this project in a year and I don't remember everything about this project as well as before.
 
 
