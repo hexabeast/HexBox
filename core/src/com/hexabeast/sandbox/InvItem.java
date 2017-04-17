@@ -1,6 +1,7 @@
 package com.hexabeast.sandbox;
 
 
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -26,7 +27,10 @@ public int number;
 		image.draw(batch);
 		if(number>1)
 		{
-			FontManager.instance.font1.draw(batch, String.valueOf(number), image.getX()+image.getWidth()*image.getScaleX()*2f/3-4-FontManager.instance.font1.getBounds(String.valueOf(number)).width/2, image.getY()+6+FontManager.instance.font1.getBounds(String.valueOf(number)).height);
+			FontManager.instance.font1.draw(batch, String.valueOf(number), image.getX()+image.getWidth()*image.getScaleX()*2f/3-4-
+					/*FontManager.instance.font1.getBounds(String.valueOf(number))*/
+					new GlyphLayout(FontManager.instance.font1,String.valueOf(number) ).width/2, image.getY()+6+
+					new GlyphLayout(FontManager.instance.font1,String.valueOf(number) ).height);
 		}
 	}
 	

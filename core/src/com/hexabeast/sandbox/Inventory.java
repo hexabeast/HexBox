@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 
 public class Inventory {
 
@@ -670,7 +671,7 @@ public class Inventory {
 			FontManager.instance.font.draw(selectBatch, rarity.str, backTextSprite.getX()+60, backTextSprite.getY()+80);
 			FontManager.instance.font.setColor(Color.WHITE);
 			
-			FontManager.instance.font.drawWrapped(selectBatch, description, backTextSprite.getX()+35, backTextSprite.getY()+backTextSprite.getHeight()*4-100, 440);
+			FontManager.instance.font.draw(selectBatch, description, backTextSprite.getX()+35, backTextSprite.getY()+backTextSprite.getHeight()*4-100, 440,Align.center,true);
 			
 		}
 		

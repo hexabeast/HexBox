@@ -2,8 +2,8 @@ package com.hexabeast.sandbox;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Align;
 
 public class DisplayText {
 	BitmapFont fnt;
@@ -27,8 +27,8 @@ public class DisplayText {
 	public void draw(SpriteBatch batch)
 	{
 		fnt.setColor(color);
-		if(!middle)fnt.drawWrapped(batch, text, x, y, width, HAlignment.CENTER);
-		else fnt.drawWrapped(batch, text, x-width/2, y, width, HAlignment.CENTER);
+		if(!middle)fnt.draw(batch, text, x, y, width, Align.center,true);
+		else fnt.draw(batch, text, x-width/2, y, width, Align.center,true);
 		fnt.setColor(Color.WHITE);
 	}
 }

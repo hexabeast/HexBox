@@ -26,7 +26,7 @@ public class Selector {
     public int[] Ids;
     
     TextureRegion torch[] = new TextureRegion[3];
-    Animation torchAnim;
+    Animation<TextureRegion> torchAnim;
     
     public Sprite torchSprite;
     
@@ -41,7 +41,7 @@ public class Selector {
 		
 		torch = new TextureRegion(TextureManager.instance.torchText).split(TextureManager.instance.torchText.getRegionWidth()/6, TextureManager.instance.torchText.getRegionHeight())[0];
 		
-		torchAnim = new Animation(0.12f, torch[0],torch[1],torch[2],torch[3],torch[4],torch[5]);
+		torchAnim = new Animation<TextureRegion>(0.12f, torch[0],torch[1],torch[2],torch[3],torch[4],torch[5]);
 		torchAnim.setPlayMode(PlayMode.LOOP);
 		torchSprite = new Sprite(torch[1]);
 		torchSprite.setOrigin(0, 0);

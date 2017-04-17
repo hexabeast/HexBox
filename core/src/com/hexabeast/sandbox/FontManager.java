@@ -34,13 +34,13 @@ public class FontManager {
 		
 		parameter.size = 60;
 		fontNameChar = generator2.generateFont(parameter);
-		fontNameChar.setScale(0.5f);
+		fontNameChar.getData().setScale(0.5f);
 		
 		parameter.size = 46;
 		fontSettings = generator2.generateFont(parameter);
 		
 		fontsmall = generator2.generateFont(parameter);
-		fontsmall.setScale(0.5f);
+		fontsmall.getData().setScale(0.5f);
 		
 		generator2.dispose();
 		
@@ -72,7 +72,7 @@ public class FontManager {
 	
 	public void initializeFont1()
 	{
-		font1.setScale(0.6f);
+		font1.getData().setScale(0.6f);
 		font1.setColor(1f, 1f,1f, 1);
 	}
 
