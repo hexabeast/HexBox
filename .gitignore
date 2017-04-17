@@ -61,5 +61,6 @@ build/
 
 ## OS Specific
 .DS_Store
-
+## Game Specific
 desktop/data/
+android/assets/data/maps
