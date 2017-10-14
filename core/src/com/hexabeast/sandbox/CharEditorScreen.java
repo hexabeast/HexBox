@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.hexabeast.sandbox.libgdfix.TextField2;
 import com.hexabeast.sandbox.mobs.PNJ;
 
 public class CharEditorScreen implements Screen {
@@ -26,7 +26,7 @@ public class CharEditorScreen implements Screen {
 	public PauseSetting eyes;
 	public PauseSetting hair;
 	
-	TextField2 txtfld;
+	TextField txtfld;
 	Stage scene;
 	
 	public CharEditorScreen()
@@ -40,7 +40,7 @@ public class CharEditorScreen implements Screen {
 		tfs.cursor = new TextureRegionDrawable(TextureManager.instance.textBoxCursor);
 		//tfs.background = new TextureRegionDrawable(TextureManager.instance.ipButton);
 		
-		txtfld = new TextField2("", tfs);
+		txtfld = new TextField("", tfs);
 		txtfld.setWidth(300);
 		
 		txtfld.setAlignment(1);

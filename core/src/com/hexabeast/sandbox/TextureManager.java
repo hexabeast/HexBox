@@ -259,7 +259,7 @@ public class TextureManager {
 	{
 		
 		Pixmap pm = new Pixmap(Gdx.files.internal("others/mouse.png"));
-		Gdx.input.setCursorImage(pm, 0, 0);
+		Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm, 0, 0));
 		pm.dispose();
 		
 		//TEXTURES

@@ -1,9 +1,9 @@
 package com.hexabeast.sandbox;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 
 public class PauseSetting {
 	float x;
@@ -30,11 +30,11 @@ public class PauseSetting {
 	public void draw(SpriteBatch batch)
 	{
 		FontManager.instance.fontSettings.setColor(batch.getColor());
-		FontManager.instance.fontSettings.drawWrapped(batch, title, x, y+hArrow/2+hfont/2, 430, BitmapFont.HAlignment.RIGHT);
+		FontManager.instance.fontSettings.draw(batch, title, x, y+hArrow/2+hfont/2, 430, Align.right,true);
 		batch.draw(TextureManager.instance.pauseArrowL, x+440, y, wArrow , hArrow);
-		FontManager.instance.fontSettings.drawWrapped(batch, value, x+450+wArrow, y+hArrow/2+hfont/2, 430, BitmapFont.HAlignment.CENTER);
+		FontManager.instance.fontSettings.draw(batch, value, x+450+wArrow, y+hArrow/2+hfont/2, 430, Align.center,true);
 		batch.draw(TextureManager.instance.pauseArrowR, x+890+wArrow, y, wArrow , hArrow);
-		FontManager.instance.fontSettings.drawWrapped(batch, description, x+900+wArrow*2, y+hArrow-12, 1000, BitmapFont.HAlignment.LEFT);
+		FontManager.instance.fontSettings.draw(batch, description, x+900+wArrow*2, y+hArrow-12, 1000, Align.left,true);
 		FontManager.instance.fontSettings.setColor(Color.WHITE);
 	}
 	

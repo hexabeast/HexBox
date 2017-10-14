@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.hexabeast.sandbox.libgdfix.TextField2;
 
 public class MenuScreen implements Screen {
 
@@ -41,7 +41,7 @@ public class MenuScreen implements Screen {
 	
 	public boolean alphaMinus = false;
 	
-	TextField2 txtfld;
+	TextField txtfld;
 	Stage scene;
 	
 	public MenuScreen()
@@ -65,7 +65,7 @@ public class MenuScreen implements Screen {
 		tfs.cursor = new TextureRegionDrawable(TextureManager.instance.textBoxCursor);
 		//tfs.background = new TextureRegionDrawable(TextureManager.instance.ipButton);
 		
-		txtfld = new TextField2("", tfs);
+		txtfld = new TextField("", tfs);
 		txtfld.setWidth(TextureManager.instance.ipButton.getRegionWidth()-70);
 		
 		txtfld.setPosition(660-txtfld.getWidth()/2, 250);
@@ -108,7 +108,7 @@ public class MenuScreen implements Screen {
         	else if(joinButton.isTouched(cor.x,cor.y) && !alphaMinus)
         	{
         		SoundManager.instance.playSound(SoundManager.instance.click,1,1.2f);
-        		if(Tools.isIPAdress(txtfld.getText()))
+        		if(txtfld.getText()!="")
         		{
             		
             		if(NetworkManager.instance.connect(txtfld.getText()))pressedmulti = true;
@@ -116,7 +116,7 @@ public class MenuScreen implements Screen {
             		{
             			pressedmulti = false;
             			helpText.color = Color.RED;
-            			helpText.text = "Connexion failed";
+            			helpText.text = "Connection failed";
             		}
         		}
         		else

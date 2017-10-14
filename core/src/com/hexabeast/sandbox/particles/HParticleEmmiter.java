@@ -144,7 +144,7 @@ public class HParticleEmmiter {
 			else
 			{
 				Shaders.instance.setOutlineShader();
-				FontManager.instance.font1.setScale(particles.get(i).scale);
+				FontManager.instance.font1.getData().setScale(particles.get(i).scale);
 				FontManager.instance.font1.setColor(1,1,1,particles.get(i).a);
 				
 				//TextBounds bounds = FontManager.instance.font1.getBounds(particles.get(i).str);

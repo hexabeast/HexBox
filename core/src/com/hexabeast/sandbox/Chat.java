@@ -5,15 +5,16 @@ import java.util.Random;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFont.TextBounds;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.hexabeast.hexboxserver.HMessage;
-import com.hexabeast.sandbox.libgdfix.TextField2;
 
 public class Chat {
-	TextField2 inputField;
+	TextField inputField;
 	Stage scene;
 	
 	ArrayList<Message> messages = new ArrayList<Message>();
@@ -34,7 +35,7 @@ public class Chat {
 		tfs.cursor = new TextureRegionDrawable(TextureManager.instance.textBoxCursor);
 		//tfs.background = new TextureRegionDrawable(TextureManager.instance.ipButton);
 		
-		inputField = new TextField2("", tfs);
+		inputField = new TextField("", tfs);
 		inputField.setWidth(400);
 		
 		inputField.setPosition(10,60);
@@ -302,8 +303,10 @@ public class Chat {
 			}
 			else if(alpha>0.001)
 			{
-				TextBounds boundsOwner = font.getBounds(messages.get(i).owner + " : ");
-				TextBounds bounds = font.getWrappedBounds(messages.get(i).str, 400);
+				//TextBounds boundsOwner = font.getBounds(messages.get(i).owner + " : ");
+				//TextBounds bounds = font.getWrappedBounds(messages.get(i).str, 400);
+				GlyphLayout boundsOwner=new GlyphLayout(font, messages.get(i).owner + " : ");
+				GlyphLayout bounds=new GlyphLayout(font, messages.get(i).str, font.getColor(), 400, Align.left, true);
 				float bh = bounds.height;
 				
 				
@@ -313,7 +316,8 @@ public class Chat {
 				
 				font.setColor(1,1,1,Math.min(alpha, 1));
 				
-				font.drawWrapped(Main.batch, messages.get(i).str, x+10+boundsOwner.width, y+offsety+bh, 400);
+				//font.drawWrapped(Main.batch, messages.get(i).str, x+10+boundsOwner.width, y+offsety+bh, 400);
+				font.draw(Main.batch, messages.get(i).str, x+10+boundsOwner.width, y+offsety+bh, 400,Align.left,true);
 				
 				font.setColor(Color.WHITE);
 				

@@ -174,7 +174,8 @@ public class Main extends Game {
 	
 	public static void updateResolution(int wx, int hy)
 	{
-		Gdx.graphics.setDisplayMode(wx, hy, Parameters.i.fullscreen);
+		//Gdx.graphics.setDisplayMode(wx, hy, Parameters.i.fullscreen);
+		Gdx.graphics.setWindowedMode(wx, hy);
 	}
 	
 	@Override
